@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "Remote Attestation for EDHOC".
 
-* [Editor's Copy](https://ysong02.github.io/draft-song-lake-ra/draft-song-lake-ra.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-song-lake-ra)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-song-lake-ra)
-* [Compare Editor's Copy to Individual Draft](https://ysong02.github.io/draft-song-lake-ra/#go.draft-song-lake-ra.diff)
+* [Editor's Copy](https://lake-wg.github.io/ra/draft-ietf-lake-ra.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-lake-ra)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-lake-ra)
+* [Compare Editor's Copy to Individual Draft](https://lake-wg.github.io/draft-ietf-lake-ra/#go.draft-ietf-lake-ra.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/ysong02/RemoteAttestation_overEDHOC/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/lake-wg/ra/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
