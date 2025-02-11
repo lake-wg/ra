@@ -3,7 +3,7 @@ title: "Remote attestation over EDHOC"
 abbrev: "RA-EDHOC"
 category: std
 
-docname: draft-song-lake-ra-latest
+docname: draft-ietf-lake-ra-latest
 submissiontype: IETF
 number:
 date:
