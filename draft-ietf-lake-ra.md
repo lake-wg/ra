@@ -18,8 +18,8 @@ venue:
   type: "Working Group"
   mail: "lake@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/lake/"
-  github: "ysong02/RemoteAttestation_overEDHOC"
-  latest: "https://ysong02.github.io/RemoteAttestation_overEDHOC/draft-song-lake-ra.html"
+  github: "lake-wg/ra"
+  latest: "https://lake-wg.github.io/ra/draft-ietf-lake-ra.html"
 
 author:
  -
