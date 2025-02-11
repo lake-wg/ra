@@ -5,7 +5,7 @@ This is the working area for the individual Internet-Draft, "Remote Attestation 
 * [Editor's Copy](https://lake-wg.github.io/ra/draft-ietf-lake-ra.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-lake-ra)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-lake-ra)
-* [Compare Editor's Copy to Individual Draft](https://lake-wg.github.io/draft-ietf-lake-ra/#go.draft-ietf-lake-ra.diff)
+* [Compare Editor's Copy to Individual Draft](https://lake-wg.github.io/ra/#go.draft-ietf-lake-ra.diff)
 
 
 ## Contributing
