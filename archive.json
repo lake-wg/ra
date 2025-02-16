@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-13T00:58:58.367862+00:00",
+  "timestamp": "2025-02-16T01:03:42.941354+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -49,6 +49,39 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDON32Ndc6qGb5a",
+      "title": "Pre-existing relationship between the Attester and the Verifier",
+      "url": "https://github.com/lake-wg/ra/issues/1",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This issue is based on Michael's comments during the adoption call of the draft (see [here](https://mailarchive.ietf.org/arch/msg/lake/Yivtuau5Wfm_mtsadp-l2nBXaMo/))\n\nIf we assume a pre-existing relationship between the Attester and the Verifier, there is no need to negotiate evidence formats in ead_1 and ead_2. The process can be simplified by sending Evidence directly in ead_3.\nOr, optionally including a label in ead_1 to indicate that an attestation is taking place. ",
+      "createdAt": "2025-02-14T14:05:18Z",
+      "updatedAt": "2025-02-14T14:24:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDON32Ndc6qGiUn",
+      "title": "Completeness of negotiation in Section 5.2.1 Background-check Model",
+      "url": "https://github.com/lake-wg/ra/issues/2",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on Michael's comments during the adoption call of the draft (see [here](https://mailarchive.ietf.org/arch/msg/lake/Yivtuau5Wfm_mtsadp-l2nBXaMo/))\n\nShould clarify what kind of evidence will sent in Section 5.2.1.\nNote: The Evidence is sent in message_3 due to privacy considerations.  ",
+      "createdAt": "2025-02-14T14:16:42Z",
+      "updatedAt": "2025-02-14T14:28:07Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
