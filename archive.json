@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-18T00:58:39.462734+00:00",
+  "timestamp": "2025-02-20T00:59:17.757143+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -62,9 +62,17 @@
       "labels": [],
       "body": "This issue is based on Michael's comments during the adoption call of the draft (see [here](https://mailarchive.ietf.org/arch/msg/lake/Yivtuau5Wfm_mtsadp-l2nBXaMo/))\n\nIf we assume a pre-existing relationship between the Attester and the Verifier, there is no need to negotiate evidence formats in ead_1 and ead_2. The process can be simplified by sending Evidence directly in ead_3.\nOr, optionally including a label in ead_1 to indicate that an attestation is taking place. ",
       "createdAt": "2025-02-14T14:05:18Z",
-      "updatedAt": "2025-02-14T14:24:32Z",
+      "updatedAt": "2025-02-19T09:59:07Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "A trigger is needed cause the Verifier needs to send a nonce for freshness guarantee.",
+          "createdAt": "2025-02-19T09:59:06Z",
+          "updatedAt": "2025-02-19T09:59:06Z"
+        }
+      ]
     },
     {
       "number": 2,
@@ -79,6 +87,67 @@
       "body": "Based on Michael's comments during the adoption call of the draft (see [here](https://mailarchive.ietf.org/arch/msg/lake/Yivtuau5Wfm_mtsadp-l2nBXaMo/))\n\nShould clarify what kind of evidence will sent in Section 5.2.1.\nNote: The Evidence is sent in message_3 due to privacy considerations.  ",
       "createdAt": "2025-02-14T14:16:42Z",
       "updatedAt": "2025-02-14T14:28:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDON32Ndc6qhRCI",
+      "title": "Section Assumptions need improvements",
+      "url": "https://github.com/lake-wg/ra/issues/3",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on Jun Zhang's comments during the adoption call, (see [here](https://mailarchive.ietf.org/arch/msg/lake/nqF1JP86m_bQnWD2BfZea5i16_0/)), some assumptions in the Section _Assumptions_ are too strong. In short, there is a conflict between the texts in Section _Assumptions_ and Section _Remote Attestation over EDHOC_. The case where the Verifier cannot handle the evidence format provided by the Attester is already covered in section _Remote Attestation over EDHOC_, it seems unnecessary to state in Section _Assumptions_ that \"The Verifier is assumed to know how to verify multiple formats of the evidence type.\".\n\nContext: \n- Section _Assumptions_ states: \u201cThe Verifier is assumed to know how to verify multiple formats of the evidence type.\u201d \n- Secition _Remote Attestation over EDHOC (5.2.1.1.2)_ states: \u201cIn case none of the evidence types is supported, the Relying Party rejects the first message_1 with an error indicating support for another evidence type.\u201c\n\nWe can improve in two ways:\n1. Specify that the assumption in Section _Assumptions_ regarding the Verifier\u2019s knowledge of multiple evidence formats applies only when remote attestation is successfully completed. Additionally, consider moving the description of evidence format mismatches from Section _Remote Attestation over EDHOC_ to Section 8 _Error Handling_, for better coherence.\n2. Related to #1 , if we simplify the protocol by assuming a pre-existing relationship between the Attester and the Verifier, we can eliminate the need for evidence format negotiation. In this case, we would only need to add an assumption about the pre-existing relationship in Section Assumptions, and the statement regarding multiple evidence formats could be removed entirely.",
+      "createdAt": "2025-02-18T15:41:11Z",
+      "updatedAt": "2025-02-19T15:56:57Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "junzhanghw",
+          "authorAssociation": "NONE",
+          "body": "I think  one reasonable assumption is that the verifier knows to verify some formats of evidence, but not necessarily all formats. Then you can still keep the statement of \"Seciion Remote Attestation over EDHOC (5.2.1.1.2) states: \u201cIn case none of the evidence types is supported, the Relying Party rejects the first message_1 with an error indicating support for another evidence type.\u201c\"",
+          "createdAt": "2025-02-19T15:12:10Z",
+          "updatedAt": "2025-02-19T15:12:10Z"
+        },
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@junzhanghw I see, I think what you said is quite similar to what we have in the draft in Section Assumptions: \u201cThe Verifier is assumed to know how to verify multiple formats of the evidence type.\u201d",
+          "createdAt": "2025-02-19T15:46:04Z",
+          "updatedAt": "2025-02-19T15:46:04Z"
+        },
+        {
+          "author": "junzhanghw",
+          "authorAssociation": "NONE",
+          "body": "yes. but some clarification is needed. because the verifier can know 1, 2, 3,... formats, while 1 does not count for multiple. \n\nAlso, depending on the the dataset of the golden measurement, sometimes the verifier can decode the evidence but it cannot make the judgement of the evidence (it does not know whether the attester) is trusted or not. In such a case, you prefer to return an error, or let the internal logic of the verifier to decide the attestation result? ",
+          "createdAt": "2025-02-19T15:52:54Z",
+          "updatedAt": "2025-02-19T15:52:54Z"
+        },
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Okay, now it's more clear.",
+          "createdAt": "2025-02-19T15:56:55Z",
+          "updatedAt": "2025-02-19T15:56:55Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "I_kwDON32Ndc6qqZ9S",
+      "title": "Continuous attestation",
+      "url": "https://github.com/lake-wg/ra/issues/4",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "How to repeat remote attestation when one wants to achieve continous assurance?\n \nWe currently rely on EDHOC with PSK, or simply redo the entire remote attestation process over EDHOC. \nThis is an issue that should be addressed in the draft.",
+      "createdAt": "2025-02-19T12:49:40Z",
+      "updatedAt": "2025-02-19T12:49:40Z",
       "closedAt": null,
       "comments": []
     }
