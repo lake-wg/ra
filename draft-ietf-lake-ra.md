@@ -796,9 +796,11 @@ DFC38558950D
 The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it to the Verifier.
 Once the Verifier sends back the Attestation Result, the Relying Party can be assured on the version of the firmware that the device is running.
 
-# Open discussion: remote attestation over EDHOC/ over OSCORE
+# Open discussion: Continuous Attestation over EDHOC
 
-TBD
+Subsequent remote attestation is possible over PSK-based EDHOC for continuous assurance.
+
+The detailed procedure is TBD.
 
 # Acknowledgments
 {:numbered="false"}
