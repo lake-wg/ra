@@ -27,7 +27,11 @@ author:
     ins: Y. Song
     organization: Inria
     email: "yuxuan.song@inria.fr"
-
+ -
+    fullname: Göran Selander
+    ins: G. Selander
+    organization: Ericsson AB
+    email: "goran.selander@ericsson.com"
 normative:
     I-D.ietf-rats-eat:
     RFC9528:
