@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-20T00:59:17.757143+00:00",
+  "timestamp": "2025-02-23T01:03:41.954189+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -62,7 +62,7 @@
       "labels": [],
       "body": "This issue is based on Michael's comments during the adoption call of the draft (see [here](https://mailarchive.ietf.org/arch/msg/lake/Yivtuau5Wfm_mtsadp-l2nBXaMo/))\n\nIf we assume a pre-existing relationship between the Attester and the Verifier, there is no need to negotiate evidence formats in ead_1 and ead_2. The process can be simplified by sending Evidence directly in ead_3.\nOr, optionally including a label in ead_1 to indicate that an attestation is taking place. ",
       "createdAt": "2025-02-14T14:05:18Z",
-      "updatedAt": "2025-02-19T09:59:07Z",
+      "updatedAt": "2025-02-20T13:04:43Z",
       "closedAt": null,
       "comments": [
         {
@@ -71,6 +71,13 @@
           "body": "A trigger is needed cause the Verifier needs to send a nonce for freshness guarantee.",
           "createdAt": "2025-02-19T09:59:06Z",
           "updatedAt": "2025-02-19T09:59:06Z"
+        },
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "After the meeting with G\u00f6ran and Mali\u0161a, we decided to support the option of sending nothing in ead_value. We will keep evidence format negotiation as the default, since, in most cases, the Verifier needs to know the format (e.g., EAT with CoSWID in CBOR) to properly decode the evidence.",
+          "createdAt": "2025-02-20T13:04:41Z",
+          "updatedAt": "2025-02-20T13:04:41Z"
         }
       ]
     },
@@ -147,10 +154,131 @@
       "labels": [],
       "body": "How to repeat remote attestation when one wants to achieve continous assurance?\n \nWe currently rely on EDHOC with PSK, or simply redo the entire remote attestation process over EDHOC. \nThis is an issue that should be addressed in the draft.",
       "createdAt": "2025-02-19T12:49:40Z",
-      "updatedAt": "2025-02-19T12:49:40Z",
+      "updatedAt": "2025-02-21T14:43:39Z",
       "closedAt": null,
+      "comments": [
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This is now addressed in the draft, related to #9 ",
+          "createdAt": "2025-02-21T14:43:36Z",
+          "updatedAt": "2025-02-21T14:43:36Z"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "I_kwDON32Ndc6q0Hbt",
+      "title": "Acknowledge OpenSwarm funding",
+      "url": "https://github.com/lake-wg/ra/issues/5",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-02-20T10:48:37Z",
+      "updatedAt": "2025-02-20T10:48:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 6,
+      "id": "I_kwDON32Ndc6q-p9H",
+      "title": "Add G\u00f6ran as a co-author",
+      "url": "https://github.com/lake-wg/ra/issues/6",
+      "state": "CLOSED",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "as the title said",
+      "createdAt": "2025-02-21T09:55:08Z",
+      "updatedAt": "2025-02-21T10:37:02Z",
+      "closedAt": "2025-02-21T10:37:02Z",
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 7,
+      "id": "PR_kwDON32Ndc6MBrPz",
+      "title": "add Goran as co-author",
+      "url": "https://github.com/lake-wg/ra/pull/7",
+      "state": "MERGED",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "fixes #6 ",
+      "createdAt": "2025-02-21T10:09:35Z",
+      "updatedAt": "2025-02-21T10:37:01Z",
+      "baseRepository": "lake-wg/ra",
+      "baseRefName": "main",
+      "baseRefOid": "24c0a1c7edc13642cf287628809be848db786d4d",
+      "headRepository": "lake-wg/ra",
+      "headRefName": "version01",
+      "headRefOid": "921b21c6d9ef46171f0a1b6be4430b807131a8c9",
+      "closedAt": "2025-02-21T10:37:01Z",
+      "mergedAt": "2025-02-21T10:37:01Z",
+      "mergedBy": "ysong02",
+      "mergeCommit": {
+        "oid": "e734823204cae7f8f915f7e1881aab6bc4dc65cf"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDON32Ndc6MDjoM",
+      "title": "acknowledgements",
+      "url": "https://github.com/lake-wg/ra/pull/8",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "fixes #5 ",
+      "createdAt": "2025-02-21T14:11:49Z",
+      "updatedAt": "2025-02-21T14:11:49Z",
+      "baseRepository": "lake-wg/ra",
+      "baseRefName": "main",
+      "baseRefOid": "e734823204cae7f8f915f7e1881aab6bc4dc65cf",
+      "headRepository": "lake-wg/ra",
+      "headRefName": "acknowledgments",
+      "headRefOid": "e748a2147f9c939e8f3ce7930bb4ccc4768bb902",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDON32Ndc6MD0eZ",
+      "title": "Continuous attestation",
+      "url": "https://github.com/lake-wg/ra/pull/9",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added an appendix for continuous attestation, detailed procedure is TBD.",
+      "createdAt": "2025-02-21T14:40:43Z",
+      "updatedAt": "2025-02-21T14:40:43Z",
+      "baseRepository": "lake-wg/ra",
+      "baseRefName": "main",
+      "baseRefOid": "e734823204cae7f8f915f7e1881aab6bc4dc65cf",
+      "headRepository": "lake-wg/ra",
+      "headRefName": "continuous-attestation",
+      "headRefOid": "2d1f5bff95494f695bccc8e02e629413fa4a3058",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
