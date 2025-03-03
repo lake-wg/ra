@@ -216,25 +216,26 @@ Table of Contents
    This document specifies the cases that are suited for constrained IoT
    environments.
 
-   EDITOR NOTE: add an overview figure
-
 4.  Assumptions
 
-   In background-check model, one assumption is that the Verifier
+   In the background-check model, one assumption is that the Verifier
    outputs a fresh nonce and that same nonce is passed on to the EDHOC
-   session.  The Verifier is assumed to know how to verify multiple
-   formats of the evidence type.  This specification assumes that the
-   Relying Party also has knowledge about the Attester, so it can narrow
-   down the evidence type selection and send to the Attester only one
-   format of the evidence type.  The Attester should have an explicit
-   relation with the Verifier, such as from device manufacturing, so
-   that the Verifier can evaluate the Evidence that is produced by the
-   Attester.
+   session.  The Verifier is assumed to know how to verify at least one
+   format of the evidence types provided by the Attester.  This
+   specification assumes that the Relying Party also has knowledge about
+   the Attester, so it can narrow down the evidence type selection and
+   send to the Attester only one format of the evidence type.  The
+   Attester should have an explicit relation with the Verifier, such as
+   from device manufacturing, so that the Verifier can evaluate the
+   Evidence that is produced by the Attester.
 
    In the passport model, the credential identity of the Verifier is
    assumed to be stored at the Attester and the Relying Party, which
    means the Verifier is trusted by the Attester and the Relying Party
-   to obtain the attestation result.
+   to obtain the attestation result.  The use of timestamps for ensuring
+   freshness in the passport model assumes synchronized time between the
+   Attester and the Relying Party.  For detailed time considerations,
+   refer to Appendix A of [RFC9334].
 
    EDITOR NOTE: add attestation public key stored in Verifier
 
@@ -255,10 +256,10 @@ Table of Contents
 
    The network service acts as the Attester.
 
-   Unlike IoT devices, network services typically have more
-   computational power and capabilities, enabling them to handle complex
-   attestation processes when more demanding tasks are required of the
-   Attester.
+   This attestation pattern applies when constrained devices need to
+   establish trust with a network gateway.  For example, before
+   transmitting sensitive data to a network gateway, a constrained
+   device requires attestation of the network gateway.
 
 5.2.  Model
 
@@ -381,9 +382,10 @@ Table of Contents
 
 5.2.1.1.3.  Evidence
 
-   As a response to the attestation request, the Attester calls its
-   local attestation service to generate and return the serialized EAT
-   [I-D.ietf-rats-eat] as Evidence.
+   The Attester calls its local attestation service to generate and
+   return a serialized Entity Attestation Token (EAT)
+   [I-D.ietf-rats-eat] as Evidence.  The Evidence is sent in EAD_3
+   within EDHOC message_3.
 
    The EAD item is:
 
@@ -391,14 +393,39 @@ Table of Contents
 
    *  ead_value is a serialized EAT.
 
-   EAT is specified in [I-D.ietf-rats-eat].
+   For remote attestation over EDHOC, The EAT MUST be formatted as a
+   CBOR Web Token (CWT) containing attestation-oriented claims.  The
+   complete set of attestation claims for the EAT is specified in
+   [I-D.ietf-rats-eat].
+
+   A minimal claims set MAY be implemented when the Attester operates
+   under constrained message size requirements and/or limited
+   computational resources.
+
+   {
+   /eat-nonce/          10: bstr .size 8
+   /ueid/               256: bstr .size (7..33)
+   /measurements/       273: measurements-type
+   }
+
+   The measurements claim MAY be formatted according to [RFC9393].  When
+   CoSWID [RFC9393] is used, the claim MUST be an evidence CoSWID rather
+   than a payload CoSWID.  Formats other than CoSWID are permitted and
+   MUST be identified by CoAP Content Format.
+
+   measurements-type = [+ measurements-format]
+
+   measurements-format = [
+         content-type: coap-content-format,
+         content-format: bytes .cbor measurements-body-cbor
+   ]
 
 5.2.1.1.4.  trigger_bg
 
    The EAD item trigger_bg is used when the sender triggers the receiver
    to start a remote attestation in the background-check model.  The
    receiver MUST reply with an EAD item corresponding to the background-
-   check model.  The ead_value can be empty, as the ead_label serves as
+   check model.  The ead_value MUST be empty, as the ead_label serves as
    the trigger.
 
    The EAD item is:
@@ -509,7 +536,7 @@ Table of Contents
    The EAD item trigger_pp is used when the sender triggers the receiver
    to start a remote attestation in the passport model.  The receiver
    MUST reply with an EAD item correspondign to the passport model.  The
-   ead_value can be empty, as the ead_label serves as the trigger.
+   ead_value MUST be empty, as the ead_label serves as the trigger.
 
    The EAD item is:
 
@@ -550,9 +577,10 @@ Table of Contents
 6.1.  (IoT, BG, Fwd): IoT Device Attestation
 
    A common use case for (IoT, BG, Fwd) is to attest an IoT device to a
-   network server.  For example, doing remote attestation to verify that
-   the latest version of firmware is running on the IoT device before
-   the network server allows it to join the network (see Appendix C).
+   network server.  For example, a simple illustratice case is doing
+   remote attestation to verify that the latest version of firmware is
+   running on the IoT device before the network server allows it to join
+   the network (see Appendix C).
 
    An overview of doing IoT device attestation in background-check model
    and EDHOC forward message flow is established in Figure 1.  EDHOC
@@ -606,6 +634,49 @@ Table of Contents
     model and EDHOC forward message flow.  EDHOC is used between A
                                and RP.
 
+   This specification also supports a simplified attestation model for
+   scenarios where a pre-existing relationship exists between the
+   Attester and the Verifier.  In such cases, when the Verifier
+   possesses prior knowledge of the evidence format (CBOR) and its
+   expected profile of the EAT claims set (e.g., CoSWID), the evidence
+   types negotiation MAY be omitted.  Under these circumstances, the
+   attestation process is simplified as:
+
++-----------------+              +-----------------+
+|   IoT device    |              | Network service |
++-----------------+              +-----------------+
+| EDHOC Initiator |              | EDHOC Responder |
++-----------------+              +-----------------+            +----------+
+|     Attester    |              |  Relying Party  |            | Verifier |
++--------+--------+              +--------+--------+            +-----+----+
+         |                                |                           |
+         |  EAD_1 = trigger_bg            |                           |
+         +------------------------------->|                           |
+         |                                |                           |
+         |                                |           C_R             |
+         |                                +-------------------------->|
+         |                                |<--------------------------+
+         |                                |          Nonce            |
+         |                                |                           |
+         |  EAD_2 = Nonce                 |                           |
+         |<-------------------------------+                           |
+         |                                |                           |
+         |  EAD_3 = Evidence              |                           |
+         +------------------------------->|                           |
+         |                                |      Evidence, C_R        |
+         |                                +-------------------------->|
+         |                                |<--------------------------+
+         |                                |    Attestation result     |
+         |                                |                           |
+         |                                |                           |
+         |                                |                           |
+         | <----------------------------> |                           |
+         |         EDHOC session          |                           |
+
+   Figure 2: Simplified IoT device attestation in background-check
+  model with EDHOC forward message flow.  Pre-existing relationship
+                           between A and V.
+
 6.2.  (Net, PP, Fwd): Network Service Attestation
 
    One use case for (Net, PP, Fwd) is when a network server needs to
@@ -615,7 +686,7 @@ Table of Contents
    the network server acts as an Attester and the client acts as a
    Relying Party.
 
-   An overview of the message flow is illustrated in Figure 2.  EDHOC
+   An overview of the message flow is illustrated in Figure 3.  EDHOC
    Initiator plays the role of the RATS Relying Party.  EDHOC Responder
    plays the role of the RATS Attester.  An external entity, out of
    scope of this specification, plays the role of the RATS Verifier.
@@ -658,7 +729,7 @@ Table of Contents
          | <------------------------> |                           |
          |       EDHOC session        |                           |
 
-    Figure 2: Overview of network service attestation in passport
+    Figure 3: Overview of network service attestation in passport
    model and EDHOC forward message flow.  EDHOC is used between RP
     and A.  The dashed line illustrates a logical connection that
                  does not need to occur in real time.
@@ -680,7 +751,7 @@ Table of Contents
    In this example, the mutual attestation is performed in EDHOC forward
    message flow, by one IoT device attestation in background-check model
    and another network service attestation in passport model.  The
-   process is illustrated in Figure 3.  How the Network service connects
+   process is illustrated in Figure 4.  How the Network service connects
    with the Verifier_1 and potential Verifier_2 is out of scope in this
    specification.
 
@@ -736,7 +807,7 @@ Table of Contents
          | <-----------------------------> |                            |                           |
          |          EDHOC session          |                            |                           |
 
-     Figure 3: Overview of mutual attestation of (IoT, BG, Fwd) -
+     Figure 4: Overview of mutual attestation of (IoT, BG, Fwd) -
   (Net, PP, Fwd).  EDHOC is used between A and RP.  The dashed line
    illustrates a logical connection that does not need to occur in
                               real time.
@@ -758,7 +829,7 @@ Table of Contents
   |     TBD5 | attestation    | Attestation failed                     |
   +----------+----------------+----------------------------------------+
 
-     Figure 4: EDHOC error code and error information for Attestation
+     Figure 5: EDHOC error code and error information for Attestation
                                  failed.
 
    Error code TBD5 indicates to the receiver that the remote attestation
@@ -834,16 +905,16 @@ Table of Contents
    |           |       | related information    | Section 5.2.1.1   |
    +-----------+-------+------------------------+-------------------+
    | TBD       | TBD2  | trigger to start       |                   |
-   |           |       | attestation in BG      | Secion 5.2.1.1    |
+   |           |       | attestation in BG      | Section 5.2.1.1   |
    +-----------+-------+------------------------+-------------------+
    | TBD       | TBD3  | PP model               |                   |
    |           |       | related information    | Section 5.2.2.1   |
    +-----------+-------+------------------------+-------------------+
    | TBD       | TBD4  | trigger to start       |                   |
-   |           |       | attestation in PP      | Secion 5.2.2.1    |
+   |           |       | attestation in PP      | Section 5.2.2.1   |
    +-----------+-------+------------------------+-------------------+
 
-                           Figure 5: EAD labels.
+                           Figure 6: EAD labels.
 
 11.  References
 
@@ -974,7 +1045,7 @@ Appendix A.  Example: Remote Attestation Flow
     |                |<---------------------->|                   |
     |                |                        |                   |
 
-                Figure 6: Example of remote attestation.
+                Figure 7: Example of remote attestation.
 
 Appendix B.  Remote attestation in parallel with enrollment
              authorization
