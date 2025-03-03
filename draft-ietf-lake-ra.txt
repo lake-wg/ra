@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 25 August 2025                                      Ericsson AB
-                                                        21 February 2025
+Expires: 4 September 2025                                    Ericsson AB
+                                                            3 March 2025
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 August 2025.
+   This Internet-Draft will expire on 4 September 2025.
 
 Copyright Notice
 
@@ -1089,9 +1089,13 @@ Appendix D.  Open discussion: remote attestation over EDHOC/ over OSCORE
 
 Acknowledgments
 
-   The author would like to thank Thomas Fossati, Goran Selander, Malisa
-   Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson
-   and Geovane Fedrecheski for the provided ideas and feedback.
+   The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut
+   Mihalcea, Muhammad Usama Sardar, Michael Richardson and Geovane
+   Fedrecheski for the provided ideas and feedback.
+
+   Work on this document has in part been supported by the Horizon
+   Europe Framework Programme project OpenSwarm (grant agreement No.
+   101093046).
 
 Authors' Addresses
 
