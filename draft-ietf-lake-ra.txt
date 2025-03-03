@@ -101,8 +101,7 @@ Table of Contents
    Appendix B.  Remote attestation in parallel with enrollment
            authorization
    Appendix C.  Example: Firmware Version
-   Appendix D.  Open discussion: remote attestation over EDHOC/ over
-           OSCORE
+   Appendix D.  Open discussion: Continuous Attestation over EDHOC
    Acknowledgments
    Authors' Addresses
 
@@ -1083,9 +1082,12 @@ Appendix C.  Example: Firmware Version
    sends back the Attestation Result, the Relying Party can be assured
    on the version of the firmware that the device is running.
 
-Appendix D.  Open discussion: remote attestation over EDHOC/ over OSCORE
+Appendix D.  Open discussion: Continuous Attestation over EDHOC
 
-   TBD
+   Subsequent remote attestation is possible over PSK-based EDHOC for
+   continuous assurance.
+
+   The detailed procedure is TBD.
 
 Acknowledgments
 
