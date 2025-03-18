@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-16T01:06:36.722636+00:00",
+  "timestamp": "2025-03-18T01:02:09.799974+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -196,6 +196,54 @@
       "createdAt": "2025-02-21T09:55:08Z",
       "updatedAt": "2025-02-21T10:37:02Z",
       "closedAt": "2025-02-21T10:37:02Z",
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDON32Ndc6uNsWG",
+      "title": "A section for the Verifier",
+      "url": "https://github.com/lake-wg/ra/issues/11",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This section should talk about the relationship between the Relying Party and the Verfier.\nWhat the Verifier should send in the attestation result.",
+      "createdAt": "2025-03-16T06:59:03Z",
+      "updatedAt": "2025-03-16T06:59:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDON32Ndc6uNwc3",
+      "title": "Combine 3A: Authorization, Authentication, Attestation",
+      "url": "https://github.com/lake-wg/ra/issues/12",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As discussed with @geonnave during the Hackathon at IETF122, we could combine lake-authz and lake-ra.\n\n<img width=\"538\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/723822df-1a0f-4d5e-a54e-c49b89d19f6c\" />\n",
+      "createdAt": "2025-03-16T07:33:25Z",
+      "updatedAt": "2025-03-16T07:59:41Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 13,
+      "id": "I_kwDON32Ndc6uPRi0",
+      "title": "Correct Section Error Handling",
+      "url": "https://github.com/lake-wg/ra/issues/13",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The negative attestation result should not be treated as an error in EDHOC. The evaluation of the attestation result is the responsibility of the Relying Party, which is out of scope for this draft and is determined at the application level.\n\nWhat we need to address here are the cases where a remote attestation process fails due to operational errors.\n\nFor example, the following cases should be considered errors:\n\n- The Verifier does not support the evidence format that is proposed by the Attester.\n- The Verifier cannot decode the received evidence.\n- The Verifier lacks necessary reference values (e.g., missing public key) and cannot evaluate the evidence.",
+      "createdAt": "2025-03-16T18:43:12Z",
+      "updatedAt": "2025-03-16T18:43:12Z",
+      "closedAt": null,
       "comments": []
     }
   ],
