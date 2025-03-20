@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T01:02:09.799974+00:00",
+  "timestamp": "2025-03-20T01:01:37.109149+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -226,9 +226,17 @@
       "labels": [],
       "body": "As discussed with @geonnave during the Hackathon at IETF122, we could combine lake-authz and lake-ra.\n\n<img width=\"538\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/723822df-1a0f-4d5e-a54e-c49b89d19f6c\" />\n",
       "createdAt": "2025-03-16T07:33:25Z",
-      "updatedAt": "2025-03-16T07:59:41Z",
+      "updatedAt": "2025-03-18T07:49:54Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "geonnave",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "One interesting point about this combination is that the message sizes are evenly distributed across the constrained part of the handshake, i.e., \n- message_1: has Voucher Request (`lake-authz`), typical size ~60 bytes\n- message_2: has Voucher (`lake-authz`, typical size ~10 bytes) and Attestation request (`lake-ra`, also small)\n  - plus the CRED_V which is likely to be sent by value in `lake-authz`, typical size 100 bytes\n- message_3: Evidence (`lake-ra`), example size 100-200 bytes\n\nIn other words, this combination does not lead to a critical \"heavy\" path where the message sizes accumulate in a single link, which is a nice property. ",
+          "createdAt": "2025-03-18T07:49:53Z",
+          "updatedAt": "2025-03-18T07:49:53Z"
+        }
+      ]
     },
     {
       "number": 13,
@@ -243,6 +251,54 @@
       "body": "The negative attestation result should not be treated as an error in EDHOC. The evaluation of the attestation result is the responsibility of the Relying Party, which is out of scope for this draft and is determined at the application level.\n\nWhat we need to address here are the cases where a remote attestation process fails due to operational errors.\n\nFor example, the following cases should be considered errors:\n\n- The Verifier does not support the evidence format that is proposed by the Attester.\n- The Verifier cannot decode the received evidence.\n- The Verifier lacks necessary reference values (e.g., missing public key) and cannot evaluate the evidence.",
       "createdAt": "2025-03-16T18:43:12Z",
       "updatedAt": "2025-03-16T18:43:12Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDON32Ndc6ugAxO",
+      "title": "clarification in EAD items sections",
+      "url": "https://github.com/lake-wg/ra/issues/14",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There are few points to modify in sections that define the EAD items:\n- remove the ead_value for the two triggers, and \n  OLD: The ead_value can be empty, as the ead_label serves as the trigger.\n  NEW: The ead_value **MUST** not be present, as the ead_label serves as the trigger.\n- clarify what EAD item MUST be sent after the trigger_bg in Section 5.2.1.1.1\n- clarify what EAD item MUST be sent after the trigger_pp in Section 5.2.2.1.1\n- modify the measurements claim to \n   OLD: measurements-format = [\n      content-type: coap-content-format,\n      content-format: bytes .cbor measurements-body-cbor\n]\n   NEW:  measurements-format = [\n      content-format: uint,\n      content: bytes .cbor \n] ",
+      "createdAt": "2025-03-18T08:40:46Z",
+      "updatedAt": "2025-03-18T08:40:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 15,
+      "id": "I_kwDON32Ndc6ugLBG",
+      "title": "Explain the EAD labels in section Model",
+      "url": "https://github.com/lake-wg/ra/issues/15",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on Marco's comment, we need to explain why the label is set to be the same for the \"Attestation_proposal\", \"Attestation_request\" and \"Evidence\" in the background-check model.\nThe same for passport model.",
+      "createdAt": "2025-03-18T08:55:28Z",
+      "updatedAt": "2025-03-18T08:55:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 16,
+      "id": "I_kwDON32Ndc6uiIK8",
+      "title": "Make the instantiation cases explicit",
+      "url": "https://github.com/lake-wg/ra/issues/16",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is based on Marco's comments, we should make the 8 instantiations of the attestation explicit. ",
+      "createdAt": "2025-03-18T11:31:37Z",
+      "updatedAt": "2025-03-18T11:31:37Z",
       "closedAt": null,
       "comments": []
     }
