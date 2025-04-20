@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T01:11:19.025994+00:00",
+  "timestamp": "2025-04-20T01:09:38.376314+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -299,6 +299,22 @@
       "body": "This is based on Marco's comments, we should make the 8 instantiations of the attestation explicit. ",
       "createdAt": "2025-03-18T11:31:37Z",
       "updatedAt": "2025-03-18T11:31:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 17,
+      "id": "I_kwDON32Ndc6y9M-u",
+      "title": "Reduce the depth of the section hierarchy",
+      "url": "https://github.com/lake-wg/ra/issues/17",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "To enhance clarity and organization, revise the draft structure to avoid excessive sub-sectioning (e.g., 5.2.1.1.1), aiming for a more concise format. ",
+      "createdAt": "2025-04-17T12:44:57Z",
+      "updatedAt": "2025-04-17T12:44:57Z",
       "closedAt": null,
       "comments": []
     }
