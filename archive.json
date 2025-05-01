@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-20T01:09:38.376314+00:00",
+  "timestamp": "2025-05-01T01:12:36.022241+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -315,6 +315,38 @@
       "body": "To enhance clarity and organization, revise the draft structure to avoid excessive sub-sectioning (e.g., 5.2.1.1.1), aiming for a more concise format. ",
       "createdAt": "2025-04-17T12:44:57Z",
       "updatedAt": "2025-04-17T12:44:57Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 18,
+      "id": "I_kwDON32Ndc60o9Ps",
+      "title": "remove the C_R sending from the Relying Party to the Verifier",
+      "url": "https://github.com/lake-wg/ra/issues/18",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As titled, remove C_R in figure 2 and figure 4, where C_R is sent from the Relying Party to the Verifier to indicate session state. \nAfter the side-meeting during Hackathon122, we agreed that this step is unneccessary and may cause security issues. The same functionality can be achieved using the nonce.\nAlso in the implementation, the Verifier now does not receive or rely on C_R. Instead, it determines the session state by checking whether the nonce from the received evidence exists in its local list. If found, the Verifier validates it and then removes the nonce from the list, as each nonce must only be used once.\n",
+      "createdAt": "2025-04-30T09:06:13Z",
+      "updatedAt": "2025-04-30T09:06:13Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 19,
+      "id": "I_kwDON32Ndc60pUjD",
+      "title": "add the support for a nonce in EAD item result_request",
+      "url": "https://github.com/lake-wg/ra/issues/19",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "One way to guarantee the freshness of the attestation result in the passport model is to use a nonce, the EAD item Result_request should include support for this. \nOLD: \n```\nResult_request = bstr .cbor Request_structure\n\nRequest_structure = {\n  selected_verifier: VerfierIdentity\n}\n```\n\nNEW:\n```\nResult_request = bstr .cbor Request_structure\n\nRequest_structure = (\n  selected_verifier: VerfierIdentity,\n  ? nonce: bstr .size 8..64\n)\n```\n",
+      "createdAt": "2025-04-30T09:39:38Z",
+      "updatedAt": "2025-04-30T09:39:38Z",
       "closedAt": null,
       "comments": []
     }
