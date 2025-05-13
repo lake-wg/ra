@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-01T01:12:36.022241+00:00",
+  "timestamp": "2025-05-13T01:08:37.566408+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -392,7 +392,7 @@
       "labels": [],
       "body": "fixes #5 ",
       "createdAt": "2025-02-21T14:11:49Z",
-      "updatedAt": "2025-03-03T13:14:18Z",
+      "updatedAt": "2025-05-12T13:45:40Z",
       "baseRepository": "lake-wg/ra",
       "baseRefName": "main",
       "baseRefOid": "e734823204cae7f8f915f7e1881aab6bc4dc65cf",
@@ -448,7 +448,7 @@
       "labels": [],
       "body": "The changes are:\r\n- Supplemente section 5.2.1.1.3 Evidence with additional content regarding the EAT token. Fixes #2 \r\n- In section 6.1, add the support for removing evidence type negotiation when there is a pre-existing relationship between the Attester and the Verifier. Fixes #1 \r\n- In section 4 Assumptions, add the assumption of the notion of time. Change the word _multiple_ to _at least one_ . Fixes #3\r\n- In section 5.1.2 Network Service Attestation, expand the content with a use case.\r\n- Add nomative language in section 5.2.1.1.4 and 5.2.2.1.4, specifying that \"The ead_value **MUST** be empty\". ",
       "createdAt": "2025-02-27T15:04:58Z",
-      "updatedAt": "2025-03-03T15:22:34Z",
+      "updatedAt": "2025-05-12T13:48:48Z",
       "baseRepository": "lake-wg/ra",
       "baseRefName": "main",
       "baseRefOid": "e734823204cae7f8f915f7e1881aab6bc4dc65cf",
@@ -461,6 +461,32 @@
       "mergeCommit": {
         "oid": "89173903b9d01b32619816c1818e0d2a0798bdfb"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDON32Ndc6V19Uz",
+      "title": "solved issue #17, #18, #19",
+      "url": "https://github.com/lake-wg/ra/pull/20",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #19 \r\nFixes #18 \r\nFixes #17 ",
+      "createdAt": "2025-05-12T13:51:28Z",
+      "updatedAt": "2025-05-12T13:51:28Z",
+      "baseRepository": "lake-wg/ra",
+      "baseRefName": "main",
+      "baseRefOid": "89173903b9d01b32619816c1818e0d2a0798bdfb",
+      "headRepository": "lake-wg/ra",
+      "headRefName": "version02",
+      "headRefOid": "5aa97c3cc5bdb234881c63678ab163c3954b92b0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
