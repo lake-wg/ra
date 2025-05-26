@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 13 November 2025                                    Ericsson AB
-                                                             12 May 2025
+Expires: 27 November 2025                                    Ericsson AB
+                                                             26 May 2025
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 November 2025.
+   This Internet-Draft will expire on 27 November 2025.
 
 Copyright Notice
 
@@ -418,8 +418,8 @@ Table of Contents
    measurements-type = [+ measurements-format]
 
    measurements-format = [
-         content-type: coap-content-format,
-         content-format: bytes .cbor measurements-body-cbor
+         content-format: uint,
+         content: bytes
    ]
 
 5.3.4.  trigger_bg
@@ -427,8 +427,9 @@ Table of Contents
    The EAD item trigger_bg is used when the sender triggers the receiver
    to start a remote attestation in the background-check model.  The
    receiver MUST reply with an EAD item corresponding to the background-
-   check model.  The ead_value MUST be empty, as the ead_label serves as
-   the trigger.
+   check model, eithr an attestation_proposal in Section 5.3.1 or an
+   evidence in Section 5.3.3.  The ead_value MUST not be present, as the
+   ead_label serves as the trigger.
 
    The EAD item is:
 
@@ -533,8 +534,10 @@ Table of Contents
 
    The EAD item trigger_pp is used when the sender triggers the receiver
    to start a remote attestation in the passport model.  The receiver
-   MUST reply with an EAD item correspondign to the passport model.  The
-   ead_value MUST be empty, as the ead_label serves as the trigger.
+   MUST reply with an EAD item correspondign to the passport model,
+   either a result proposal in Section 5.4.1 or a result in
+   Section 5.4.3.  The ead_value MUST not be present, as the ead_label
+   serves as the trigger.
 
    The EAD item is:
 
@@ -968,10 +971,7 @@ Table of Contents
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-   [RFC9393]  Birkholz, H., Fitzgerald-McKay, J., Schmidt, C., and D.
-              Waltermire, "Concise Software Identification Tags",
-              RFC 9393, DOI 10.17487/RFC9393, June 2023,
-              <https://www.rfc-editor.org/rfc/rfc9393>.
+   [RFC9393]  "*** BROKEN REFERENCE ***".
 
 Appendix A.  Example: Remote Attestation Flow
 

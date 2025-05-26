@@ -21,7 +21,7 @@
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.7
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1049,7 +1049,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 13 November 2025</td>
+<td class="center">Expires 27 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-12" class="published">12 May 2025</time>
+<time datetime="2025-05-26" class="published">26 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-13">13 November 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-27">27 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1121,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 13 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1550,8 +1550,8 @@ Formats other than CoSWID are permitted and <span class="bcp14">MUST</span> be i
 measurements-type = [+ measurements-format]
 
 measurements-format = [
-      content-type: coap-content-format,
-      content-format: bytes .cbor measurements-body-cbor
+      content-format: uint,
+      content: bytes
 ]
 </pre><a href="#section-5.3.3-8" class="pilcrow">¶</a>
 </div>
@@ -1563,8 +1563,8 @@ measurements-format = [
 <a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-trigger_bg" class="section-name selfRef">trigger_bg</a>
           </h4>
 <p id="section-5.3.4-1">The EAD item trigger_bg is used when the sender triggers the receiver to start a remote attestation in the background-check model.
-The receiver <span class="bcp14">MUST</span> reply with an EAD item corresponding to the background-check model.
-The ead_value <span class="bcp14">MUST</span> be empty, as the ead_label serves as the trigger.<a href="#section-5.3.4-1" class="pilcrow">¶</a></p>
+The receiver <span class="bcp14">MUST</span> reply with an EAD item corresponding to the background-check model, eithr an attestation_proposal in <a href="#attestation-proposal" class="auto internal xref">Section 5.3.1</a> or an evidence in <a href="#evidence" class="auto internal xref">Section 5.3.3</a>.
+The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label serves as the trigger.<a href="#section-5.3.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.3.4-2">The EAD item is:<a href="#section-5.3.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.4-3.1">
@@ -1691,8 +1691,8 @@ The Relying Party can decide what action to take with regards to the Attester ba
 <a href="#section-5.4.4" class="section-number selfRef">5.4.4. </a><a href="#name-trigger_pp" class="section-name selfRef">trigger_pp</a>
           </h4>
 <p id="section-5.4.4-1">The EAD item trigger_pp is used when the sender triggers the receiver to start a remote attestation in the passport model.
-The receiver <span class="bcp14">MUST</span> reply with an EAD item correspondign to the passport model.
-The ead_value <span class="bcp14">MUST</span> be empty, as the ead_label serves as the trigger.<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
+The receiver <span class="bcp14">MUST</span> reply with an EAD item correspondign to the passport model, either a result proposal in <a href="#result-proposal" class="auto internal xref">Section 5.4.1</a> or a result in <a href="#result" class="auto internal xref">Section 5.4.3</a>.
+The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label serves as the trigger.<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4.4-2">The EAD item is:<a href="#section-5.4.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.4-3.1">
@@ -2415,7 +2415,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 <dd class="break"></dd>
 <dt id="RFC9393">[RFC9393]</dt>
       <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Fitzgerald-McKay, J.</span>, <span class="refAuthor">Schmidt, C.</span>, and <span class="refAuthor">D. Waltermire</span>, <span class="refTitle">"Concise Software Identification Tags"</span>, <span class="seriesInfo">RFC 9393</span>, <span class="seriesInfo">DOI 10.17487/RFC9393</span>, <time datetime="2023-06" class="refDate">June 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9393">https://www.rfc-editor.org/rfc/rfc9393</a>&gt;</span>. </dd>
+<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
