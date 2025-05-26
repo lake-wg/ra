@@ -271,16 +271,16 @@ Formats other than CoSWID are permitted and MUST be identified by CoAP Content F
 measurements-type = [+ measurements-format]
 
 measurements-format = [
-      content-type: coap-content-format,
-      content-format: bytes .cbor measurements-body-cbor
+      content-format: uint,
+      content: bytes
 ]
 ~~~~~~~~~~~~~~~~
 
 ### trigger_bg {#trigger-bg}
 
 The EAD item trigger_bg is used when the sender triggers the receiver to start a remote attestation in the background-check model.
-The receiver MUST reply with an EAD item corresponding to the background-check model.
-The ead_value MUST be empty, as the ead_label serves as the trigger.
+The receiver MUST reply with an EAD item corresponding to the background-check model, eithr an attestation_proposal in {{attestation-proposal}} or an evidence in {{evidence}}.
+The ead_value MUST not be present, as the ead_label serves as the trigger.
 
 The EAD item is:
 
@@ -363,8 +363,8 @@ The EAD item is:
 ### trigger_pp {#trigger-pp}
 
 The EAD item trigger_pp is used when the sender triggers the receiver to start a remote attestation in the passport model.
-The receiver MUST reply with an EAD item correspondign to the passport model.
-The ead_value MUST be empty, as the ead_label serves as the trigger.
+The receiver MUST reply with an EAD item correspondign to the passport model, either a result proposal in {{result-proposal}} or a result in {{result}}.
+The ead_value MUST not be present, as the ead_label serves as the trigger.
 
 The EAD item is:
 
