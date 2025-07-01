@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-27T01:07:34.917259+00:00",
+  "timestamp": "2025-07-01T01:18:30.654229+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -264,9 +264,9 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "There are few points to modify in sections that define the EAD items:\n- remove the ead_value for the two triggers, and \n  OLD: The ead_value can be empty, as the ead_label serves as the trigger.\n  NEW: The ead_value **MUST** not be present, as the ead_label serves as the trigger.\n- clarify what EAD item MUST be sent after the trigger_bg in Section 5.2.1.1.1\n- clarify what EAD item MUST be sent after the trigger_pp in Section 5.2.2.1.1\n- modify the measurements claim to \n   OLD: measurements-format = [\n      content-type: coap-content-format,\n      content-format: bytes .cbor measurements-body-cbor\n]\n   NEW:  measurements-format = [\n      content-format: uint,\n      content: bytes .cbor \n] ",
+      "body": "There are few points to modify in sections that define the EAD items:\n- remove the ead_value for the two triggers, and \n  OLD: The ead_value can be empty, as the ead_label serves as the trigger.\n  NEW: The ead_value **MUST** not be present, as the ead_label serves as the trigger.\n- clarify what EAD item MUST be sent after the trigger_bg in Section 5.2.1.1.1\n- clarify what EAD item MUST be sent after the trigger_pp in Section 5.2.2.1.1\n- modify the measurements claim to \n   OLD: measurements-format = [\n      content-type: coap-content-format,\n      content-format: bytes .cbor measurements-body-cbor\n]\n   NEW:  measurements-format = [\n      content-format: uint,\n      content: bytes \n] ",
       "createdAt": "2025-03-18T08:40:46Z",
-      "updatedAt": "2025-03-18T08:40:46Z",
+      "updatedAt": "2025-06-30T09:32:51Z",
       "closedAt": null,
       "comments": []
     },
