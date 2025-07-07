@@ -33,7 +33,7 @@ author:
     organization: Ericsson AB
     email: "goran.selander@ericsson.com"
 normative:
-    I-D.ietf-rats-eat:
+    RFC9711:
     RFC9528:
 informative:
     RFC9334:
@@ -84,7 +84,7 @@ The details of the protocol between the Relying Party and the Verifier in the ba
 This communication may be secured through protocols such as EDHOC, TLS or other security protocols that support the secure transmission to and from the Verifier.
 
 <!--Discuss EAT-->
-One way of conveying attestation evidence or the attestation result is the Entity Attestation Token (EAT) {{I-D.ietf-rats-eat}}.
+One way of conveying attestation evidence or the attestation result is the Entity Attestation Token (EAT) {{RFC9711}}.
 It provides an attested claims set which can be used to determine a level of trustworthiness.
 This specification relies on the EAT as the format for attestation evidence and the attestation result.
 
@@ -94,7 +94,7 @@ In EDHOC, the two parties involved in the key exchange are referred to as the In
 EDHOC supports the transport of external authorization data, through the dedicated EAD fields.
 This specification delivers EAT through EDHOC.
 Specifically, EAT is transported as an EAD item.
-This specification also defines new EAD items needed to perform remote attesation over EDHOC in {{ead-bg}} and {{ead-pp}}.
+This specification also defines new EAD items needed to perform remote attesation over EDHOC in {{bg}} and {{pp}}.
 
 <!--Discuss implementation aspects such as the internal attestation service running on the Attester.
 Root of trust. Separation between secure and non-secure worlds.-->
@@ -120,52 +120,46 @@ EDHOC {{RFC9528}} supports one or more EAD items in each EAD field.
 
 In {{attestation-dimensions}}, this document defines three independent dimensions for performing remote attestation over EDHOC:
 
-  1. Target (see {{targets}}) defining the entity that undergoes the attestation process (IoT device or network service).
-  2. Model (see {{models}}) defining the attestation model in use based on the RATS architecture (background-check model or passport model).
-  3. Message Flow (see {{flow}}) defining the EDHOC message flow in use (forward message flow or reverse message flow).
+  1. Target (see {{iot}}, {{net}}) defining the entity that undergoes the attestation process (IoT device or network service).
+  2. Model (see {{bg}}, {{pp}}) defining the attestation model in use based on the RATS architecture (background-check model or passport model).
+  3. Message Flow (see {{fwd_flow}}, {{rev_flow}}) defining the EDHOC message flow in use (forward message flow or reverse message flow).
 
 This document specifies the cases that are suited for constrained IoT environments.
 
 # Assumptions
 
-In the background-check model, one assumption is that the Verifier outputs a fresh nonce and that same nonce is passed on to the EDHOC session.
-The Verifier is assumed to know how to verify at least one format of the evidence types provided by the Attester.
-This specification assumes that the Relying Party also has knowledge about the Attester, so it can narrow down the evidence type selection and send to the Attester only one format of the evidence type.
-The Attester should have an explicit relation with the Verifier, such as from device manufacturing, so that the Verifier can evaluate the Evidence that is produced by the Attester.
+In the background-check model, the Verifier is assumed to support verification of at least one evidence format provided by the Attester.
+The Verifier is assumed to be provisioned with the Attester's attestation public key and the reference values required for evidence validation prior to the attestation procedure.
+It is assumed that the Relying Party also has knowledge about the Attester, so it can narrow down the evidence type selection and send to the Attester only one format of the evidence type.
 
 In the passport model, the credential identity of the Verifier is assumed to be stored at the Attester and the Relying Party, which means the Verifier is trusted by the Attester and the Relying Party to obtain the attestation result.
-The use of timestamps for ensuring freshness in the passport model assumes synchronized time between the Attester and the Relying Party.
+If timestamps are used to ensure freshness in the passport model, synchronized time between the Attester and Relying Party is assumed.
 For detailed time considerations, refer to {{Appendix A of RFC9334}}.
-
-EDITOR NOTE: add attestation public key stored in Verifier
 
 # Remote Attestation in EDHOC {#attestation-dimensions}
 
 This section specifies three independent dimensions that characterize the remote attestation process over EDHOC.
 
-## Target {#targets}
+  1. Target: Defines the entity that undergoes the attestation process.
+  2. Model: Defines the attestation models based on RATS architecture.
+This specification supports both the RATS background-check model (see {{bg}}) and the passport model (see {{pp}}).
+The corresponding EAD items for background-check model and the passport model are independent of each other.
 
-Defines the entity that undergoes the attestation process.
+  3. EDHOC message flow: The EDHOC protocol defines two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see {{Appendix A.2.2 of RFC9528}}).
+In this specification, both flows can be used to perform remote attestation.
 
-### IoT Device Attestation (IoT)
+## Target: IoT Device Attestation (IoT) {#iot}
 
 The IoT device acts as the Attester.
 
-### Network Service Attestation (Net)
+## Target: Network Service Attestation (Net) {#net}
 
 The network service acts as the Attester.
 
 This attestation pattern applies when constrained devices need to establish trust with a network gateway.
 For example, before transmitting sensitive data to a network gateway, a constrained device requires attestation of the network gateway.
 
-## Model {#models}
-
-Defines the attestation models based on RATS architecture.
-This specification supports both the RATS background-check model (see {{bg}}) and the passport model (see {{pp}}).
-The corresponding EAD items for background-check model and the passport model are independent of each other.
-The EAD items are specified in {{ead-bg}} for the background-check model and in {{ead-pp}} for the passport model.
-
-### Background-check Model (BG) {#bg}
+## Model: Background-check Model (BG) {#bg}
 
 In the background-check model, the Attester sends the evidence to the Relying Party.
 The Relying Party transfers the evidence to the Verifier and gets back the attestation result from the Verifier.
@@ -180,17 +174,15 @@ The Relying Party relays the list to the Verifier and receives at least one supp
 If the Relying Party receives more than one evidence type, a single evidence type should be selected by the Relying Party based on its knowledge of the Attester.
 The Relying Party then sends it back within the Attestation request to the Attester.
 
-A nonce, at least 8-bytes long {{I-D.ietf-rats-eat}}), guarantees the freshness of the attestation session.
+A nonce, at least 8-bytes long {{RFC9711}}), guarantees the freshness of the attestation session.
 The nonce is generated by the Verifier and sent to the Relying Party.
 The Relying Party puts the nonce and the selected evidence type together in a tuple to generate an Attestation request.
 
 Once the Attester receives the Attestation request, it can call its attestation service to generate the evidence, with the nonce value as one of the inputs.
 
-#### External Authorization Data (EAD) Items for background-check model {#ead-bg}
+The ead_label for Attestation_proposal, Attestation_request and Evidence is the same (TBD1) because these EAD items appear in a fixed sequential order.
 
-EAD items that are used for the background-check model are defined in this section.
-
-##### Attestation_proposal {#attestation-proposal}
+### Attestation_proposal {#attestation-proposal}
 
 To propose a list of provided evidence types in background-check model, the Attester transports the Proposed_EvidenceType object.
 It signals to the Relying Party the proposal to do remote attestation, as well as which types of the attestation claims the Attester supports.
@@ -216,9 +208,9 @@ where
 * content-format is an indicator of the format type (e.g., application/eat+cwt with an appropriate eat_profile parameter set), from {{IANA-CoAP-Content-Formats}}.
 
 The sign of ead_label TBD1 MUST be negative to indicate that the EAD item is critical.
-If the receiver cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver MUST send an EDHOC error message back as defined in {{Section 6 of RFC9528}}.
+If the receiver cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver MUST abort the EDHOC session, as defined in {{Section 3.8 of RFC9528}}.
 
-##### Attestation_request {#attestation-request}
+### Attestation_request {#attestation-request}
 
 
 As a response to the attestation proposal, the Relying Party signals to the Attester the supported and requested evidence type.
@@ -244,11 +236,11 @@ where
 * nonce is generated by the Verifier and forwarded by the Relying Party.
 
 The sign of ead_label TBD2 MUST be negative to indicate that the EAD item is critical.
-If the receiver cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver MUST send an EDHOC error message back as defined in {{Section 6 of RFC9528}}.
+If the receiver cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver MUST abort the EDHOC session, as defined in {{Section 3.8 of RFC9528}}.
 
-##### Evidence {#evidence}
+### Evidence {#evidence}
 
-The Attester calls its local attestation service to generate and return a serialized Entity Attestation Token (EAT) {{I-D.ietf-rats-eat}} as Evidence.
+The Attester calls its local attestation service to generate and return a serialized Entity Attestation Token (EAT) {{RFC9711}} as Evidence.
 The Evidence is sent in EAD_3 within EDHOC message_3.
 
 The EAD item is:
@@ -257,7 +249,7 @@ The EAD item is:
 * ead_value is a serialized EAT.
 
 For remote attestation over EDHOC, The EAT MUST be formatted as a CBOR Web Token (CWT) containing attestation-oriented claims.
-The complete set of attestation claims for the EAT is specified in {{I-D.ietf-rats-eat}}.
+The complete set of attestation claims for the EAT is specified in {{RFC9711}}.
 
 A minimal claims set MAY be implemented when the Attester operates under constrained message size requirements and/or limited computational resources.
 
@@ -278,23 +270,23 @@ Formats other than CoSWID are permitted and MUST be identified by CoAP Content F
 measurements-type = [+ measurements-format]
 
 measurements-format = [
-      content-type: coap-content-format,
-      content-format: bytes .cbor measurements-body-cbor
+      content-format: uint,
+      content: bytes
 ]
 ~~~~~~~~~~~~~~~~
 
-##### trigger_bg {#trigger-bg}
+### trigger_bg {#trigger-bg}
 
 The EAD item trigger_bg is used when the sender triggers the receiver to start a remote attestation in the background-check model.
-The receiver MUST reply with an EAD item corresponding to the background-check model.
-The ead_value MUST be empty, as the ead_label serves as the trigger.
+The receiver MUST reply with an EAD item corresponding to the background-check model, eithr an attestation_proposal in {{attestation-proposal}} or an evidence in {{evidence}}.
+The ead_value MUST not be present, as the ead_label serves as the trigger.
 
 The EAD item is:
 
 * ead_label = TBD2
 * ead_value = null
 
-### Passport Model (PP) {#pp}
+## Model: Passport Model (PP) {#pp}
 
 In the passport model, the Attester sends the evidence to the Verifier.
 After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.
@@ -310,11 +302,9 @@ Time synchronization is out of scope of this specification.
 
 Once the Attester obtains the attestation result from the selected Verifier, it sends the attestation result to the Relying Party.
 
-#### External Authorization Data (EAD) Items for passport model {#ead-pp}
+The ead_label for Result_proposal, Result_request and Result is the same (TBD3) because these EAD items appear in a fixed sequential order.
 
-EAD items that are used for the passport model are defined in this section.
-
-##### Result_proposal {#result-proposal}
+### Result_proposal {#result-proposal}
 
 An attestation result proposal contains the identification of the credentials of the Verifiers to indicate Verifiers' indentities.
 The identification of credentials relies on COSE header parameters {{IANA-COSE-Header-Parameters}}, with a header label and credential value.
@@ -341,7 +331,7 @@ where
     * values = any
 
 
-##### Result_request {#result-request}
+### Result_request {#result-request}
 
 As a response to the attestation result proposal, the Relying Party signals to the Attester the trusted Verifier.
 In case none of the Verifiers can be trusted by the Relying Party, the session is aborted.
@@ -356,13 +346,14 @@ The EAD item for an attestation result request is:
 Result_request = bstr .cbor Request_structure
 
 Request_structure = {
-  selected_verifier: VerfierIdentity
+  selected_verifier: VerfierIdentity,
+  ? nonce: bstr .size 8..64
 }
 ~~~~~~~~~~~~~~~~
 
-##### Result {#result}
+### Result {#result}
 
-The attestation result is generated and signed by the Verifier as a serialized EAT {{I-D.ietf-rats-eat}}.
+The attestation result is generated and signed by the Verifier as a serialized EAT {{RFC9711}}.
 The Relying Party can decide what action to take with regards to the Attester based on the information elements in attetation result.
 
 The EAD item is:
@@ -370,28 +361,23 @@ The EAD item is:
 * ead_label = TBD3
 * ead_value is a serialized EAT.
 
-##### trigger_pp {#trigger-pp}
+### trigger_pp {#trigger-pp}
 
 The EAD item trigger_pp is used when the sender triggers the receiver to start a remote attestation in the passport model.
-The receiver MUST reply with an EAD item correspondign to the passport model.
-The ead_value MUST be empty, as the ead_label serves as the trigger.
+The receiver MUST reply with an EAD item correspondign to the passport model, either a result proposal in {{result-proposal}} or a result in {{result}}.
+The ead_value MUST not be present, as the ead_label serves as the trigger.
 
 The EAD item is:
 
 * ead_label = TBD4
 * ead_value = null
 
-## EDHOC Message Flow {#flow}
-
-The EDHOC protocol defines two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see {{Appendix A.2.2 of RFC9528}}).
-In this specification, both flows can be used to perform remote attestation.
-
-### EDHOC Forward Message Flow (Fwd)
+## EDHOC forward Message Flow (Fwd) {#fwd_flow}
 
 In forward message flow, EDHOC may run with the Initiator as a CoAP/HTTP client.
 Remote attestation over EDHOC starts with a POST requests to the Uri-Path: "/.well-known/lake-ra".
 
-### EDHOC Reverse Message Flow (Rev)
+## EDHOC reverse Message Flow (Rev) {#rev_flow}
 
 In the reverse message flow, the CoAP/HTTP client is the Responder and the server is the Initiator.
 A new EDHOC session begins with an empty POST request to the server's resource for EDHOC.
@@ -401,7 +387,11 @@ A new EDHOC session begins with an empty POST request to the server's resource f
 We use the format (Target, Model, Message Flow) to denote instantiations.
 For example, (IoT, BG, Fwd) represents IoT device attestation using the background-check model with forward EDHOC message flow.
 
-Although there are 8 cases (IoT/Net, BG/PP, Fwd/Rev), this document specifies the most relevant instantiations for constrained IoT environments.
+There are 8 possible instantiations combining IoT/Net, BG/PP, and Fwd/Rev configurations.
+Considering practical feasibility, IoT device attestation in the passport model and Network Service attestation in the background model are less viable.
+These instantiations require IoT devices to maintain multiple network connections and perform complex computations, which exceed the capabilities of typical low-power, resource-constrained IoT devices.
+
+In this document, only the most relevant instantiations for constrained IoT environments are specified.
 
 ## (IoT, BG, Fwd): IoT Device Attestation {#iot-attesation}
 
@@ -413,7 +403,7 @@ EDHOC Initiator plays the role of the RATS Attester (A).
 EDHOC Responder plays the role of the RATS Relying Party (RP).
 The Attester and the Relying Party communicate by transporting messages within EDHOC's External Authorization Data (EAD) fields.
 An external entity, out of scope of this specification, plays the role of the RATS Verifier (V).
-The EAD items specific to the background-check model are defined in {{ead-bg}}.
+The EAD items specific to the background-check model are defined in {{bg}}.
 
 The Attester starts the attestation by sending an Attestation proposal in EDHOC message_1.
 The Relying Party generates EAD_2 with the received evidence type and nonce from the Verifier, and sends it to the Attester.
@@ -432,7 +422,7 @@ The Verifier evaluates the Evidence and sends the Attestation result to the Rely
          |  EAD_1 = Attestation proposal  |                           |
          +------------------------------->|                           |
          |                                |                           |
-         |                                | Attestation proposal, C_R |
+         |                                |  Attestation proposal     |
          |                                +-------------------------->|
          |                                |<--------------------------+
          |                                |  EvidenceType(s), Nonce   |
@@ -442,7 +432,7 @@ The Verifier evaluates the Evidence and sends the Attestation result to the Rely
          |                                |                           |
          |  EAD_3 = Evidence              |                           |
          +------------------------------->|                           |
-         |                                |      Evidence, C_R        |
+         |                                |         Evidence          |
          |                                +-------------------------->|
          |                                |<--------------------------+
          |                                |    Attestation result     |
@@ -468,20 +458,20 @@ Under these circumstances, the attestation process is simplified as:
 |     Attester    |              |  Relying Party  |            | Verifier |
 +--------+--------+              +--------+--------+            +-----+----+
          |                                |                           |
-         |  EAD_1 = trigger_bg            |                           |
+         |                                |                           |
          +------------------------------->|                           |
          |                                |                           |
-         |                                |           C_R             |
+         |                                |                           |
          |                                +-------------------------->|
          |                                |<--------------------------+
-         |                                |          Nonce            |
+         |                                |   EvidenceType, Nonce     |
          |                                |                           |
-         |  EAD_2 = Nonce                 |                           |
+         |  EAD_2 = Attestation request   |                           |
          |<-------------------------------+                           |
          |                                |                           |
          |  EAD_3 = Evidence              |                           |
          +------------------------------->|                           |
-         |                                |      Evidence, C_R        |
+         |                                |         Evidence          |
          |                                +-------------------------->|
          |                                |<--------------------------+
          |                                |    Attestation result     |
@@ -505,7 +495,7 @@ An overview of the message flow is illustrated in {{fig-net-pp-fwd}}.
 EDHOC Initiator plays the role of the RATS Relying Party.
 EDHOC Responder plays the role of the RATS Attester.
 An external entity, out of scope of this specification, plays the role of the RATS Verifier.
-The EAD items specific to the passport model are defined in {{ead-pp}}.
+The EAD items specific to the passport model are defined in {{pp}}.
 
 The Relying Party asks the Attester to do a remote attestation by sending a trigger_pp (see {{trigger-pp}}) in EDHOC message_1.
 The Attester replies to the Relying Party with a Result proposal in EAD_2.
@@ -578,7 +568,7 @@ EAD_4 carries the EAD item Result for the passport model.
          +-------------------------------->|                            |                           |
          |                                 |                            |                           |
          |                                 |                            |                           |
-         |                                 |  Attestation proposal, C_R |                           |
+         |                                 |   Attestation proposal     |                           |
          |                                 +--------------------------->|                           |
          |                                 |<---------------------------+                           |
          |                                 |   EvidenceType(s), Nonce   |                           |
@@ -591,7 +581,7 @@ EAD_4 carries the EAD item Result for the passport model.
          |          Result request         |                            |                           |
          +-------------------------------->|                            |                           |
          |                                 |                            |                           |
-         |                                 |       Evidence, C_R        |                           |
+         |                                 |         Evidence           |                           |
          |                                 +--------------------------->|         (Request)         |
          |                                 +--- --- --- --- --- ---  ---+ ---  ---  --- --- --- --->|
          |                                 |                            |                           |
@@ -600,7 +590,7 @@ EAD_4 carries the EAD item Result for the passport model.
          |                                 |<---------------------------+                           |
          |                                 |                            |                           |
          |                                 |<---  ---  ---  ---  ---  --+ ---  ---  --- ---  --- ---+
-         |                                 |            Result          |                           |
+         |                                 |          Result            |                           |
          |  EAD_4 = Result                 |                            |                           |
          |<--------------------------------+                            |                           |
          |                                 |                            |                           |
@@ -613,35 +603,39 @@ EAD_4 carries the EAD item Result for the passport model.
 ~~~~~~~~~~~
 {: #fig-mutual-attestation-BP title="Overview of mutual attestation of (IoT, BG, Fwd) - (Net, PP, Fwd). EDHOC is used between A and RP. The dashed line illustrates a logical connection that does not need to occur in real time." artwork-align="center"}
 
+# Verifier
 
-# Error Handling {#error-handling}
+The Verifier maintains an explicit trust relationship with the Attester, whereby the Verifier is provisioned with the Attester's attestation public key prior to the remote attestation process.
+This explicit relationship may be established through various means, such as manufacturer provisioning, trusted certification authorities, or direct configuration.
+Reference values used for comparison against received evidence should also be provided to the Verifier before the attesation.
+The evaluation policy employed by the Verifer varies according to specific use cases and should be determined prior to the attestation; such policy definition is out of scope in this specification.
 
-This section specifies a new EDHOC error code and how it is used in the proposed protocol.
+The Verifier maintains an implicit trust relationship with the Relying Party, established through mechanisms such as web PKI with trusted Certificate Authority (CA) certificates, enabling the Relying Party to trust the attestation result that is generated by the Verifier.
 
-## EDHOC Error "Attestation failed"
+## Processing in the Background-check Model
 
-This section specifies a new EDHOC error "Attestation failed".
-The format of the error message follows the one in EDHOC protocol(see {{Section 6 of RFC9528}}).
+The Verifier is connected with the Relying Party and is responsible for evaluating evidence forwarded by the Relying Party.
+After the Relying Party receives EDHOC message_1 from the Attester, it extracts and transmits the Attestation proposal to the Verifier.
+The Verifier must support at least one evidence type for evaluation, otherwise it returns an empty list.
+Alongside the selected evidence type, the Verifier generates a random nonce and sends both elements to the Relying Party.
 
-~~~~~~~~~~~ aasvg
-+----------+----------------+----------------------------------------+
-| ERR_CODE | ERR_INFO Type  | Description                            |
-+==========+================+========================================+
-|     TBD5 | attestation    | Attestation failed                     |
-+----------+----------------+----------------------------------------+
-~~~~~~~~~~~
-{: #fig-error title="EDHOC error code and error information for Attestation failed."}
+When the Relying Party obtains EDHOC message_3, it forwards the evidence to the Verifier for evaluation.
 
-Error code TBD5 indicates to the receiver that the remote attestation is failed after the evidence is sent.
-This can occur in two cases:
+The evidence evaluation process should include the verification of the signature, nonce validation, and measurement value comparison.
+An example evaluation procedure for evidence formatted as an Entity Attestation Token (EAT) within a COSE_Sign1 structure is as follows:
 
-1. The Verifier evaluates the attestation evidence and returns a negative result based on the Verifier's appraisal policy.
+1. Decode the COSE_Sign1 structure and extract constituent components: Headers, Payload, Signature.
+2. Verify the signature using the Attester's attestation public key.
+3. Verify that the nonce exists in the Verifier's local nonce list. If the nonce is found, validation passes and the nonce is removed from the list to prevent replay attacks.
+4. Compare the received evidence measurement values against the reference value.
+The attestation result is returned to the Relying Party, with result generation conforming to the attestation token format defined in {{RFC9711}}.
 
-2. The Verifier provides a positive attestation result to the Relying Party, but the Relying Party can not establish a sufficient level of trust to proceed decision-specific actions based on its appraisal policy.
+## Processing in the Passport Model
 
-In case 1, the Verifier signals the error to the Relying Party, which then generates an EDHOC "Attestation failed" error and send it to the Attester.
-In case 2, the Relying Party directly generates and sends the "Attestation failed" error to the Attester.
-The application decides how to handle the error message.
+When the Attester utilizes a cached attestation result previously generated by the Verifier, real-time re-evaluation by the Verifier is not required.
+If the Attester performs real-time attestation with the Verifier after receiving a result_request from the Relying Party, the Verifier generates the attestation result formatted as an Entity Attestation Token (EAT).
+The token uses the "Software Measurement Results (measres)" claim as defined in {{RFC9711}}, and incorporates the nonce generated by the Relying Party as an input parameter.
+
 
 # Security Considerations {#security-considerations}
 
@@ -711,7 +705,7 @@ IANA is requested to register the following entry in the "EDHOC External Authori
    |                |  )                     |                   |
    |                +----------------------->|                   |
    |                |                        |                   |
-   |                |                        | types(a,b,c), C_R |
+   |                |                        | types(a,b,c)      |
    |                |                        +------------------>|
    |                |                        |                   |
    |                |                        |                   |
@@ -743,7 +737,7 @@ IANA is requested to register the following entry in the "EDHOC External Authori
    |                |                        |                   |
    |                |                        |                   |
    |                |                        | Body: {           |
-   |                |                        |  EAT, C_R}        |
+   |                |                        |        EAT}       |
    |                |                        +------------------>|
    |                |                        | Body: {           |
    |                |                        |  att-result: AR{} |
@@ -789,7 +783,7 @@ If the Verifier and the Relying Party can support at least one evidence type tha
 (258, h'a29f62a4c6cdaae5')
 ~~~~~~~~~~~~~~~~
 
-The Evidence in EAD_3 field is an Entity Attestation Token (EAT) {{I-D.ietf-rats-eat}}, with the measurements claim formatted in CoSWID{{RFC9393}}.
+The Evidence in EAD_3 field is an Entity Attestation Token (EAT) {{RFC9711}}, with the measurements claim formatted in CoSWID{{RFC9393}}.
 The components of the Evidence should at least be:
 
 ~~~~~~~~~~~~~~~~
