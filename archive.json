@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-26T01:07:15.204793+00:00",
+  "timestamp": "2025-08-28T01:04:03.747221+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -490,7 +490,7 @@
       "labels": [],
       "body": "- explain what does it mean:  \"fixed sequential order\"\n- explain why we need trigger_bg, if it is not used in IoT scenarios, maybe we should delete it. Or, if they have the same structure, could we merge them into one trigger? Do we need to distinguish it is a trigger-bg or trigger-pp?",
       "createdAt": "2025-07-30T11:52:09Z",
-      "updatedAt": "2025-08-25T10:32:30Z",
+      "updatedAt": "2025-08-26T09:38:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -499,8 +499,31 @@
           "body": "Firstly, we need to explain clearly why a fixed order is required\uff0cthen I will look forward to seeing the order rules. hope this can help.",
           "createdAt": "2025-08-25T10:32:30Z",
           "updatedAt": "2025-08-25T10:32:30Z"
+        },
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "yep, I agree. The word \"fixed sequential order\" is confusing. What I actually mean is that the EAD items are carried together with EDHOC message 1/2/3. Since EDHOC messages are exchanged in the natural order of message 1,2, 3, the EAD items are likewise sent in that order.",
+          "createdAt": "2025-08-26T09:38:52Z",
+          "updatedAt": "2025-08-26T09:38:52Z"
         }
       ]
+    },
+    {
+      "number": 29,
+      "id": "I_kwDON32Ndc7H9vXH",
+      "title": "explain the difference between Section5.3.1/2/3/4 and 5.4.1/2/3/4",
+      "url": "https://github.com/lake-wg/ra/issues/29",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This issue is based on @Maisy-ML 's comment: \n\n- In 5.3.1/2/3/4 and 5.4.1/2/3/4,  although the subjects are different, one is attestation result, the other is evidence, but the content looks very similar, I'm not quite sure what the difference is between them, If you can explain the difference between the two, it will be clearer.\n",
+      "createdAt": "2025-08-26T09:19:21Z",
+      "updatedAt": "2025-08-26T09:19:21Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
