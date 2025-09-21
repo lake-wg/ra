@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T01:04:03.747221+00:00",
+  "timestamp": "2025-09-21T01:08:50.811605+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -145,7 +145,7 @@
     {
       "number": 4,
       "id": "I_kwDON32Ndc6qqZ9S",
-      "title": "Continuous attestation",
+      "title": "Post-handshake attestation over OSCORE",
       "url": "https://github.com/lake-wg/ra/issues/4",
       "state": "OPEN",
       "author": "ysong02",
@@ -154,7 +154,7 @@
       "labels": [],
       "body": "How to repeat remote attestation when one wants to achieve continous assurance?\n \nWe currently rely on EDHOC with PSK, or simply redo the entire remote attestation process over EDHOC. \nThis is an issue that should be addressed in the draft.",
       "createdAt": "2025-02-19T12:49:40Z",
-      "updatedAt": "2025-02-21T14:43:39Z",
+      "updatedAt": "2025-09-19T13:51:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -163,6 +163,13 @@
           "body": "This is now addressed in the draft, related to #9 ",
           "createdAt": "2025-02-21T14:43:36Z",
           "updatedAt": "2025-02-21T14:43:36Z"
+        },
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Based on the meeting with @gselander , we decided on the following structure for the Appendix:\n\n## Appendix D. Post-handshake Attestation over OSCORE\n- List the features of post-handshake attestation\n- present OSCORE\n\n### D.1 Mapping Attestation to OSCORE\n- **D1.1 Flight 1**\n- **D1.2 Flight 2**\n- **D1.3 Flight 3**\n\n(put a message flow figure)\n### D.2 Differences between Intra- and Post-handshake Attestation\n- **D.2.1 Security properties** \n    - time efficiency \n    - one protocol stack\n    - ...\n- **D2.2 Security properties**\n    - The security considerations of OSCORE apply. \n    - Continous attestation\n    - runtime integrity\n    - ...\n\n",
+          "createdAt": "2025-09-19T13:51:16Z",
+          "updatedAt": "2025-09-19T13:51:16Z"
         }
       ]
     },
@@ -522,6 +529,22 @@
       "body": "This issue is based on @Maisy-ML 's comment: \n\n- In 5.3.1/2/3/4 and 5.4.1/2/3/4,  although the subjects are different, one is attestation result, the other is evidence, but the content looks very similar, I'm not quite sure what the difference is between them, If you can explain the difference between the two, it will be clearer.\n",
       "createdAt": "2025-08-26T09:19:21Z",
       "updatedAt": "2025-08-26T09:19:21Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 30,
+      "id": "I_kwDON32Ndc7Mto-f",
+      "title": "Motivation of the draft, and reference attested TLS",
+      "url": "https://github.com/lake-wg/ra/issues/30",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Explain the motivation of this draft, though there is already the draft for attestation over TLS. Some texts similar to the following paragraph will be added in the Section Overview:\nIn contrast to draft-fossati-tls-attestation, our solution:\n- does not modify the EDHOC protocol\n- does not decrease privacy or security properties of standard EDHOC sessions\n- performs attestation in addition to authentication, and does not affect the authentication flow.",
+      "createdAt": "2025-09-19T14:05:18Z",
+      "updatedAt": "2025-09-19T14:05:18Z",
       "closedAt": null,
       "comments": []
     }
