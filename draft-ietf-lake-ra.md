@@ -40,7 +40,7 @@ informative:
     RFC8949:
     RFC8392:
     RFC9393:
-    draft-ietf-iotops-7228bis:
+    I-D.ietf-iotops-7228bis:
     IANA.CWT.Claims: IANA.cwt
     IANA-CoAP-Content-Formats:
       title: CoAP Content-Formats
@@ -112,7 +112,7 @@ The reader is assumed to be familiar with the terms and concepts defined in EDHO
 
 # Overview
 
-EDHOC provides the benefit of minimal message overhead and reduced round trips for a lightweight authentication between an Initiator and a Responder.
+EDHOC provides the benefit of minimal message overhead and reduced round trips for lightweight authentication between an Initiator and a Responder.
 However, authentication ensures only identity-level security, and additional integrity assurance may be required through remote attestation.
 This specification describes how to perform remote attestation over the EDHOC protocol, following the RATS architecture.
 More importantly, by integrating remote attestation with EDHOC, attestation can be run in parallel with authentication, improving the efficiency and maintaining lightweight properties.
@@ -120,7 +120,7 @@ More importantly, by integrating remote attestation with EDHOC, attestation can 
 Remote attestation protocol elements are carried within EDHOC's External Authorization Data (EAD) fields.
 EDHOC {{RFC9528}} supports one or more EAD items in each EAD field.
 
-The Attester can act as either the EDHOC Initiator (IoT device) or the EDHOC Responder (Network service), depending on the attesting target.
+The Attester can act as either the EDHOC Initiator or the EDHOC Responder, depending on the attesting target.
 In the background-check model, the Attester (EDHOC Initiator/IoT device) exchanges evidence with the Relying Party (EDHOC Responder/Network service) during the EDHOC session.
 In the passport model, the Attester (EDHOC Responder/Network servie) exhcnages the attestation result with the Relying Party (EDHOC Initiator/IoT device) during the EDHOC session.
 Section {{attestation-dimensions}} defines three independent dimensions for performing remote attestation over EDHOC:
@@ -129,8 +129,8 @@ Section {{attestation-dimensions}} defines three independent dimensions for perf
   2. Model (see {{bg}}, {{pp}}) defining the attestation model in use based on the RATS architecture (background-check model or passport model).
   3. Message Flow (see {{fwd_flow}}, {{rev_flow}}) defining the EDHOC message flow in use (forward message flow or reverse message flow).
 
-This document specifies the cases that are suited for constrained IoT environments. 
-The target IoT devices correspond to those defined in Table 1 of {{draft-ietf-iotops-7228bis}}.
+This document specifies the cases that are suited for constrained IoT environments.
+See this document {{I-D.ietf-iotops-7228bis}} as a reference for classification of IoT devices.
 
 # Assumptions
 
@@ -186,14 +186,10 @@ The Relying Party puts the nonce and the selected evidence type together in a tu
 
 Once the Attester receives the Attestation request, it can call its attestation service to generate the evidence, with the nonce value as one of the inputs.
 
-The ead_label for Attestation_proposal, Attestation_request and Evidence is the same (TBD1) because these EAD items appear in distinct and fixed positions within the EDHOC message sequence. 
-Specifically, they are conveyed in EAD_1, EAD_2, and EAD_3 of EDHOC messaage_1, EDHOC message_2, and EDHOC message_3, respectively. 
+The ead_label for Attestation_proposal, Attestation_request and Evidence is the same (TBD1) because these EAD items appear in distinct and fixed positions within the EDHOC message sequence.
+Specifically, they are conveyed in EAD_1, EAD_2, and EAD_3 of EDHOC messaage_1, EDHOC message_2, and EDHOC message_3, respectively.
 As their positions identify each item, separate labels are not required.
 
-### Attestation_proposal {#attestation-proposal}
-
-To propose a list of provided evidence types in background-check model, the Attester transports the Proposed_EvidenceType object.
-It signals to the Relyin
 ### Attestation_proposal {#attestation-proposal}
 
 To propose a list of provided evidence types in background-check model, the Attester transports the Proposed_EvidenceType object.
@@ -238,7 +234,7 @@ Attestation_request = bstr .cbor Selected_EvidenceType
 
 Selected_EvidenceType = (
   content-format: uint,
-  nonce: bstr .size 8..14
+  nonce: bstr .size 8..64
 )
 ~~~~~~~~~~~~~~~~
 
@@ -303,8 +299,8 @@ Time synchronization is out of scope of this specification.
 
 Once the Attester obtains the attestation result from the selected Verifier, it sends the attestation result to the Relying Party.
 
-The ead_label for Result_proposal, Result_request and Result is the same (TBD2) because these EAD items appear in distinct and fixed positions within the EDHOC message sequence. 
-Specifically, they are conveyed in EAD_2, EAD_3, and EAD_4 of EDHOC messaage_2, EDHOC message_3, and EDHOC message_4, respectively. 
+The ead_label for Result_proposal, Result_request and Result is the same (TBD2) because these EAD items appear in distinct and fixed positions within the EDHOC message sequence.
+Specifically, they are conveyed in EAD_2, EAD_3, and EAD_4 of EDHOC messaage_2, EDHOC message_3, and EDHOC message_4, respectively.
 As their positions identify each item, separate labels are not required.
 
 ### Result_proposal {#result-proposal}
