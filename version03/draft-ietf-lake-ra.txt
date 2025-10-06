@@ -538,11 +538,11 @@ Table of Contents
 
 5.4.4.  trigger_pp
 
-   The EAD item trigger_pp is used when the sender (Relying Party/EDHOC
-   Initiator) triggers the receiver (Attester/EDHOC Responder) to start
-   a remote attestation in the passport model.  The receiver MUST reply
-   with an EAD item correspondign to the passport model, either a result
-   proposal in Section 5.4.1 or a result in Section 5.4.3.  The
+   The EAD item trigger_pp is used when the sender (EDHOC Initiator/
+   Relying Party) triggers the receiver (EDHOC Responder/Attester) to
+   start a remote attestation in the passport model.  The receiver MUST
+   reply with an EAD item correspondign to the passport model, either a
+   result proposal in Section 5.4.1 or a result in Section 5.4.3.  The
    ead_value MUST not be present, as the ead_label serves as the
    trigger.
 
