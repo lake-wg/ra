@@ -10,23 +10,23 @@
 <meta content="
        This document specifies how to perform remote attestation as part of the lightweight authenticated Diffie-Hellman key exchange protocol EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation procedureS (RATS) architecture. 
     " name="description">
-<meta content="xml2rfc 3.29.0" name="generator">
+<meta content="xml2rfc 3.30.2" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-lake-ra-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.29.0
+  xml2rfc 3.30.2
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.3.8
+    platformdirs 4.4.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.4
+    requests 2.32.5
     setuptools 80.9.0
-    wcwidth 0.2.13
+    wcwidth 0.2.14
 -->
 <link href="draft-ietf-lake-ra.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1045,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RA-EDHOC</td>
-<td class="right">July 2025</td>
+<td class="right">October 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 8 January 2026</td>
+<td class="center">Expires 9 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-07" class="published">7 July 2025</time>
+<time datetime="2025-10-06" class="published">6 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-08">8 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-04-09">9 April 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1121,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1182,9 +1182,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.3">
                     <p id="section-toc.1-1.5.2.3.2.3.1"><a href="#section-5.3.3" class="auto internal xref">5.3.3</a>.  <a href="#name-evidence" class="internal xref">Evidence</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.4">
-                    <p id="section-toc.1-1.5.2.3.2.4.1"><a href="#section-5.3.4" class="auto internal xref">5.3.4</a>.  <a href="#name-trigger_bg" class="internal xref">trigger_bg</a></p>
 </li>
                 </ul>
 </li>
@@ -1292,12 +1289,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Remote attestation is a security process which verifies and confirms the integrity and trustworthiness of a remote device or system in the network.
+<p id="section-1-1">Remote attestation is a security process which verifies and confirms the integrity and trustworthiness of a remote target (e.g., device, system, group of devices) in the network.
 This process helps establish a level of trust in the remote system before allowing the device to e.g. join the network or get access to some sensitive information and resources.
 The use cases that require remote attestation include secure boot and firmware management, cloud computing, network access control, etc.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The IETF working group Remote ATtestation procedureS (RATS) has defined an architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> for remote attestation.
 The three main roles in the RATS architecture are the Attester, the Verifier and the Relying Party.
-The Attester generates the evidence concerning its identity and integrity, which must be appraised by the Verifier for its validity.
+The Attester generates evidence (a set of claims) concerning its identity and integrity, which must be appraised by the Verifier for its validity.
 Then, the Verifier produces the attestation result, which is consequently used by the Relying Party for the purposes of reliably applying application-specific actions.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">One type of interaction model defined in the RATS architecture is called the background-check model.
 It resembles the procedure of how employers perform background checks to determine the prospective employee's trustworthiness, by contacting the respective organization that issues a report.
@@ -1324,7 +1321,7 @@ This specification also defines new EAD items needed to perform remote attesatio
 Root of trust serves as the starting point for establishing and validating the trustworthiness appraisals of other components on the system.
 The measurements signed by the attestation service are referred to as the Evidence.
 The signing is requested through an attestation API.
-How the components are separated between the secure and non-secure worlds on a device is out of scope of this specification.<a href="#section-1-7" class="pilcrow">¶</a></p>
+How the components are separated between the secure and non-secure worlds on a target is out of scope of this specification.<a href="#section-1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1344,12 +1341,16 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-overview">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
       </h2>
-<p id="section-3-1">This specification describes how to perform remote attestation over the EDHOC protocol, following the RATS architecture.
-EDHOC provides the benefit of minimal message overhead and reduced round trips for a lightweight authentication.
+<p id="section-3-1">EDHOC provides the benefit of minimal message overhead and reduced round trips for lightweight authentication between an Initiator and a Responder.
+However, authentication ensures only identity-level security, and additional integrity assurance may be required through remote attestation.
+This specification describes how to perform remote attestation over the EDHOC protocol, following the RATS architecture.
 More importantly, by integrating remote attestation with EDHOC, attestation can be run in parallel with authentication, improving the efficiency and maintaining lightweight properties.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Remote attestation protocol elements are carried within EDHOC's External Authorization Data (EAD) fields.
 EDHOC <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span> supports one or more EAD items in each EAD field.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">In <a href="#attestation-dimensions" class="auto internal xref">Section 5</a>, this document defines three independent dimensions for performing remote attestation over EDHOC:<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-3">The Attester can act as either the EDHOC Initiator or the EDHOC Responder, depending on the attesting target.
+In the background-check model, the Attester (EDHOC Initiator/IoT device) exchanges evidence with the Relying Party (EDHOC Responder/Network service) during the EDHOC session.
+In the passport model, the Attester (EDHOC Responder/Network servie) exhcnages the attestation result with the Relying Party (EDHOC Initiator/IoT device) during the EDHOC session.
+Section <a href="#attestation-dimensions" class="auto internal xref">Section 5</a> defines three independent dimensions for performing remote attestation over EDHOC:<a href="#section-3-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3-4">
 <li id="section-3-4.1">
           <p id="section-3-4.1.1">Target (see <a href="#iot" class="auto internal xref">Section 5.1</a>, <a href="#net" class="auto internal xref">Section 5.2</a>) defining the entity that undergoes the attestation process (IoT device or network service).<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
@@ -1361,7 +1362,8 @@ EDHOC <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span> supports o
           <p id="section-3-4.3.1">Message Flow (see <a href="#fwd_flow" class="auto internal xref">Section 5.5</a>, <a href="#rev_flow" class="auto internal xref">Section 5.6</a>) defining the EDHOC message flow in use (forward message flow or reverse message flow).<a href="#section-3-4.3.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
-<p id="section-3-5">This document specifies the cases that are suited for constrained IoT environments.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-5">This document specifies the cases that are suited for constrained IoT environments.
+See this document <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-D.ietf-iotops-7228bis</a>]</span> as a reference for classification of IoT devices.<a href="#section-3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="assumptions">
@@ -1434,7 +1436,9 @@ The Relying Party then sends it back within the Attestation request to the Attes
 The nonce is generated by the Verifier and sent to the Relying Party.
 The Relying Party puts the nonce and the selected evidence type together in a tuple to generate an Attestation request.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <p id="section-5.3-5">Once the Attester receives the Attestation request, it can call its attestation service to generate the evidence, with the nonce value as one of the inputs.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
-<p id="section-5.3-6">The ead_label for Attestation_proposal, Attestation_request and Evidence is the same (TBD1) because these EAD items appear in a fixed sequential order.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<p id="section-5.3-6">The ead_label for Attestation_proposal, Attestation_request and Evidence is the same (TBD1) because these EAD items appear in distinct and fixed positions within the EDHOC message sequence.
+Specifically, they are conveyed in EAD_1, EAD_2, and EAD_3 of EDHOC messaage_1, EDHOC message_2, and EDHOC message_3, respectively.
+As their positions identify each item, separate labels are not required.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
 <div id="attestation-proposal">
 <section id="section-5.3.1">
           <h4 id="name-attestation_proposal">
@@ -1474,7 +1478,7 @@ content-format = uint
 </li>
           </ul>
 <p id="section-5.3.1-7">The sign of ead_label TBD1 <span class="bcp14">MUST</span> be negative to indicate that the EAD item is critical.
-If the receiver cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver <span class="bcp14">MUST</span> abort the EDHOC session, as defined in <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-5.3.1-7" class="pilcrow">¶</a></p>
+If the receiver (EDHOC Responder/Relying Party) cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver <span class="bcp14">MUST</span> abort the EDHOC session, as defined in <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-5.3.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="attestation-request">
@@ -1512,8 +1516,8 @@ Selected_EvidenceType = (
               <p id="section-5.3.2-6.2.1">nonce is generated by the Verifier and forwarded by the Relying Party.<a href="#section-5.3.2-6.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-5.3.2-7">The sign of ead_label TBD2 <span class="bcp14">MUST</span> be negative to indicate that the EAD item is critical.
-If the receiver cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver <span class="bcp14">MUST</span> abort the EDHOC session, as defined in <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-5.3.2-7" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-7">The sign of ead_label TBD1 <span class="bcp14">MUST</span> be negative to indicate that the EAD item is critical.
+If the receiver (EDHOC Initiator/Attester) cannot recognize the critical EAD item, or cannot process the information in the critical EAD item, then the receiver <span class="bcp14">MUST</span> abort the EDHOC session, as defined in <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-5.3.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="evidence">
@@ -1559,25 +1563,6 @@ measurements-format = [
 </div>
 </section>
 </div>
-<div id="trigger-bg">
-<section id="section-5.3.4">
-          <h4 id="name-trigger_bg">
-<a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-trigger_bg" class="section-name selfRef">trigger_bg</a>
-          </h4>
-<p id="section-5.3.4-1">The EAD item trigger_bg is used when the sender triggers the receiver to start a remote attestation in the background-check model.
-The receiver <span class="bcp14">MUST</span> reply with an EAD item corresponding to the background-check model, eithr an attestation_proposal in <a href="#attestation-proposal" class="auto internal xref">Section 5.3.1</a> or an evidence in <a href="#evidence" class="auto internal xref">Section 5.3.3</a>.
-The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label serves as the trigger.<a href="#section-5.3.4-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.4-2">The EAD item is:<a href="#section-5.3.4-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.3.4-3.1">
-              <p id="section-5.3.4-3.1.1">ead_label = TBD2<a href="#section-5.3.4-3.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.3.4-3.2">
-              <p id="section-5.3.4-3.2.1">ead_value = null<a href="#section-5.3.4-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
 </section>
 </div>
 <div id="pp">
@@ -1587,15 +1572,17 @@ The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label s
         </h3>
 <p id="section-5.4-1">In the passport model, the Attester sends the evidence to the Verifier.
 After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
-<p id="section-5.4-2">An EDHOC session is established between the Attester and the Relying Party.
+<p id="section-5.4-2">An EDHOC session is established between the Attester (EDHOC Responder) and the Relying Party (EDHOC Initiator).
 The Attester and the Relying Party should decide from which Verifier the Attester obtains the attestation result and transfers it to the Relying Party.
 The Attester first sends a list of the Verifier identities that it can get the attestation result.
 The Relying Party selects one trusted Verifier identity and sends it back as a Result request.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
 <p id="section-5.4-3">Regarding the freshness in passport model, the Attester could either establish a real-time connection with the selected Verifier, or use a pre-stored attestation result from the selected Verifier.
-If the attestation result is not obtained via a real-time connection, it should include a time stamp and/or expiry time to indicate its validity.
+If the attestation result is not obtained via a real-time connection, it <span class="bcp14">MUST</span> include a time stamp and/or expiry time to indicate its validity.
 Time synchronization is out of scope of this specification.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
 <p id="section-5.4-4">Once the Attester obtains the attestation result from the selected Verifier, it sends the attestation result to the Relying Party.<a href="#section-5.4-4" class="pilcrow">¶</a></p>
-<p id="section-5.4-5">The ead_label for Result_proposal, Result_request and Result is the same (TBD3) because these EAD items appear in a fixed sequential order.<a href="#section-5.4-5" class="pilcrow">¶</a></p>
+<p id="section-5.4-5">The ead_label for Result_proposal, Result_request and Result is the same (TBD2) because these EAD items appear in distinct and fixed positions within the EDHOC message sequence.
+Specifically, they are conveyed in EAD_2, EAD_3, and EAD_4 of EDHOC messaage_2, EDHOC message_3, and EDHOC message_4, respectively.
+As their positions identify each item, separate labels are not required.<a href="#section-5.4-5" class="pilcrow">¶</a></p>
 <div id="result-proposal">
 <section id="section-5.4.1">
           <h4 id="name-result_proposal">
@@ -1606,7 +1593,7 @@ The identification of credentials relies on COSE header parameters <span>[<a hre
 <p id="section-5.4.1-2">The EAD item for the attestation result proposal is:<a href="#section-5.4.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.1-3.1">
-              <p id="section-5.4.1-3.1.1">ead_label = TBD3<a href="#section-5.4.1-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.1-3.1.1">ead_label = TBD2<a href="#section-5.4.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.1-3.2">
               <p id="section-5.4.1-3.2.1">ead_value = Result_proposal, which is a CBOR byte string:<a href="#section-5.4.1-3.2.1" class="pilcrow">¶</a></p>
@@ -1652,7 +1639,7 @@ Relying Party generates a nonce to ensure the freshness of the attestation resul
 <p id="section-5.4.2-2">The EAD item for an attestation result request is:<a href="#section-5.4.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.2-3.1">
-              <p id="section-5.4.2-3.1.1">ead_label = TBD3<a href="#section-5.4.2-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.2-3.1.1">ead_label = TBD2<a href="#section-5.4.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.2-3.2">
               <p id="section-5.4.2-3.2.1">ead_value = Result_request, which is a CBOR byte string:<a href="#section-5.4.2-3.2.1" class="pilcrow">¶</a></p>
@@ -1680,7 +1667,7 @@ The Relying Party can decide what action to take with regards to the Attester ba
 <p id="section-5.4.3-2">The EAD item is:<a href="#section-5.4.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.3-3.1">
-              <p id="section-5.4.3-3.1.1">ead_label = TBD3<a href="#section-5.4.3-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.3-3.1.1">ead_label = TBD2<a href="#section-5.4.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.3-3.2">
               <p id="section-5.4.3-3.2.1">ead_value is a serialized EAT.<a href="#section-5.4.3-3.2.1" class="pilcrow">¶</a></p>
@@ -1693,13 +1680,13 @@ The Relying Party can decide what action to take with regards to the Attester ba
           <h4 id="name-trigger_pp">
 <a href="#section-5.4.4" class="section-number selfRef">5.4.4. </a><a href="#name-trigger_pp" class="section-name selfRef">trigger_pp</a>
           </h4>
-<p id="section-5.4.4-1">The EAD item trigger_pp is used when the sender triggers the receiver to start a remote attestation in the passport model.
+<p id="section-5.4.4-1">The EAD item trigger_pp is used when the sender (Relying Party/EDHOC Initiator) triggers the receiver (Attester/EDHOC Responder) to start a remote attestation in the passport model.
 The receiver <span class="bcp14">MUST</span> reply with an EAD item correspondign to the passport model, either a result proposal in <a href="#result-proposal" class="auto internal xref">Section 5.4.1</a> or a result in <a href="#result" class="auto internal xref">Section 5.4.3</a>.
 The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label serves as the trigger.<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4.4-2">The EAD item is:<a href="#section-5.4.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.4-3.1">
-              <p id="section-5.4.4-3.1.1">ead_label = TBD4<a href="#section-5.4.4-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.4-3.1.1">ead_label = TBD3<a href="#section-5.4.4-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.4-3.2">
               <p id="section-5.4.4-3.2.1">ead_value = null<a href="#section-5.4.4-3.2.1" class="pilcrow">¶</a></p>
@@ -1839,85 +1826,6 @@ The Verifier evaluates the Evidence and sends the Attestation result to the Rely
 <a href="#name-overview-of-iot-device-atte" class="selfRef">Overview of IoT device attestation in background-check model and EDHOC forward message flow. EDHOC is used between A and RP.</a>
           </figcaption></figure>
 </div>
-<p id="section-6.1-5">This specification also supports a simplified attestation model for scenarios where a pre-existing relationship exists between the Attester and the Verifier.
-In such cases, when the Verifier possesses prior knowledge of the evidence format (CBOR) and its expected profile of the EAT claims set (e.g., CoSWID), the evidence types negotiation <span class="bcp14">MAY</span> be omitted.
-Under these circumstances, the attestation process is simplified as:<a href="#section-6.1-5" class="pilcrow">¶</a></p>
-<span id="name-simplified-iot-device-attes"></span><div id="fig-iot-bg-fwd-s">
-<figure id="figure-2">
-          <div id="section-6.1-6.1">
-            <div class="alignCenter art-svg artwork" id="section-6.1-6.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="528" width="616" viewBox="0 0 616 528" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,32 L 8,128" fill="none" stroke="black"></path>
-                <path d="M 80,128 L 80,496" fill="none" stroke="black"></path>
-                <path d="M 152,32 L 152,128" fill="none" stroke="black"></path>
-                <path d="M 272,32 L 272,128" fill="none" stroke="black"></path>
-                <path d="M 344,128 L 344,496" fill="none" stroke="black"></path>
-                <path d="M 416,32 L 416,128" fill="none" stroke="black"></path>
-                <path d="M 520,96 L 520,128" fill="none" stroke="black"></path>
-                <path d="M 568,128 L 568,496" fill="none" stroke="black"></path>
-                <path d="M 608,96 L 608,128" fill="none" stroke="black"></path>
-                <path d="M 8,32 L 152,32" fill="none" stroke="black"></path>
-                <path d="M 272,32 L 416,32" fill="none" stroke="black"></path>
-                <path d="M 8,64 L 152,64" fill="none" stroke="black"></path>
-                <path d="M 272,64 L 416,64" fill="none" stroke="black"></path>
-                <path d="M 8,96 L 152,96" fill="none" stroke="black"></path>
-                <path d="M 272,96 L 416,96" fill="none" stroke="black"></path>
-                <path d="M 520,96 L 608,96" fill="none" stroke="black"></path>
-                <path d="M 8,128 L 152,128" fill="none" stroke="black"></path>
-                <path d="M 272,128 L 416,128" fill="none" stroke="black"></path>
-                <path d="M 520,128 L 608,128" fill="none" stroke="black"></path>
-                <path d="M 80,176 L 336,176" fill="none" stroke="black"></path>
-                <path d="M 344,224 L 560,224" fill="none" stroke="black"></path>
-                <path d="M 352,240 L 568,240" fill="none" stroke="black"></path>
-                <path d="M 88,304 L 344,304" fill="none" stroke="black"></path>
-                <path d="M 80,352 L 336,352" fill="none" stroke="black"></path>
-                <path d="M 344,384 L 560,384" fill="none" stroke="black"></path>
-                <path d="M 352,400 L 568,400" fill="none" stroke="black"></path>
-                <path d="M 96,480 L 328,480" fill="none" stroke="black"></path>
-                <polygon class="arrowhead" points="568,384 556,378.4 556,389.6" fill="black" transform="rotate(0,560,384)"></polygon>
-                <polygon class="arrowhead" points="568,224 556,218.4 556,229.6" fill="black" transform="rotate(0,560,224)"></polygon>
-                <polygon class="arrowhead" points="360,400 348,394.4 348,405.6" fill="black" transform="rotate(180,352,400)"></polygon>
-                <polygon class="arrowhead" points="360,240 348,234.4 348,245.6" fill="black" transform="rotate(180,352,240)"></polygon>
-                <polygon class="arrowhead" points="344,352 332,346.4 332,357.6" fill="black" transform="rotate(0,336,352)"></polygon>
-                <polygon class="arrowhead" points="344,176 332,170.4 332,181.6" fill="black" transform="rotate(0,336,176)"></polygon>
-                <polygon class="arrowhead" points="336,480 324,474.4 324,485.6" fill="black" transform="rotate(0,328,480)"></polygon>
-                <polygon class="arrowhead" points="104,480 92,474.4 92,485.6" fill="black" transform="rotate(180,96,480)"></polygon>
-                <polygon class="arrowhead" points="96,304 84,298.4 84,309.6" fill="black" transform="rotate(180,88,304)"></polygon>
-                <g class="text">
-                  <text x="48" y="52">IoT</text>
-                  <text x="92" y="52">device</text>
-                  <text x="312" y="52">Network</text>
-                  <text x="376" y="52">service</text>
-                  <text x="40" y="84">EDHOC</text>
-                  <text x="104" y="84">Initiator</text>
-                  <text x="304" y="84">EDHOC</text>
-                  <text x="368" y="84">Responder</text>
-                  <text x="84" y="116">Attester</text>
-                  <text x="320" y="116">Relying</text>
-                  <text x="376" y="116">Party</text>
-                  <text x="564" y="116">Verifier</text>
-                  <text x="424" y="260">EvidenceType,</text>
-                  <text x="504" y="260">Nonce</text>
-                  <text x="120" y="292">EAD_2</text>
-                  <text x="152" y="292">=</text>
-                  <text x="208" y="292">Attestation</text>
-                  <text x="288" y="292">request</text>
-                  <text x="120" y="340">EAD_3</text>
-                  <text x="152" y="340">=</text>
-                  <text x="196" y="340">Evidence</text>
-                  <text x="452" y="372">Evidence</text>
-                  <text x="424" y="420">Attestation</text>
-                  <text x="500" y="420">result</text>
-                  <text x="176" y="500">EDHOC</text>
-                  <text x="232" y="500">session</text>
-                </g>
-              </svg><a href="#section-6.1-6.1.1" class="pilcrow">¶</a>
-</div>
-</div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
-<a href="#name-simplified-iot-device-attes" class="selfRef">Simplified IoT device attestation in background-check model with EDHOC forward message flow. Pre-existing relationship between A and V.</a>
-          </figcaption></figure>
-</div>
 </section>
 </div>
 <div id="network-attestation">
@@ -1928,7 +1836,7 @@ Under these circumstances, the attestation process is simplified as:<a href="#se
 <p id="section-6.2-1">One use case for (Net, PP, Fwd) is when a network server needs to attest itself to a client (e.g., an IoT device).
 For example, the client needs to send some sensitive data to the network server, which requires the network server to be attested first.
 In (Net, PP, Fwd), the network server acts as an Attester and the client acts as a Relying Party.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">An overview of the message flow is illustrated in <a href="#fig-net-pp-fwd" class="auto internal xref">Figure 3</a>.
+<p id="section-6.2-2">An overview of the message flow is illustrated in <a href="#fig-net-pp-fwd" class="auto internal xref">Figure 2</a>.
 EDHOC Initiator plays the role of the RATS Relying Party.
 EDHOC Responder plays the role of the RATS Attester.
 An external entity, out of scope of this specification, plays the role of the RATS Verifier.
@@ -1939,7 +1847,7 @@ Then the Relying Party selects a trusted Verifier identity and sends it as a Res
 How the Attester negotiates with the selected Verifier to get the attestation result is out of scope of this specification.
 A fourth EDHOC message is required to send the Result from the Attester to the Relying Party.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 <span id="name-overview-of-network-service"></span><div id="fig-net-pp-fwd">
-<figure id="figure-3">
+<figure id="figure-2">
           <div id="section-6.2-4.1">
             <div class="alignCenter art-svg artwork" id="section-6.2-4.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="448" width="584" viewBox="0 0 584 448" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2011,7 +1919,9 @@ A fourth EDHOC message is required to send the Result from the Attester to the R
                   <text x="152" y="260">=</text>
                   <text x="188" y="260">Result</text>
                   <text x="248" y="260">request</text>
-                  <text x="416" y="276">(request)</text>
+                  <text x="388" y="276">Evidence</text>
+                  <text x="432" y="276">+</text>
+                  <text x="464" y="276">Nonce</text>
                   <text x="412" y="324">Result</text>
                   <text x="120" y="340">EAD_4</text>
                   <text x="152" y="340">=</text>
@@ -2022,7 +1932,7 @@ A fourth EDHOC message is required to send the Result from the Attester to the R
               </svg><a href="#section-6.2-4.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-overview-of-network-service" class="selfRef">Overview of network service attestation in passport model and EDHOC forward message flow. EDHOC is used between RP and A. The dashed line illustrates a logical connection that does not need to occur in real time.</a>
           </figcaption></figure>
 </div>
@@ -2045,7 +1955,7 @@ Note that the message flow for the two parties in mutual attestation needs to be
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-iot-bg-fwd-net-pp-fwd" class="section-name selfRef">(IoT, BG, Fwd) - (Net, PP, Fwd)</a>
         </h3>
 <p id="section-7.1-1">In this example, the mutual attestation is performed in EDHOC forward message flow, by one IoT device attestation in background-check model and another network service attestation in passport model.
-The process is illustrated in <a href="#fig-mutual-attestation-BP" class="auto internal xref">Figure 4</a>.
+The process is illustrated in <a href="#fig-mutual-attestation-BP" class="auto internal xref">Figure 3</a>.
 How the Network service connects with the Verifier_1 and potential Verifier_2 is out of scope in this specification.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">The first remote attestation is initiated by the IoT device (A_1) in background-check model.
 In parallel, the IoT device (A_1) requests the network service (A_2) to perform a remote attestation in passport model.
@@ -2053,7 +1963,7 @@ EAD_2 carries the EAD items Attestation request and Result proposal.
 EAD_3 carries the EAD items Evidence and Result request.
 EAD_4 carries the EAD item Result for the passport model.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <span id="name-overview-of-mutual-attestat"></span><div id="fig-mutual-attestation-BP">
-<figure id="figure-4">
+<figure id="figure-3">
           <div id="section-7.1-3.1">
             <div class="alignCenter art-svg artwork" id="section-7.1-3.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="752" width="864" viewBox="0 0 864 752" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2174,7 +2084,7 @@ EAD_4 carries the EAD item Result for the passport model.<a href="#section-7.1-2
               </svg><a href="#section-7.1-3.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-overview-of-mutual-attestat" class="selfRef">Overview of mutual attestation of (IoT, BG, Fwd) - (Net, PP, Fwd). EDHOC is used between A and RP. The dashed line illustrates a logical connection that does not need to occur in real time.</a>
           </figcaption></figure>
 </div>
@@ -2227,7 +2137,7 @@ The attestation result is returned to the Relying Party, with result generation 
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-processing-in-the-passport-" class="section-name selfRef">Processing in the Passport Model</a>
         </h3>
 <p id="section-8.2-1">When the Attester utilizes a cached attestation result previously generated by the Verifier, real-time re-evaluation by the Verifier is not required.
-If the Attester performs real-time attestation with the Verifier after receiving a result_request from the Relying Party, the Verifier generates the attestation result formatted as an Entity Attestation Token (EAT).
+If the Attester receives result_request from the Relying Party and performs real-time attestation with the Verifier, the Verifier then generates the attestation result formatted as an Entity Attestation Token (EAT).
 The token uses the "Software Measurement Results (measres)" claim as defined in <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>, and incorporates the nonce generated by the Relying Party as an input parameter.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2266,32 +2176,28 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
             <p id="section-10.1-2.1.1">The ead_label = TBD1 corresponds to the ead_value Attestation_proposal in <a href="#attestation-proposal" class="auto internal xref">Section 5.3.1</a>, Attestation_request in <a href="#attestation-request" class="auto internal xref">Section 5.3.2</a> and Evidence in <a href="#evidence" class="auto internal xref">Section 5.3.3</a>.<a href="#section-10.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-10.1-2.2">
-            <p id="section-10.1-2.2.1">The ead_label = TBD2 corresponds to the EAT item trigger_bg as specified in <a href="#trigger-bg" class="auto internal xref">Section 5.3.4</a>.<a href="#section-10.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-10.1-2.2.1">The ead_label = TBD2 corresponds to the ead_value Result_proposal in <a href="#result-proposal" class="auto internal xref">Section 5.4.1</a>, Result_request in <a href="#result-request" class="auto internal xref">Section 5.4.2</a> and the Result in <a href="#result" class="auto internal xref">Section 5.4.3</a>.<a href="#section-10.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-10.1-2.3">
-            <p id="section-10.1-2.3.1">The ead_label = TBD3 corresponds to the ead_value Result_proposal in <a href="#result-proposal" class="auto internal xref">Section 5.4.1</a>, Result_request in <a href="#result-request" class="auto internal xref">Section 5.4.2</a> and the Result in <a href="#result" class="auto internal xref">Section 5.4.3</a>.<a href="#section-10.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-10.1-2.4">
-            <p id="section-10.1-2.4.1">The ead_label = TBD4 corresponds to the EAT item trigger_pp as specified in <a href="#trigger-pp" class="auto internal xref">Section 5.4.4</a>.<a href="#section-10.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-10.1-2.3.1">The ead_label = TBD3 corresponds to the EAT item trigger_pp as specified in <a href="#trigger-pp" class="auto internal xref">Section 5.4.4</a>.<a href="#section-10.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <span id="name-ead-labels"></span><div id="fig-ead-labels">
-<figure id="figure-5">
+<figure id="figure-4">
           <div id="section-10.1-3.1">
             <div class="alignLeft art-svg artwork" id="section-10.1-3.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="536" viewBox="0 0 536 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,32 L 8,256" fill="none" stroke="black"></path>
-                <path d="M 104,32 L 104,256" fill="none" stroke="black"></path>
-                <path d="M 168,32 L 168,256" fill="none" stroke="black"></path>
-                <path d="M 368,32 L 368,256" fill="none" stroke="black"></path>
-                <path d="M 528,32 L 528,256" fill="none" stroke="black"></path>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="224" width="536" viewBox="0 0 536 224" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,32 L 8,208" fill="none" stroke="black"></path>
+                <path d="M 104,32 L 104,208" fill="none" stroke="black"></path>
+                <path d="M 168,32 L 168,208" fill="none" stroke="black"></path>
+                <path d="M 368,32 L 368,208" fill="none" stroke="black"></path>
+                <path d="M 528,32 L 528,208" fill="none" stroke="black"></path>
                 <path d="M 8,32 L 528,32" fill="none" stroke="black"></path>
                 <path d="M 8,62 L 528,62" fill="none" stroke="black"></path>
                 <path d="M 8,66 L 528,66" fill="none" stroke="black"></path>
                 <path d="M 8,112 L 528,112" fill="none" stroke="black"></path>
                 <path d="M 8,160 L 528,160" fill="none" stroke="black"></path>
                 <path d="M 8,208 L 528,208" fill="none" stroke="black"></path>
-                <path d="M 8,256 L 528,256" fill="none" stroke="black"></path>
                 <g class="text">
                   <text x="36" y="52">Name</text>
                   <text x="136" y="52">Label</text>
@@ -2307,37 +2213,27 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
                   <text x="472" y="100">5.2.1.1</text>
                   <text x="32" y="132">TBD</text>
                   <text x="132" y="132">TBD2</text>
-                  <text x="208" y="132">trigger</text>
-                  <text x="252" y="132">to</text>
-                  <text x="288" y="132">start</text>
-                  <text x="224" y="148">attestation</text>
-                  <text x="284" y="148">in</text>
-                  <text x="308" y="148">BG</text>
+                  <text x="188" y="132">PP</text>
+                  <text x="224" y="132">model</text>
+                  <text x="208" y="148">related</text>
+                  <text x="288" y="148">information</text>
                   <text x="408" y="148">Section</text>
-                  <text x="472" y="148">5.2.1.1</text>
+                  <text x="472" y="148">5.2.2.1</text>
                   <text x="32" y="180">TBD</text>
                   <text x="132" y="180">TBD3</text>
-                  <text x="188" y="180">PP</text>
-                  <text x="224" y="180">model</text>
-                  <text x="208" y="196">related</text>
-                  <text x="288" y="196">information</text>
+                  <text x="208" y="180">trigger</text>
+                  <text x="252" y="180">to</text>
+                  <text x="288" y="180">start</text>
+                  <text x="224" y="196">attestation</text>
+                  <text x="284" y="196">in</text>
+                  <text x="308" y="196">PP</text>
                   <text x="408" y="196">Section</text>
                   <text x="472" y="196">5.2.2.1</text>
-                  <text x="32" y="228">TBD</text>
-                  <text x="132" y="228">TBD4</text>
-                  <text x="208" y="228">trigger</text>
-                  <text x="252" y="228">to</text>
-                  <text x="288" y="228">start</text>
-                  <text x="224" y="244">attestation</text>
-                  <text x="284" y="244">in</text>
-                  <text x="308" y="244">PP</text>
-                  <text x="408" y="244">Section</text>
-                  <text x="472" y="244">5.2.2.1</text>
                 </g>
               </svg><a href="#section-10.1-3.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-ead-labels" class="selfRef">EAD labels.</a>
           </figcaption></figure>
 </div>
@@ -2381,6 +2277,10 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.ietf-iotops-7228bis">[I-D.ietf-iotops-7228bis]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, <span class="refAuthor">Keränen, A.</span>, and <span class="refAuthor">C. Gomez</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-iotops-7228bis-02</span>, <time datetime="2025-07-07" class="refDate">7 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-02">https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-02</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-lake-authz">[I-D.ietf-lake-authz]</dt>
         <dd>
 <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Vučinić, M.</span>, <span class="refAuthor">Fedrecheski, G.</span>, and <span class="refAuthor">M. Richardson</span>, <span class="refTitle">"Lightweight Authorization using Ephemeral Diffie-Hellman Over COSE (ELA)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lake-authz-05</span>, <time datetime="2025-07-07" class="refDate">7 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-authz-05">https://datatracker.ietf.org/doc/html/draft-ietf-lake-authz-05</a>&gt;</span>. </dd>
@@ -2424,7 +2324,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-example-remote-attestation-" class="section-name selfRef">Example: Remote Attestation Flow</a>
       </h2>
 <span id="name-example-of-remote-attestati"></span><div id="_figure-iot-example">
-<figure id="figure-6">
+<figure id="figure-5">
         <div id="appendix-A-1.1">
           <div class="alignLeft art-svg artwork" id="appendix-A-1.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="992" width="576" viewBox="0 0 576 992" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -2533,7 +2433,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
             </svg><a href="#appendix-A-1.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-example-of-remote-attestati" class="selfRef">Example of remote attestation.</a>
         </figcaption></figure>
 </div>
