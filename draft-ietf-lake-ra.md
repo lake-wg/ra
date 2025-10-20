@@ -40,6 +40,8 @@ informative:
     RFC8949:
     RFC8392:
     RFC9393:
+    RFC8613:
+    RFC9668:
     I-D.ietf-iotops-7228bis:
     IANA.CWT.Claims: IANA.cwt
     IANA-CoAP-Content-Formats:
@@ -131,6 +133,12 @@ Section {{attestation-dimensions}} defines three independent dimensions for perf
 
 This document specifies the cases that are suited for constrained IoT environments.
 See this document {{I-D.ietf-iotops-7228bis}} as a reference for classification of IoT devices.
+
+The remote attestation operation defined in this document preserves the properties of EDHOC:
+
+  1. The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.
+  2. The attestation protocol is in parallel but does not interfere with the authentication flow.
+  3. The privacy and security properties of EDHOC are not changed.
 
 # Assumptions
 
@@ -813,11 +821,64 @@ DFC38558950D
 The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it to the Verifier.
 Once the Verifier sends back the Attestation Result, the Relying Party can be assured on the version of the firmware that the device is running.
 
-# Open discussion: Continuous Attestation over EDHOC
+# Post-handshake Attestation over OSCORE
 
-Subsequent remote attestation is possible over PSK-based EDHOC for continuous assurance.
+Beyond the intra-handshake attestation defined in this document, remote attestation after an EDHOC session can be performed via post-handshake attestation over Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}}.
+OSCORE provides application-layer protection for the Constrained Application Protocol (CoAP) using CBOR Object Signing and Encryption (COSE).
+As specified in {{RFC9668}}, EDHOC can run over CoAP to establish a Security Context for OSCORE.
 
-The detailed procedure is TBD.
+Post-handshake attestation decouples attestation process from the initial handshake, enabling continuous attestation throughout the session lifetime and guaranteeing the runtime integrity.
+
+
+## Mapping Attestation to OSCORE
+
+This section outlines how remote attestation is performed in the background-check model over OSCORE.
+
+EDITOR NOTE: put a figure
+
+### Flight 1
+
+The CoAP client (Attester) initiates attestation with a CoAP request:
+
+* The request method is POST.
+* The Uri-path is set to ".well-known/attest".
+* The payload is the Attestation_proposal CBOR sequence, where Attestation_proposal is constructed as defined in {{attestation-proposal}}.
+
+### Flight 2
+
+The CoAP server (Relying Party) receives the request and processes it as described in {{bg}} then prepares Attestation_request as defined in {{attestation-request}}.
+The CoAP server maps the message to a CoAP response:
+
+* The response code is 2.04 Changed.
+* The payload is the Attestation_request CBOR sequence, as defined in {{attestation-request}}.
+
+### Flight 3
+
+The CoAP client (Attester) receives the response and processes it as described in {{bg}} then generates the evidence.
+The CoAP client maps the message to a CoAP request:
+
+* The request method is POST.
+* The Uri-path is set to ".well-known/attest".
+* The payload is the Evidence CBOR sequence, as defined in {{evidence}}.
+
+## Differences between Intra-handshake and Post-handshake Attestation
+
+Intra-handshake attestation embeds evidence exchange into the authentication handshake, cryptographically tying identity to device state and blocking unauthenticated and untrusted devices from completing the handshake.
+Post-handshake attestation separates attestation from the authentication handshake, providing modularity that allows attestation mechanisms to be integrated independently of the handshake protocol.
+This section compares the two different types of remote attestation methods in terms of performance and security properties.
+
+### Performance properties
+
+Intra-handshake attestation provides round-trip efficiency as attestation occurs within the handshake, requiring no additional round trips.
+The intra-handshake attestation defined in this document does not modify the EDHOC protocol itself, though other intra-handshake designs may require changes.
+Post-handshake has higher modularity which the attestation is integrated independently but it requires additional round trips.
+
+
+### Security properties
+
+Remote attestation provides security properties including evidence integrity, freshness guarantees, and replay protection.
+Besides, intra-handshake attestation is cryptographically bound to the authentication process, and the trust is established before the session begins.
+Post-handshake attestation gurantees the runtime integrity which can obtain dynamic mesurements during device execution, and can be repeatedly performed throughout the session which has the continuous assurance.
 
 # Acknowledgments
 {:numbered="false"}
