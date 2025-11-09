@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-21T01:06:31.357594+00:00",
+  "timestamp": "2025-11-09T01:10:59.878392+00:00",
   "repo": "lake-wg/ra",
   "labels": [
     {
@@ -546,6 +546,53 @@
       "createdAt": "2025-09-19T14:05:18Z",
       "updatedAt": "2025-10-20T13:58:23Z",
       "closedAt": "2025-10-20T13:58:23Z",
+      "comments": []
+    },
+    {
+      "number": 34,
+      "id": "I_kwDON32Ndc7WYJoo",
+      "title": "Nonce in section part 5.4.2.",
+      "url": "https://github.com/lake-wg/ra/issues/34",
+      "state": "OPEN",
+      "author": "junzhanghw",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "For the part 5.4.2. Result_request, \n\n\nNonce may not be necessary to guarantee freshness, as the attester still can use an old attestation result and sign it with this \"new\" nonce, and usually we do not have the assumption that IoT device has a time synchronization procedure. \n\nSo do we need to remove this nonce entry as it does not necessarily serve the purpose?",
+      "createdAt": "2025-11-06T16:47:46Z",
+      "updatedAt": "2025-11-06T19:50:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ysong02",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "In the draft, the nonce is used when IoT device has no time sync procedure, so in this case, the RP (IoT device) generates a nonce, and the Attester forwards this nonce to the selected Verifier and triggers an attestation procedure with the Verifier. The Verifier receives the fresh evidence from the Attester, generates the attestation result, and embeds the nonce from RP also in the attestation result. Then when RP receives the attestation result, it can know whether the result is fresh by checking the nonce.\n\nThe nonce is not used when the RP has the time sync ability, then the attestation result with timestamp is enough, nonce is not needed.",
+          "createdAt": "2025-11-06T17:32:24Z",
+          "updatedAt": "2025-11-06T17:32:24Z"
+        },
+        {
+          "author": "junzhanghw",
+          "authorAssociation": "NONE",
+          "body": "I think it is an interesting variation to the original passport model (while the Verifier generates the nonce). The assumption is that the IoT device can generate the real random numbers. Otherwise, the attester can guess the next Nonce and prepare a good state measurement. Do you think the security consideration need to consider this. \n\nAnother issue is, when the rp sent the attestation request to the attester (with the nonce), and this request is lost, what kind of actions will be exceuted at the rp side, does it need to remove the nonce from its list? There is a chance that, if the nonce is not removed from the list, a malicious attester can reuse this nonce to create an Evidence when it is in a good state in certain moment, but not the moment that RP requires.",
+          "createdAt": "2025-11-06T19:50:04Z",
+          "updatedAt": "2025-11-06T19:50:04Z"
+        }
+      ]
+    },
+    {
+      "number": 35,
+      "id": "I_kwDON32Ndc7WYa7o",
+      "title": "A Section for Use Cases",
+      "url": "https://github.com/lake-wg/ra/issues/35",
+      "state": "OPEN",
+      "author": "ysong02",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-06T17:07:14Z",
+      "updatedAt": "2025-11-06T17:07:14Z",
+      "closedAt": null,
       "comments": []
     }
   ],
