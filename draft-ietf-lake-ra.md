@@ -149,6 +149,7 @@ It is assumed that the Relying Party also has knowledge about the Attester, so i
 In the passport model, the credential identity of the Verifier is assumed to be stored at the Attester and the Relying Party, which means the Verifier is trusted by the Attester and the Relying Party to obtain the attestation result.
 If timestamps are used to ensure freshness in the passport model, synchronized time between the Attester and Relying Party is assumed.
 For detailed time considerations, refer to {{Appendix A of RFC9334}}.
+If nonce is used to ensure freshness in the passport model, the IoT device is assumed to be able to generate a random byte string that is not predictable.
 
 # Remote Attestation in EDHOC {#attestation-dimensions}
 
@@ -176,6 +177,7 @@ For example, before transmitting sensitive data to a network gateway, a constrai
 ## Model: Background-check Model (BG) {#bg}
 
 In the background-check model, the Attester sends the evidence to the Relying Party.
+Evidence contains a set of claims about the current status of the Attester, including configurations, health or construction that have security relevance (see {{Section 8.1 of RFC9334}}).
 The Relying Party transfers the evidence to the Verifier and gets back the attestation result from the Verifier.
 
 An EDHOC session is established between the Attester and the Relying Party.
@@ -290,6 +292,7 @@ where
 When CoSWID {{RFC9393}} is used, the claim MUST be an evidence CoSWID rather than a payload CoSWID.
 Formats other than CoSWID are permitted and MUST be identified by CoAP Content Format.
 
+In the forward EDHOC message flow, Evidence is sent in EDHOC message_3.
 The signature over the Evidence MUST include an attestation binder, which is defined as a cryptographic hash of the first two EDHOC messages.
 
 ~~~~~~~~~~~~~~~~
@@ -316,10 +319,27 @@ where
 * external_aad = attestation_binder
 * payolad is the same CBOR byte string as the payload in COSE_Sign1
 
+
+In the reverse EDHOC message flow, Evidence is sent in EDHOC message_4.
+The signature over the Evidence MUST include an attestation binder, which is derived using EDHOC_Exporter defined in {{RFC9528}}.
+
+
+~~~~~~~~~~~~~~~~
+attestation_binder = EDHOC_Exporter (exporter_label, context, length )
+~~~~~~~~~~~~~~~~
+
+where
+
+* exporter_label = 2
+* context = "attestation_binder"
+* length = 32
+
+
 ## Model: Passport Model (PP) {#pp}
 
 In the passport model, the Attester sends the evidence to the Verifier.
 After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.
+The attestation result may carry a boolean value indicating compliance or non-compliance with a Verifier's apprasal policy, or many carry a set of claims to indicate the results in different aspects ({{Section 8.4 of RFC9334}}).
 
 An EDHOC session is established between the Attester (EDHOC Responder) and the Relying Party (EDHOC Initiator).
 The Attester and the Relying Party should decide from which Verifier the Attester obtains the attestation result and transfers it to the Relying Party.
@@ -647,6 +667,8 @@ Mutual attestation carries a lower risk for EAD items when the Responder is the 
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected to active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.
 
+The privacy considerations of remote attestation refer to {{Section 11 of RFC9334}}.
+
 # IANA Considerations
 
 ## EDHOC External Authorization Data Registry
@@ -925,6 +947,6 @@ Post-handshake attestation gurantees the runtime integrity which can obtain dyna
 # Acknowledgments
 {:numbered="false"}
 
-The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson and Geovane Fedrecheski for the provided ideas and feedback.
+The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane Fedrecheski and John Mattsson for the provided ideas and feedback.
 
 Work on this document has in part been supported by the Horizon Europe Framework Programme project OpenSwarm (grant agreement No. 101093046).
