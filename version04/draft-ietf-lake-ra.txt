@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 14 August 2026                                      Ericsson AB
-                                                        10 February 2026
+Expires: 1 September 2026                                    Ericsson AB
+                                                        28 February 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 August 2026.
+   This Internet-Draft will expire on 1 September 2026.
 
 Copyright Notice
 
@@ -404,7 +404,7 @@ Table of Contents
 
    Selected_EvidenceType = (
      content-format: uint,
-     nonce: bstr .size 8..64
+     nonce: bstr .size (8..64)
    )
 
    where
@@ -499,7 +499,7 @@ Table of Contents
    attestation binder, which is derived using EDHOC_Exporter defined in
    [RFC9528].
 
-  attestation_binder = EDHOC_Exporter (exporter_label, context, length )
+   attestation_binder = EDHOC_Exporter (exporter_label, context, length)
 
    where
 
@@ -596,7 +596,7 @@ Table of Contents
 
    Request_structure = {
      selected_verifier: VerfierIdentity,
-     ? nonce: bstr .size 8..64
+     ? nonce: bstr .size (8..64)
    }
 
 5.4.3.  Result
