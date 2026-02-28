@@ -244,7 +244,7 @@ Attestation_request = bstr .cbor Selected_EvidenceType
 
 Selected_EvidenceType = (
   content-format: uint,
-  nonce: bstr .size 8..64
+  nonce: bstr .size (8..64)
 )
 ~~~~~~~~~~~~~~~~
 
@@ -325,7 +325,7 @@ The signature over the Evidence MUST include an attestation binder, which is der
 
 
 ~~~~~~~~~~~~~~~~
-attestation_binder = EDHOC_Exporter (exporter_label, context, length )
+attestation_binder = EDHOC_Exporter (exporter_label, context, length)
 ~~~~~~~~~~~~~~~~
 
 where
@@ -399,7 +399,7 @@ Result_request = bstr .cbor Request_structure
 
 Request_structure = {
   selected_verifier: VerfierIdentity,
-  ? nonce: bstr .size 8..64
+  ? nonce: bstr .size (8..64)
 }
 ~~~~~~~~~~~~~~~~
 
