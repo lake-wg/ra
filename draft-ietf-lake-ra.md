@@ -149,6 +149,7 @@ It is assumed that the Relying Party also has knowledge about the Attester, so i
 In the passport model, the credential identity of the Verifier is assumed to be stored at the Attester and the Relying Party, which means the Verifier is trusted by the Attester and the Relying Party to obtain the attestation result.
 If timestamps are used to ensure freshness in the passport model, synchronized time between the Attester and Relying Party is assumed.
 For detailed time considerations, refer to {{Appendix A of RFC9334}}.
+If nonce is used to ensure freshness in the passport model, the IoT device is assumed to be able to generate a random byte string that is not predictable.
 
 # Remote Attestation in EDHOC {#attestation-dimensions}
 
@@ -176,6 +177,7 @@ For example, before transmitting sensitive data to a network gateway, a constrai
 ## Model: Background-check Model (BG) {#bg}
 
 In the background-check model, the Attester sends the evidence to the Relying Party.
+Evidence contains a set of claims about the current status of the Attester, including configurations, health or construction that have security relevance (see {{Section 8.1 of RFC9334}}).
 The Relying Party transfers the evidence to the Verifier and gets back the attestation result from the Verifier.
 
 An EDHOC session is established between the Attester and the Relying Party.
@@ -242,7 +244,7 @@ Attestation_request = bstr .cbor Selected_EvidenceType
 
 Selected_EvidenceType = (
   content-format: uint,
-  nonce: bstr .size 8..64
+  nonce: bstr .size (8..64)
 )
 ~~~~~~~~~~~~~~~~
 
@@ -262,12 +264,13 @@ The Evidence is sent in EAD_3 within EDHOC message_3.
 The EAD item is:
 
 * ead_label = TBD1
-* ead_value is a serialized EAT.
+* ead_value is a serialized EAT in COSE_Sign1 structure.
 
 For remote attestation over EDHOC, The EAT MUST be formatted as a CBOR Web Token (CWT) containing attestation-oriented claims.
 The complete set of attestation claims for the EAT is specified in {{RFC9711}}.
+An example is provided in Section {{firmware}}.
 
-A minimal claims set MAY be implemented when the Attester operates under constrained message size requirements and/or limited computational resources.
+A minimal claims set is defined as the payload of COSE_Sign1 when the Attester operates under constrained message size requirements and/or limited computational resources:
 
 ~~~~~~~~~~~~~~~~
 {
@@ -275,26 +278,68 @@ A minimal claims set MAY be implemented when the Attester operates under constra
 /ueid/               256: bstr .size (7..33)
 /measurements/       273: measurements-type
 }
-~~~~~~~~~~~~~~~~
 
-The measurements claim MAY be formatted according to {{RFC9393}}.
-When CoSWID {{RFC9393}} is used, the claim MUST be an evidence CoSWID rather than a payload CoSWID.
-Formats other than CoSWID are permitted and MUST be identified by CoAP Content Format.
-
-
-~~~~~~~~~~~~~~~~
 measurements-type = [+ measurements-format]
-
 measurements-format = [
       content-format: uint,
       content: bytes
 ]
 ~~~~~~~~~~~~~~~~
 
+where
+
+* The "measurements" claim can be a CoSWID {{RFC9393}}.
+When CoSWID {{RFC9393}} is used, the claim MUST be an evidence CoSWID rather than a payload CoSWID.
+Formats other than CoSWID are permitted and MUST be identified by CoAP Content Format.
+
+In the forward EDHOC message flow, Evidence is sent in EDHOC message_3.
+The signature over the Evidence MUST include an attestation binder, which is defined as a cryptographic hash of the first two EDHOC messages.
+
+~~~~~~~~~~~~~~~~
+attestation_binder = H(message_1, message_2)
+~~~~~~~~~~~~~~~~
+
+where
+
+* H() is the EDHOC hash algorithm of the selected cipher suite.
+
+The inclusion of the attestation binder is mandatory to cryptographically bind the attestation to the authentication, and to ensure that the attester is the authenticated peer.
+The attestation binder prevents relay attacks whereby an attacker relays Evidence generated in a different session.
+
+The signature in COSE_Sign1 is computed over a Sig_structure containing protected header, externally supplied data (external_aad) and payload using a private attestation key.
+The message to be signed is:
+
+~~~~~~~~~~~~~~~~
+[ "Signature1", body_protected, external_aad, payload ]
+~~~~~~~~~~~~~~~~
+
+where
+
+* body_protected is the same CBOR byte string as the protected header in COSE_Sign1
+* external_aad = attestation_binder
+* payolad is the same CBOR byte string as the payload in COSE_Sign1
+
+
+In the reverse EDHOC message flow, Evidence is sent in EDHOC message_4.
+The signature over the Evidence MUST include an attestation binder, which is derived using EDHOC_Exporter defined in {{RFC9528}}.
+
+
+~~~~~~~~~~~~~~~~
+attestation_binder = EDHOC_Exporter (exporter_label, context, length)
+~~~~~~~~~~~~~~~~
+
+where
+
+* exporter_label = 2
+* context = "attestation_binder"
+* length = 32
+
+
 ## Model: Passport Model (PP) {#pp}
 
 In the passport model, the Attester sends the evidence to the Verifier.
 After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.
+The attestation result may carry a boolean value indicating compliance or non-compliance with a Verifier's apprasal policy, or many carry a set of claims to indicate the results in different aspects ({{Section 8.4 of RFC9334}}).
 
 An EDHOC session is established between the Attester (EDHOC Responder) and the Relying Party (EDHOC Initiator).
 The Attester and the Relying Party should decide from which Verifier the Attester obtains the attestation result and transfers it to the Relying Party.
@@ -353,8 +398,13 @@ The EAD item for an attestation result request is:
 Result_request = bstr .cbor Request_structure
 
 Request_structure = {
+<<<<<<< version04
+  selected_verifier: VerfierIdentity,
+  ? nonce: bstr .size (8..64)
+=======
   selected_verifier: VerifierIdentity,
   ? nonce: bstr .size 8..64
+>>>>>>> main
 }
 ~~~~~~~~~~~~~~~~
 
@@ -586,13 +636,14 @@ After the Relying Party receives EDHOC message_1 from the Attester, it extracts 
 The Verifier must support at least one evidence type for evaluation, otherwise it returns an empty list.
 Alongside the selected evidence type, the Verifier generates a random nonce and sends both elements to the Relying Party.
 
-When the Relying Party obtains EDHOC message_3, it forwards the evidence to the Verifier for evaluation.
+When the Relying Party obtains EDHOC message_3, it forwards the evidence and the attestation binder (hash of the first two EDHOC messages) to the Verifier for evaluation.
 
-The evidence evaluation process should include the verification of the signature, nonce validation, and measurement value comparison.
+The evidence evaluation process SHOULD include the signature verification, nonce validation, and comparison of measurement values against trusted reference values.
 An example evaluation procedure for evidence formatted as an Entity Attestation Token (EAT) within a COSE_Sign1 structure is as follows:
 
-1. Decode the COSE_Sign1 structure and extract constituent components: Headers, Payload, Signature.
+1. Decode the COSE_Sign1 structure and extract constituent components: headers, payload, signature.
 2. Verify the signature using the Attester's attestation public key.
+The Verifier reconstructs the Sig_Structure, with the attestation binder carried in the external_add field.
 3. Verify that the nonce exists in the Verifier's local nonce list. If the nonce is found, validation passes and the nonce is removed from the list to prevent replay attacks.
 4. Compare the received evidence measurement values against the reference value.
 The attestation result is returned to the Relying Party, with result generation conforming to the attestation token format defined in {{RFC9711}}.
@@ -620,6 +671,8 @@ Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in
 Mutual attestation carries a lower risk for EAD items when the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected to active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.
+
+The privacy considerations of remote attestation refer to {{Section 11 of RFC9334}}.
 
 # IANA Considerations
 
@@ -747,7 +800,7 @@ If the Verifier and the Relying Party can support at least one evidence type tha
 ~~~~~~~~~~~~~~~~
 
 The Evidence in EAD_3 field is an Entity Attestation Token (EAT) {{RFC9711}}, with the measurements claim formatted in CoSWID{{RFC9393}}.
-The components of the Evidence should at least be:
+The Evidence is in COSE_Sign1 structure, where the payload of COSE_Sign1 contains the following claims:
 
 ~~~~~~~~~~~~~~~~
 {
@@ -781,6 +834,22 @@ The components of the Evidence should at least be:
 ~~~~~~~~~~~~~~~~
 
 The infomation above serves as the payload of the COSE object.
+The Sig_structure to compute the signature of COSE_Sign1 is:
+
+~~~~~~~~~~~~~~~~~
+
+Sig_structure = [
+    "Signature1",
+    h'a10127',      /ED25519 algorithm, same as the protected header in COSE_Sign1/
+    h'7b4c94f32a0e6db86d915a444f76525fc32912b2e07dd481a96f627ee98a110c',      /hash of the first two EDHOC messages/
+    h'A30A48A29F62A4C6CDAAE519010047616161626263631901118182190102A50045746
+    16749440C00016F446F74426F74206669726D7761726502A2181F684174746573746572
+    18210103A11181A218187819706172746974696F6E302D6E72663532383430646B2E626
+    96E078201582006294F6806B9C685EEA795048579CFD02A0C025BC8B5ABCA42A19EA0EC
+    23E81A',                                                                   /same as the payload in COSE_Sign1/
+]
+~~~~~~~~~~~~~~~~~
+
 The complete resulting COSE object is:
 
 ~~~~~~~~~~~~~~~~~
@@ -818,7 +887,7 @@ C19133F2F0AC158C1F5EE6EDAFE9D7C3D6EB3D2D197F82E733D375FDDA9FB258B304961
 DFC38558950D
 ~~~~~~~~~~~~~~~~~
 
-The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it to the Verifier.
+The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it together with the hash value of the first two EDHOC messages to the Verifier.
 Once the Verifier sends back the Attestation Result, the Relying Party can be assured on the version of the firmware that the device is running.
 
 # Post-handshake Attestation over OSCORE
@@ -883,7 +952,7 @@ Post-handshake attestation gurantees the runtime integrity which can obtain dyna
 # Acknowledgments
 {:numbered="false"}
 
-The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson and Geovane Fedrecheski for the provided ideas and feedback.
+The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane Fedrecheski and John Mattsson for the provided ideas and feedback.
 
 Work on this document has in part been supported by the Horizon Europe Framework Programme project OpenSwarm (grant agreement No. 101093046).
 
