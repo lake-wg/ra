@@ -1416,7 +1416,8 @@ The Verifier is assumed to be provisioned with the Attester's attestation public
 It is assumed that the Relying Party also has knowledge about the Attester, so it can narrow down the evidence type selection and send to the Attester only one format of the evidence type.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">In the passport model, the credential identity of the Verifier is assumed to be stored at the Attester and the Relying Party, which means the Verifier is trusted by the Attester and the Relying Party to obtain the attestation result.
 If timestamps are used to ensure freshness in the passport model, synchronized time between the Attester and Relying Party is assumed.
-For detailed time considerations, refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-4-2" class="pilcrow">¶</a></p>
+For detailed time considerations, refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.
+If nonce is used to ensure freshness in the passport model, the IoT device is assumed to be able to generate a random byte string that is not predictable.<a href="#section-4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="attestation-dimensions">
@@ -1463,6 +1464,7 @@ For example, before transmitting sensitive data to a network gateway, a constrai
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-model-background-check-mode" class="section-name selfRef">Model: Background-check Model (BG)</a>
         </h3>
 <p id="section-5.3-1">In the background-check model, the Attester sends the evidence to the Relying Party.
+Evidence contains a set of claims about the current status of the Attester, including configurations, health or construction that have security relevance (see <span><a href="https://rfc-editor.org/rfc/rfc9334#section-8.1" class="relref">Section 8.1</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>).
 The Relying Party transfers the evidence to the Verifier and gets back the attestation result from the Verifier.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">An EDHOC session is established between the Attester and the Relying Party.
 A negotiation of the evidence type is required before the Attester sends the evidence.
@@ -1543,7 +1545,7 @@ Attestation_request = bstr .cbor Selected_EvidenceType
 
 Selected_EvidenceType = (
   content-format: uint,
-  nonce: bstr .size 8..64
+  nonce: bstr .size (8..64)
 )
 </pre><a href="#section-5.3.2-4" class="pilcrow">¶</a>
 </div>
@@ -1573,12 +1575,13 @@ The Evidence is sent in EAD_3 within EDHOC message_3.<a href="#section-5.3.3-1" 
               <p id="section-5.3.3-3.1.1">ead_label = TBD1<a href="#section-5.3.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.3.3-3.2">
-              <p id="section-5.3.3-3.2.1">ead_value is a serialized EAT.<a href="#section-5.3.3-3.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.3.3-3.2.1">ead_value is a serialized EAT in COSE_Sign1 structure.<a href="#section-5.3.3-3.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.3.3-4">For remote attestation over EDHOC, The EAT <span class="bcp14">MUST</span> be formatted as a CBOR Web Token (CWT) containing attestation-oriented claims.
-The complete set of attestation claims for the EAT is specified in <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>.<a href="#section-5.3.3-4" class="pilcrow">¶</a></p>
-<p id="section-5.3.3-5">A minimal claims set <span class="bcp14">MAY</span> be implemented when the Attester operates under constrained message size requirements and/or limited computational resources.<a href="#section-5.3.3-5" class="pilcrow">¶</a></p>
+The complete set of attestation claims for the EAT is specified in <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>.
+An example is provided in Section <a href="#firmware" class="auto internal xref">Appendix C</a>.<a href="#section-5.3.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3.3-5">A minimal claims set is defined as the payload of COSE_Sign1 when the Attester operates under constrained message size requirements and/or limited computational resources:<a href="#section-5.3.3-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.3.3-6">
 <pre>
 {
@@ -1586,21 +1589,75 @@ The complete set of attestation claims for the EAT is specified in <span>[<a hre
 /ueid/               256: bstr .size (7..33)
 /measurements/       273: measurements-type
 }
-</pre><a href="#section-5.3.3-6" class="pilcrow">¶</a>
-</div>
-<p id="section-5.3.3-7">The measurements claim <span class="bcp14">MAY</span> be formatted according to <span>[<a href="#RFC9393" class="cite xref">RFC9393</a>]</span>.
-When CoSWID <span>[<a href="#RFC9393" class="cite xref">RFC9393</a>]</span> is used, the claim <span class="bcp14">MUST</span> be an evidence CoSWID rather than a payload CoSWID.
-Formats other than CoSWID are permitted and <span class="bcp14">MUST</span> be identified by CoAP Content Format.<a href="#section-5.3.3-7" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.3.3-8">
-<pre>
-measurements-type = [+ measurements-format]
 
+measurements-type = [+ measurements-format]
 measurements-format = [
       content-format: uint,
       content: bytes
 ]
-</pre><a href="#section-5.3.3-8" class="pilcrow">¶</a>
+</pre><a href="#section-5.3.3-6" class="pilcrow">¶</a>
 </div>
+<p id="section-5.3.3-7">where<a href="#section-5.3.3-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.3-8.1">
+              <p id="section-5.3.3-8.1.1">The "measurements" claim can be a CoSWID <span>[<a href="#RFC9393" class="cite xref">RFC9393</a>]</span>.
+When CoSWID <span>[<a href="#RFC9393" class="cite xref">RFC9393</a>]</span> is used, the claim <span class="bcp14">MUST</span> be an evidence CoSWID rather than a payload CoSWID.
+Formats other than CoSWID are permitted and <span class="bcp14">MUST</span> be identified by CoAP Content Format.<a href="#section-5.3.3-8.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.3.3-9">In the forward EDHOC message flow, Evidence is sent in EDHOC message_3.
+The signature over the Evidence <span class="bcp14">MUST</span> include an attestation binder, which is defined as a cryptographic hash of the first two EDHOC messages.<a href="#section-5.3.3-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3.3-10">
+<pre>
+attestation_binder = H(message_1, message_2)
+</pre><a href="#section-5.3.3-10" class="pilcrow">¶</a>
+</div>
+<p id="section-5.3.3-11">where<a href="#section-5.3.3-11" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.3-12.1">
+              <p id="section-5.3.3-12.1.1">H() is the EDHOC hash algorithm of the selected cipher suite.<a href="#section-5.3.3-12.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.3.3-13">The inclusion of the attestation binder is mandatory to cryptographically bind the attestation to the authentication, and to ensure that the attester is the authenticated peer.
+The attestation binder prevents relay attacks whereby an attacker relays Evidence generated in a different session.<a href="#section-5.3.3-13" class="pilcrow">¶</a></p>
+<p id="section-5.3.3-14">The signature in COSE_Sign1 is computed over a Sig_structure containing protected header, externally supplied data (external_aad) and payload using a private attestation key.
+The message to be signed is:<a href="#section-5.3.3-14" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3.3-15">
+<pre>
+[ "Signature1", body_protected, external_aad, payload ]
+</pre><a href="#section-5.3.3-15" class="pilcrow">¶</a>
+</div>
+<p id="section-5.3.3-16">where<a href="#section-5.3.3-16" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.3-17.1">
+              <p id="section-5.3.3-17.1.1">body_protected is the same CBOR byte string as the protected header in COSE_Sign1<a href="#section-5.3.3-17.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.3.3-17.2">
+              <p id="section-5.3.3-17.2.1">external_aad = attestation_binder<a href="#section-5.3.3-17.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.3.3-17.3">
+              <p id="section-5.3.3-17.3.1">payolad is the same CBOR byte string as the payload in COSE_Sign1<a href="#section-5.3.3-17.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.3.3-18">In the reverse EDHOC message flow, Evidence is sent in EDHOC message_4.
+The signature over the Evidence <span class="bcp14">MUST</span> include an attestation binder, which is derived using EDHOC_Exporter defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-5.3.3-18" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3.3-19">
+<pre>
+attestation_binder = EDHOC_Exporter (exporter_label, context, length)
+</pre><a href="#section-5.3.3-19" class="pilcrow">¶</a>
+</div>
+<p id="section-5.3.3-20">where<a href="#section-5.3.3-20" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.3-21.1">
+              <p id="section-5.3.3-21.1.1">exporter_label = 2<a href="#section-5.3.3-21.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.3.3-21.2">
+              <p id="section-5.3.3-21.2.1">context = "attestation_binder"<a href="#section-5.3.3-21.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.3.3-21.3">
+              <p id="section-5.3.3-21.3.1">length = 32<a href="#section-5.3.3-21.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 </section>
@@ -1611,7 +1668,8 @@ measurements-format = [
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-model-passport-model-pp" class="section-name selfRef">Model: Passport Model (PP)</a>
         </h3>
 <p id="section-5.4-1">In the passport model, the Attester sends the evidence to the Verifier.
-After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.
+The attestation result may carry a boolean value indicating compliance or non-compliance with a Verifier's apprasal policy, or many carry a set of claims to indicate the results in different aspects (<span><a href="https://rfc-editor.org/rfc/rfc9334#section-8.4" class="relref">Section 8.4</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>).<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4-2">An EDHOC session is established between the Attester (EDHOC Responder) and the Relying Party (EDHOC Initiator).
 The Attester and the Relying Party should decide from which Verifier the Attester obtains the attestation result and transfers it to the Relying Party.
 The Attester first sends a list of the Verifier identities that it can get the attestation result.
@@ -1690,8 +1748,13 @@ Relying Party generates a nonce to ensure the freshness of the attestation resul
 Result_request = bstr .cbor Request_structure
 
 Request_structure = {
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; version04
+  selected_verifier: VerfierIdentity,
+  ? nonce: bstr .size (8..64)
+=======
   selected_verifier: VerifierIdentity,
   ? nonce: bstr .size 8..64
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; main
 }
 </pre><a href="#section-5.4.2-4" class="pilcrow">¶</a>
 </div>
@@ -2151,15 +2214,16 @@ The evaluation policy employed by the Verifier varies according to specific use 
 After the Relying Party receives EDHOC message_1 from the Attester, it extracts and transmits the Attestation proposal to the Verifier.
 The Verifier must support at least one evidence type for evaluation, otherwise it returns an empty list.
 Alongside the selected evidence type, the Verifier generates a random nonce and sends both elements to the Relying Party.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1-2">When the Relying Party obtains EDHOC message_3, it forwards the evidence to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.1-3">The evidence evaluation process should include the verification of the signature, nonce validation, and measurement value comparison.
+<p id="section-8.1-2">When the Relying Party obtains EDHOC message_3, it forwards the evidence and the attestation binder (hash of the first two EDHOC messages) to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-3">The evidence evaluation process <span class="bcp14">SHOULD</span> include the signature verification, nonce validation, and comparison of measurement values against trusted reference values.
 An example evaluation procedure for evidence formatted as an Entity Attestation Token (EAT) within a COSE_Sign1 structure is as follows:<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-8.1-4">
 <li id="section-8.1-4.1">
-            <p id="section-8.1-4.1.1">Decode the COSE_Sign1 structure and extract constituent components: Headers, Payload, Signature.<a href="#section-8.1-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-8.1-4.1.1">Decode the COSE_Sign1 structure and extract constituent components: headers, payload, signature.<a href="#section-8.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-8.1-4.2">
-            <p id="section-8.1-4.2.1">Verify the signature using the Attester's attestation public key.<a href="#section-8.1-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-8.1-4.2.1">Verify the signature using the Attester's attestation public key.
+The Verifier reconstructs the Sig_Structure, with the attestation binder carried in the external_add field.<a href="#section-8.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-8.1-4.3">
             <p id="section-8.1-4.3.1">Verify that the nonce exists in the Verifier's local nonce list. If the nonce is found, validation passes and the nonce is removed from the list to prevent replay attacks.<a href="#section-8.1-4.3.1" class="pilcrow">¶</a></p>
@@ -2198,6 +2262,7 @@ Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in
 <p id="section-9-5">Mutual attestation carries a lower risk for EAD items when the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected to active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.<a href="#section-9-5" class="pilcrow">¶</a></p>
+<p id="section-9-6">The privacy considerations of remote attestation refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-9-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -2523,7 +2588,7 @@ The remote attestation session starts with the Attester sending EAD_1 in EDHOC m
 </pre><a href="#appendix-C-5" class="pilcrow">¶</a>
 </div>
 <p id="appendix-C-6">The Evidence in EAD_3 field is an Entity Attestation Token (EAT) <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>, with the measurements claim formatted in CoSWID<span>[<a href="#RFC9393" class="cite xref">RFC9393</a>]</span>.
-The components of the Evidence should at least be:<a href="#appendix-C-6" class="pilcrow">¶</a></p>
+The Evidence is in COSE_Sign1 structure, where the payload of COSE_Sign1 contains the following claims:<a href="#appendix-C-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-C-7">
 <pre>
 {
@@ -2557,8 +2622,23 @@ The components of the Evidence should at least be:<a href="#appendix-C-6" class=
 </pre><a href="#appendix-C-7" class="pilcrow">¶</a>
 </div>
 <p id="appendix-C-8">The infomation above serves as the payload of the COSE object.
-The complete resulting COSE object is:<a href="#appendix-C-8" class="pilcrow">¶</a></p>
+The Sig_structure to compute the signature of COSE_Sign1 is:<a href="#appendix-C-8" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-C-9">
+<pre>
+Sig_structure = [
+    "Signature1",
+    h'a10127',      /ED25519 algorithm, same as the protected header in COSE_Sign1/
+    h'7b4c94f32a0e6db86d915a444f76525fc32912b2e07dd481a96f627ee98a110c',      /hash of the first two EDHOC messages/
+    h'A30A48A29F62A4C6CDAAE519010047616161626263631901118182190102A50045746
+    16749440C00016F446F74426F74206669726D7761726502A2181F684174746573746572
+    18210103A11181A218187819706172746974696F6E302D6E72663532383430646B2E626
+    96E078201582006294F6806B9C685EEA795048579CFD02A0C025BC8B5ABCA42A19EA0EC
+    23E81A',                                                                   /same as the payload in COSE_Sign1/
+]
+</pre><a href="#appendix-C-9" class="pilcrow">¶</a>
+</div>
+<p id="appendix-C-10">The complete resulting COSE object is:<a href="#appendix-C-10" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C-11">
 <pre>
 18([
     /*protected header*/
@@ -2578,10 +2658,10 @@ The complete resulting COSE object is:<a href="#appendix-C-8" class="pilcrow">¶
     h'd4100901f4c3e51312c3110c6ddc8dcf7f68d8f5d3791c19133f2f0ac158c1f5ee6ed
     afe9d7c3d6eb3d2d197f82e733d375fdda9fb258b304961dfc38558950d'
 ])
-</pre><a href="#appendix-C-9" class="pilcrow">¶</a>
+</pre><a href="#appendix-C-11" class="pilcrow">¶</a>
 </div>
-<p id="appendix-C-10">which has the following base16 encoding:<a href="#appendix-C-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-C-11">
+<p id="appendix-C-12">which has the following base16 encoding:<a href="#appendix-C-12" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C-13">
 <pre>
 D28443A10127A05890A30A48A29F62A4C6CDAAE51901004761616162626363190111818
 2190102A5004574616749440C00016F446F74426F74206669726D7761726502A2181F68
@@ -2590,10 +2670,10 @@ D28443A10127A05890A30A48A29F62A4C6CDAAE51901004761616162626363190111818
 B5ABCA42A19EA0EC23E81A5840D4100901F4C3E51312C3110C6DDC8DCF7F68D8F5D3791
 C19133F2F0AC158C1F5EE6EDAFE9D7C3D6EB3D2D197F82E733D375FDDA9FB258B304961
 DFC38558950D
-</pre><a href="#appendix-C-11" class="pilcrow">¶</a>
+</pre><a href="#appendix-C-13" class="pilcrow">¶</a>
 </div>
-<p id="appendix-C-12">The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it to the Verifier.
-Once the Verifier sends back the Attestation Result, the Relying Party can be assured on the version of the firmware that the device is running.<a href="#appendix-C-12" class="pilcrow">¶</a></p>
+<p id="appendix-C-14">The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it together with the hash value of the first two EDHOC messages to the Verifier.
+Once the Verifier sends back the Attestation Result, the Relying Party can be assured on the version of the firmware that the device is running.<a href="#appendix-C-14" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="post-handshake-attestation-over-oscore">
@@ -2707,7 +2787,7 @@ Post-handshake attestation gurantees the runtime integrity which can obtain dyna
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-E-1">The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson and Geovane Fedrecheski for the provided ideas and feedback.<a href="#appendix-E-1" class="pilcrow">¶</a></p>
+<p id="appendix-E-1">The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane Fedrecheski and John Mattsson for the provided ideas and feedback.<a href="#appendix-E-1" class="pilcrow">¶</a></p>
 <p id="appendix-E-2">Work on this document has in part been supported by the Horizon Europe Framework Programme project OpenSwarm (grant agreement No. 101093046).<a href="#appendix-E-2" class="pilcrow">¶</a></p>
 </section>
 </div>
