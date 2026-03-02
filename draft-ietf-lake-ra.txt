@@ -805,7 +805,7 @@ Table of Contents
    as manufacturer provisioning, trusted certification authorities, or
    direct configuration.  Reference values used for comparison against
    received evidence should also be provided to the Verifier before the
-   attesation.  The evaluation policy employed by the Verifer varies
+   attesation.  The evaluation policy employed by the Verifier varies
    according to specific use cases and should be determined prior to the
    attestation; such policy definition is out of scope in this
    specification.
