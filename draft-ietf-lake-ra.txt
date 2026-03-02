@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 23 April 2026                                       Ericsson AB
-                                                         20 October 2025
+Expires: 3 September 2026                                    Ericsson AB
+                                                            2 March 2026
 
 
                      Remote attestation over EDHOC
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -538,7 +538,7 @@ Table of Contents
    Result_request = bstr .cbor Request_structure
 
    Request_structure = {
-     selected_verifier: VerfierIdentity,
+     selected_verifier: VerifierIdentity,
      ? nonce: bstr .size 8..64
    }
 
@@ -950,17 +950,17 @@ Table of Contents
    [I-D.ietf-iotops-7228bis]
               Bormann, C., Ersue, M., Keränen, A., and C. Gomez,
               "Terminology for Constrained-Node Networks", Work in
-              Progress, Internet-Draft, draft-ietf-iotops-7228bis-02, 7
-              July 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-iotops-7228bis-02>.
+              Progress, Internet-Draft, draft-ietf-iotops-7228bis-03, 4
+              November 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-iotops-7228bis-03>.
 
    [I-D.ietf-lake-authz]
               Selander, G., Mattsson, J. P., Vučinić, M., Fedrecheski,
               G., and M. Richardson, "Lightweight Authorization using
               Ephemeral Diffie-Hellman Over COSE (ELA)", Work in
-              Progress, Internet-Draft, draft-ietf-lake-authz-05, 7 July
-              2025, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              lake-authz-05>.
+              Progress, Internet-Draft, draft-ietf-lake-authz-06, 20
+              October 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-lake-authz-06>.
 
    [IANA-CoAP-Content-Formats]
               "CoAP Content-Formats", n.d.,
