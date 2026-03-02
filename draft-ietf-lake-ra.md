@@ -353,7 +353,7 @@ The EAD item for an attestation result request is:
 Result_request = bstr .cbor Request_structure
 
 Request_structure = {
-  selected_verifier: VerfierIdentity,
+  selected_verifier: VerifierIdentity,
   ? nonce: bstr .size 8..64
 }
 ~~~~~~~~~~~~~~~~
@@ -886,3 +886,4 @@ Post-handshake attestation gurantees the runtime integrity which can obtain dyna
 The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson and Geovane Fedrecheski for the provided ideas and feedback.
 
 Work on this document has in part been supported by the Horizon Europe Framework Programme project OpenSwarm (grant agreement No. 101093046).
+
