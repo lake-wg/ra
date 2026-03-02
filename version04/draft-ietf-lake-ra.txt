@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 1 September 2026                                    Ericsson AB
-                                                        28 February 2026
+Expires: 3 September 2026                                    Ericsson AB
+                                                            2 March 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -595,8 +595,13 @@ Table of Contents
    Result_request = bstr .cbor Request_structure
 
    Request_structure = {
+   <<<<<<< version04
      selected_verifier: VerfierIdentity,
      ? nonce: bstr .size (8..64)
+   =======
+     selected_verifier: VerifierIdentity,
+     ? nonce: bstr .size 8..64
+   >>>>>>> main
    }
 
 5.4.3.  Result
@@ -862,7 +867,7 @@ Table of Contents
    as manufacturer provisioning, trusted certification authorities, or
    direct configuration.  Reference values used for comparison against
    received evidence should also be provided to the Verifier before the
-   attesation.  The evaluation policy employed by the Verifer varies
+   attesation.  The evaluation policy employed by the Verifier varies
    according to specific use cases and should be determined prior to the
    attestation; such policy definition is out of scope in this
    specification.
