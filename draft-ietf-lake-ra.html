@@ -1748,13 +1748,8 @@ Relying Party generates a nonce to ensure the freshness of the attestation resul
 Result_request = bstr .cbor Request_structure
 
 Request_structure = {
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; version04
   selected_verifier: VerfierIdentity,
   ? nonce: bstr .size (8..64)
-=======
-  selected_verifier: VerifierIdentity,
-  ? nonce: bstr .size 8..64
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; main
 }
 </pre><a href="#section-5.4.2-4" class="pilcrow">¶</a>
 </div>
