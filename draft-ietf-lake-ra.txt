@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 3 September 2026                                    Ericsson AB
-                                                            2 March 2026
+Expires: 15 September 2026                                   Ericsson AB
+                                                           14 March 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 15 September 2026.
 
 Copyright Notice
 
@@ -466,7 +466,7 @@ Table of Contents
    attestation binder, which is defined as a cryptographic hash of the
    first two EDHOC messages.
 
-   attestation_binder = H(message_1, message_2)
+   attestation_binder = H(H(message_1), message_2)
 
    where
 
@@ -1019,17 +1019,17 @@ Table of Contents
    [I-D.ietf-iotops-7228bis]
               Bormann, C., Ersue, M., Keränen, A., and C. Gomez,
               "Terminology for Constrained-Node Networks", Work in
-              Progress, Internet-Draft, draft-ietf-iotops-7228bis-03, 4
-              November 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-iotops-7228bis-03>.
+              Progress, Internet-Draft, draft-ietf-iotops-7228bis-04, 2
+              March 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-iotops-7228bis-04>.
 
    [I-D.ietf-lake-authz]
               Selander, G., Mattsson, J. P., Vučinić, M., Fedrecheski,
               G., and M. Richardson, "Lightweight Authorization using
               Ephemeral Diffie-Hellman Over COSE (ELA)", Work in
-              Progress, Internet-Draft, draft-ietf-lake-authz-06, 20
-              October 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-lake-authz-06>.
+              Progress, Internet-Draft, draft-ietf-lake-authz-07, 2
+              March 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-lake-authz-07>.
 
    [IANA-CoAP-Content-Formats]
               "CoAP Content-Formats", n.d.,
