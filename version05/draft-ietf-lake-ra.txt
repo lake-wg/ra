@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 26 September 2026                                   Ericsson AB
-                                                           25 March 2026
+Expires: 28 September 2026                                   Ericsson AB
+                                                           27 March 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 September 2026.
+   This Internet-Draft will expire on 28 September 2026.
 
 Copyright Notice
 
@@ -102,16 +102,18 @@ Table of Contents
    11. References
      11.1.  Normative References
      11.2.  Informative References
-   Appendix A.  Example: Firmware Version
-   Appendix B.  Post-handshake Attestation over OSCORE
-     B.1.  Mapping Attestation to OSCORE
-       B.1.1.  Flight 1
-       B.1.2.  Flight 2
-       B.1.3.  Flight 3
-     B.2.  Differences between Intra-handshake and Post-handshake
+   Appendix A.  Example: Device Onboarding: Firmware Version Check
+   Appendix B.  Re-attestation
+     B.1.  Intra-handshake Re-attestation using EDHOC Resumption with
+           PSK
+     B.2.  Post-handshake Re-attestation using OSCORE
+       B.2.1.  Flight 1
+       B.2.2.  Flight 2
+       B.2.3.  Flight 3
+     B.3.  Differences between Intra-handshake and Post-handshake
            Attestation
-       B.2.1.  Performance properties
-       B.2.2.  Security properties
+       B.3.1.  Performance properties
+       B.3.2.  Security properties
    Acknowledgments
    Authors' Addresses
 
@@ -1030,6 +1032,14 @@ Table of Contents
               March 2026, <https://datatracker.ietf.org/doc/html/draft-
               ietf-lake-authz-07>.
 
+   [I-D.ietf-lake-edhoc-psk]
+              Lopez-Perez, Selander, G., Mattsson, J. P., Marin-Lopez,
+              R., and F. Lopez-Gomez, "EDHOC Authenticated with Pre-
+              Shared Keys (PSK)", Work in Progress, Internet-Draft,
+              draft-ietf-lake-edhoc-psk-07, 2 March 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-lake-
+              edhoc-psk-07>.
+
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
               W. Pan, "Concise Reference Integrity Manifest", Work in
@@ -1085,11 +1095,17 @@ Table of Contents
               (OSCORE)", RFC 9668, DOI 10.17487/RFC9668, November 2024,
               <https://www.rfc-editor.org/rfc/rfc9668>.
 
-Appendix A.  Example: Firmware Version
+Appendix A.  Example: Device Onboarding: Firmware Version Check
 
-   The goal in this example is to verify that the firmware running on
-   the device is the latest version, and is neither tampered or
-   compromised.  A device acts as the Attester, currently in an
+   The goal in this device onboarding example is to verify that the
+   firmware running on the device is the latest version, and is neither
+   tampered or compromised.  The objective of onboarding is both
+   authentication and integrity verification.  If either one is
+   compromised, the objective fails.  In particular, if the attestation
+   private key is leaked, the device firmware can no longer be trusted,
+   so the value of valid authentication is significantly reduced.
+
+   In this example, a device acts as the Attester, currently in an
    untrusted state.  The Attester needs to generate the evidence to
    attest itself.  A gateway that can communicate with the Attester and
    can control its access to the network acts as the Relying Party.  The
@@ -1196,7 +1212,22 @@ Sig_structure = [
    back the Attestation Result, the Relying Party can be assured on the
    version of the firmware that the device is running.
 
-Appendix B.  Post-handshake Attestation over OSCORE
+Appendix B.  Re-attestation
+
+   The trust relationship established during the initial EDHOC exchange
+   may become outdated over time due to changes in device state.  To
+   maintain a valid trust relationship, a peer may require updated
+   assurance periodically.  This section presents two re-attestation
+   approaches: re-attestation during EDHOC resumption and re-attestation
+   using OSCORE.
+
+B.1.  Intra-handshake Re-attestation using EDHOC Resumption with PSK
+
+   An approach that is more lightweight than running the same EDHOC
+   protocol again is to run session resumption using EDHOC-PSK, which is
+   defined in Section 6 of [I-D.ietf-lake-edhoc-psk].
+
+B.2.  Post-handshake Re-attestation using OSCORE
 
    Beyond the intra-handshake attestation defined in this document,
    remote attestation after an EDHOC session can be performed via post-
@@ -1207,17 +1238,10 @@ Appendix B.  Post-handshake Attestation over OSCORE
    EDHOC can run over CoAP to establish a Security Context for OSCORE.
 
    Post-handshake attestation decouples attestation process from the
-   initial handshake, enabling continuous attestation throughout the
-   session lifetime and guaranteeing the runtime integrity.
+   initial handshake, enabling re-attestation throughout the session
+   lifetime and guaranteeing the runtime integrity.
 
-B.1.  Mapping Attestation to OSCORE
-
-   This section outlines how remote attestation is performed in the
-   background-check model over OSCORE.
-
-   EDITOR NOTE: put a figure
-
-B.1.1.  Flight 1
+B.2.1.  Flight 1
 
    The CoAP client (Attester) initiates attestation with a CoAP request:
 
@@ -1228,7 +1252,7 @@ B.1.1.  Flight 1
    *  The payload is the Attestation_proposal CBOR sequence, where
       Attestation_proposal is constructed as defined in Section 5.3.1.
 
-B.1.2.  Flight 2
+B.2.2.  Flight 2
 
    The CoAP server (Relying Party) receives the request and processes it
    as described in Section 5.3 then prepares Attestation_request as
@@ -1240,7 +1264,7 @@ B.1.2.  Flight 2
    *  The payload is the Attestation_request CBOR sequence, as defined
       in Section 5.3.2.
 
-B.1.3.  Flight 3
+B.2.3.  Flight 3
 
    The CoAP client (Attester) receives the response and processes it as
    described in Section 5.3 then generates the evidence.  The CoAP
@@ -1253,7 +1277,7 @@ B.1.3.  Flight 3
    *  The payload is the Evidence CBOR sequence, as defined in
       Section 5.3.3.
 
-B.2.  Differences between Intra-handshake and Post-handshake Attestation
+B.3.  Differences between Intra-handshake and Post-handshake Attestation
 
    Intra-handshake attestation embeds evidence exchange into the
    authentication handshake, cryptographically tying identity to device
@@ -1265,7 +1289,7 @@ B.2.  Differences between Intra-handshake and Post-handshake Attestation
    types of remote attestation methods in terms of performance and
    security properties.
 
-B.2.1.  Performance properties
+B.3.1.  Performance properties
 
    Intra-handshake attestation provides round-trip efficiency as
    attestation occurs within the handshake, requiring no additional
@@ -1275,7 +1299,7 @@ B.2.1.  Performance properties
    higher modularity which the attestation is integrated independently
    but it requires additional round trips.
 
-B.2.2.  Security properties
+B.3.2.  Security properties
 
    Remote attestation provides security properties including evidence
    integrity, freshness guarantees, and replay protection.  Besides,
