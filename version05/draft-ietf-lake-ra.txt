@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 28 September 2026                                   Ericsson AB
-                                                           27 March 2026
+Expires: 1 October 2026                                      Ericsson AB
+                                                           30 March 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 September 2026.
+   This Internet-Draft will expire on 1 October 2026.
 
 Copyright Notice
 
@@ -1223,19 +1223,20 @@ Appendix B.  Re-attestation
 
 B.1.  Intra-handshake Re-attestation using EDHOC Resumption with PSK
 
-   An approach that is more lightweight than running the same EDHOC
-   protocol again is to run session resumption using EDHOC-PSK, which is
-   defined in Section 6 of [I-D.ietf-lake-edhoc-psk].
+   Remote attestation can be applied during EDHOC session resumption
+   using EDHOC-PSK, as defined in Section 6 of
+   [I-D.ietf-lake-edhoc-psk].  This enables re-attestation without
+   public key based authentication.
 
 B.2.  Post-handshake Re-attestation using OSCORE
 
-   Beyond the intra-handshake attestation defined in this document,
-   remote attestation after an EDHOC session can be performed via post-
-   handshake attestation over Object Security for Constrained RESTful
-   Environments (OSCORE) [RFC8613].  OSCORE provides application-layer
-   protection for the Constrained Application Protocol (CoAP) using CBOR
-   Object Signing and Encryption (COSE).  As specified in [RFC9668],
-   EDHOC can run over CoAP to establish a Security Context for OSCORE.
+   Post-handshake attestation can be performed after an EDHOC session
+   using Object Security for Constrained RESTful Environments (OSCORE)
+   [RFC8613].  EDHOC is then used to establish an OSCORE Security
+   Context, as specified in [RFC9668].  OSCORE provides application-
+   layer protection for RESTful message exchanges, for example the
+   Constrained Application Protocol (CoAP), which can be used to carry
+   attestation information.
 
    Post-handshake attestation decouples attestation process from the
    initial handshake, enabling re-attestation throughout the session

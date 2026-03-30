@@ -1050,7 +1050,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 28 September 2026</td>
+<td class="center">Expires 1 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-27" class="published">27 March 2026</time>
+<time datetime="2026-03-30" class="published">30 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-28">28 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-01">1 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2399,7 +2399,8 @@ This section presents two re-attestation approaches: re-attestation during EDHOC
         <h3 id="name-intra-handshake-re-attestat">
 <a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-intra-handshake-re-attestat" class="section-name selfRef">Intra-handshake Re-attestation using EDHOC Resumption with PSK</a>
         </h3>
-<p id="appendix-B.1-1">An approach that is more lightweight than running the same EDHOC protocol again is to run session resumption using EDHOC-PSK, which is defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07#section-6" class="relref">Section 6</a> of [<a href="#I-D.ietf-lake-edhoc-psk" class="cite xref">I-D.ietf-lake-edhoc-psk</a>]</span>.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-1">Remote attestation can be applied during EDHOC session resumption using EDHOC-PSK, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07#section-6" class="relref">Section 6</a> of [<a href="#I-D.ietf-lake-edhoc-psk" class="cite xref">I-D.ietf-lake-edhoc-psk</a>]</span>.
+This enables re-attestation without public key based authentication.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="post-handshake-re-attestation-using-oscore">
@@ -2407,9 +2408,9 @@ This section presents two re-attestation approaches: re-attestation during EDHOC
         <h3 id="name-post-handshake-re-attestati">
 <a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-post-handshake-re-attestati" class="section-name selfRef">Post-handshake Re-attestation using OSCORE</a>
         </h3>
-<p id="appendix-B.2-1">Beyond the intra-handshake attestation defined in this document, remote attestation after an EDHOC session can be performed via post-handshake attestation over Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.
-OSCORE provides application-layer protection for the Constrained Application Protocol (CoAP) using CBOR Object Signing and Encryption (COSE).
-As specified in <span>[<a href="#RFC9668" class="cite xref">RFC9668</a>]</span>, EDHOC can run over CoAP to establish a Security Context for OSCORE.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.2-1">Post-handshake attestation can be performed after an EDHOC session using Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.
+EDHOC is then used to establish an OSCORE Security Context, as specified in <span>[<a href="#RFC9668" class="cite xref">RFC9668</a>]</span>.
+OSCORE provides application-layer protection for RESTful message exchanges, for example the Constrained Application Protocol (CoAP), which can be used to carry attestation information.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
 <p id="appendix-B.2-2">Post-handshake attestation decouples attestation process from the initial handshake, enabling re-attestation throughout the session lifetime and guaranteeing the runtime integrity.<a href="#appendix-B.2-2" class="pilcrow">¶</a></p>
 <div id="flight-1">
 <section id="appendix-B.2.1">
