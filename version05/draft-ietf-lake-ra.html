@@ -1050,7 +1050,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 1 October 2026</td>
+<td class="center">Expires 2 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-30" class="published">30 March 2026</time>
+<time datetime="2026-03-31" class="published">31 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-01">1 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-02">2 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1217,10 +1217,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-instantiation-of-remote-att" class="internal xref">Instantiation of Remote Attestation Protocol</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-i-bg-iot-device-attestation" class="internal xref">(I, BG): IoT Device Attestation</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-i-bg-edhoc-initiator-attest" class="internal xref">(I, BG): EDHOC Initiator Attestation in the Background-check Model</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-r-pp-network-service-attest" class="internal xref">(R, PP): Network Service Attestation</a></p>
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-r-pp-edhoc-responder-attest" class="internal xref">(R, PP): EDHOC Responder Attestation in the Passport Model</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-r-bg-edhoc-responder-attest" class="internal xref">(R, BG): EDHOC Responder Attestation in the Background-check Model</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-i-pp-edhoc-initiator-attest" class="internal xref">(I, PP): EDHOC Initiator Attestation in the Passport Model</a></p>
 </li>
             </ul>
 </li>
@@ -1841,126 +1847,269 @@ The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label s
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-instantiation-of-remote-att" class="section-name selfRef">Instantiation of Remote Attestation Protocol</a>
       </h2>
 <p id="section-6-1">We use the format (Target, Model) to denote instantiations.
-For example, (I, BG) represents the Initiator as an Attester performing attestation using the background-check model.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">There are 4 possible instantiations combining I/R and BG/PP configurations.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<div id="iot-attesation">
+In particular:<a href="#section-6-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6-2.1">
+          <p id="section-6-2.1.1">I means that the EDHOC Initiator is the Attester.<a href="#section-6-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-2.2">
+          <p id="section-6-2.2.1">R means that the EDHOC Responder is the Attester.<a href="#section-6-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-2.3">
+          <p id="section-6-2.3.1">BG denotes the background-check model.<a href="#section-6-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-2.4">
+          <p id="section-6-2.4.1">PP denotes the passport model.<a href="#section-6-2.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-6-3">For example, (I, BG) represents the Initiator as an Attester performing attestation using the background-check model.
+The four possible instantiations are therefore: (I, BG), (R, PP), (R, BG), and (I, PP).<a href="#section-6-3" class="pilcrow">¶</a></p>
+<div id="iot-attestation">
 <section id="section-6.1">
-        <h3 id="name-i-bg-iot-device-attestation">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-i-bg-iot-device-attestation" class="section-name selfRef">(I, BG): IoT Device Attestation</a>
+        <h3 id="name-i-bg-edhoc-initiator-attest">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-i-bg-edhoc-initiator-attest" class="section-name selfRef">(I, BG): EDHOC Initiator Attestation in the Background-check Model</a>
         </h3>
-<p id="section-6.1-1">A common use case for (I, BG) is to attest an IoT device (EDHOC Initiator) to a network server (EDHOC Responder).
-For example, a simple illustratice case is doing remote attestation to verify that the latest version of firmware is running on the IoT device before the network server allows it to join the network (see <a href="#firmware" class="auto internal xref">Appendix A</a>).<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">An overview of doing IoT device attestation in background-check model and EDHOC forward message flow is established in <a href="#fig-iot-bg-fwd" class="auto internal xref">Figure 1</a>.
-EDHOC Initiator plays the role of the RATS Attester (A).
-EDHOC Responder plays the role of the RATS Relying Party (RP).
+<p id="section-6.1-1">In this instantiation, the constrained EDHOC Initiator acts as the RATS Attester and the EDHOC Responder acts as the RATS Relying Party.
+An overview of EDHOC Initiator attestation in the background-check model is illustrated in <a href="#fig-iot-bg-fwd" class="auto internal xref">Figure 1</a>.
 The Attester and the Relying Party communicate by transporting messages within EDHOC's External Authorization Data (EAD) fields.
-An external entity, out of scope of this specification, plays the role of the RATS Verifier (V).
-The EAD items specific to the background-check model are defined in <a href="#bg" class="auto internal xref">Section 5.3</a>.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.1-3">The Attester starts the attestation by sending an Attestation proposal in EDHOC message_1.
-The Relying Party generates EAD_2 with the received evidence type and nonce from the Verifier, and sends it to the Attester.
-The Attester sends the Evidence to the Relying Party in EAD_3.
-The Verifier evaluates the Evidence and sends the Attestation result to the Relying Party.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<span id="name-overview-of-iot-device-atte"></span><div id="fig-iot-bg-fwd">
+An external entity plays the role of the RATS Verifier (V).
+The EAD items specific to the background-check model are defined in <a href="#bg" class="auto internal xref">Section 5.3</a>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">The Attester starts the attestation by sending an Attestation proposal in EDHOC message_1.
+The Relying Party generates EAD_2 with the received evidence type(s) and nonce from the Verifier, and sends an Attestation request to the Attester.
+The Attester generates the Evidence with the attestation_binder embedded and sends the Evidence to the Relying Party in EAD_3.
+The Relying Party verifies the attestation_binder and then sends the Evidence together with the attestation_binder to the Verifier.
+The Verifier evaluates the Evidence and sends the Attestation result to the Relying Party.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">A common use case for (I, BG) is to attest an IoT device (EDHOC Initiator) to a network server (EDHOC Responder).
+For example, a simple illustrative example is performing remote attestation to verify that the latest version of firmware is running on the IoT device before the network server allows it to join the network (see <a href="#firmware" class="auto internal xref">Appendix A</a>).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<span id="name-overview-of-edhoc-initiator"></span><div id="fig-iot-bg-fwd">
 <figure id="figure-1">
           <div class="alignCenter art-text artwork" id="section-6.1-4.1">
 <pre>
 +--------------------------------+               +-------------------+
-|         EDHOC Initiator        |               |  EDHOC Responder  |
+|  Constrained EDHOC Initiator   |               |  EDHOC Responder  |
 +--------------------------------+               +-------------------+             +----------+
 | Attestation Service | Attester |               |   Relying Party   |             | Verifier |
 +--+------------------------+----+               +---------+---------+             +-----+----+
-   |                        |                              |                             |
-   |                        |                              |                             |
-   |                        |       EDHOC message_1        |                             |
-   |                        +-----------------------------&gt;|                             |
-   |                        | EAD_1 = Attestation_proposal |                             |
-   |                        |                              |        types(a,b,c)         |
-   |                        |                              +----------------------------&gt;|
-   |                        |                              |                             |
-   |                        |                              | Body:{ nonce, types(a,b) }  |
-   |                        |                              |&lt;----------------------------+
-   |                        |       EDHOC message_2        |                             |
-   |                        |&lt;-----------------------------+                             |
-   |                        | EAD_2 = Attestation_request  |                             |
-   |                        |                              |                             |
-   | Body:{ nonce, type(a) }|                              |                             |
-   |&lt;-----------------------+                              |                             |
-   |                        |                              |                             |
-   | Body:{ Evidence }      |                              |                             |
-   +-----------------------&gt;|                              |                             |
-   |                        |       EDHOC message_3        |                             |
-   |                        +-----------------------------&gt;|                             |
-   |                        |    EAD_3 = Evidence (EAT)    |                             |
-   |                        |                              |                             |
-   |                        |                              | Body:{ EAT,                 |
-   |                        |                              |        attestation_binder } |
-   |                        |                              +----------------------------&gt;|
-   |                        |                              | Body:{ att-result: AR{} }   |
-   |                        |                              |&lt;----------------------------+
-   |                        |                              +---.                         |
-   |                        |                              |    | verify AR{}            |
-   |                        |                              |&lt;--'                         |
-   |                        |       application data       |                             |
-   |                        |&lt;----------------------------&gt;|                             |
-   |                        |                              |                             |
+       |                    |                              |                             |
+       |                    |                              |                             |
+       |                    |       EDHOC message_1        |                             |
+       |                    +-----------------------------&gt;|                             |
+       |                    | EAD_1 = Attestation_proposal |                             |
+       |                    | { types(a,b,c) }             |                             |
+       |                    |                              | Body: { types(a,b,c) }      |
+       |                    |                              +----------------------------&gt;|
+       |                    |                              |                             |
+       |                    |                              | Body:{ types(a,b), nonce }  |
+       |                    |                              |&lt;----------------------------+
+       |                    |       EDHOC message_2        |                             |
+       |                    |&lt;-----------------------------+                             |
+       |                    | EAD_2 = Attestation_request  |                             |
+       |                    | { types(a), nonce }          |                             |
+       |                    |                              |                             |
+       | type(a), nonce,    |                              |                             |
+       | attestation_binder |                              |                             |
+       |&lt;-------------------+                              |                             |
+       |                    |                              |                             |
+       | Evidence (EAT)     |                              |                             |
+       +-------------------&gt;|                              |                             |
+       |                    |       EDHOC message_3        |                             |
+       |                    +-----------------------------&gt;|                             |
+       |                    | EAD_3 = Evidence             |                             |
+       |                    | { EAT }                      |                             |
+       |                    |                              |                             |
+       |                    |                              | Body:{ EAT,                 |
+       |                    |                              |        attestation_binder } |
+       |                    |                              +----------------------------&gt;|
+       |                    |                              | Body:{ att-result: AR{} }   |
+       |                    |                              |&lt;----------------------------+
+       |                    |                              +---.                         |
+       |                    |                              |    | verify AR{}            |
+       |                    |                              |&lt;--'                         |
+       |                    |       application data       |                             |
+       |                    |&lt;============================&gt;|                             |
+       |                    |                              |                             |
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
-<a href="#name-overview-of-iot-device-atte" class="selfRef">Overview of IoT device attestation in background-check model and EDHOC forward message flow. EDHOC is used between A and RP.</a>
+<a href="#name-overview-of-edhoc-initiator" class="selfRef">Overview of EDHOC Initiator attestation in background-check model. EDHOC is used between A and RP.</a>
           </figcaption></figure>
 </div>
 </section>
 </div>
 <div id="network-attestation">
 <section id="section-6.2">
-        <h3 id="name-r-pp-network-service-attest">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-r-pp-network-service-attest" class="section-name selfRef">(R, PP): Network Service Attestation</a>
+        <h3 id="name-r-pp-edhoc-responder-attest">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-r-pp-edhoc-responder-attest" class="section-name selfRef">(R, PP): EDHOC Responder Attestation in the Passport Model</a>
         </h3>
-<p id="section-6.2-1">One use case for (R, PP) is when a network server (EDHOC Responder) needs to attest itself to a client (e.g., an IoT device(EDHOC Initiator)).
-For example, the client needs to send some sensitive data to the network server, which requires the network server to be attested first.
-In (R, PP), the network server acts as an Attester and the client acts as a Relying Party.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">An overview of the message flow is illustrated in <a href="#fig-net-pp-fwd" class="auto internal xref">Figure 2</a>.
-EDHOC Initiator plays the role of the RATS Relying Party.
-EDHOC Responder plays the role of the RATS Attester.
-An external entity, out of scope of this specification, plays the role of the RATS Verifier.
-The EAD items specific to the passport model are defined in <a href="#pp" class="auto internal xref">Section 5.4</a>.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
-<p id="section-6.2-3">The Relying Party asks the Attester to do a remote attestation by sending a trigger_pp (see <a href="#trigger-pp" class="auto internal xref">Section 5.4.4</a>) in EDHOC message_1.
+<p id="section-6.2-1">In this instantiation, the constrained EDHOC Responder acts as the RATS Attester and the EDHOC Initiator acts as the RATS Relying Party.
+An overview of the message flow is illustrated in <a href="#fig-net-pp-fwd" class="auto internal xref">Figure 2</a>.
+The EAD items specific to the passport model are defined in <a href="#pp" class="auto internal xref">Section 5.4</a>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">The Relying Party asks the Attester to do a remote attestation by sending a trigger_pp (see <a href="#trigger-pp" class="auto internal xref">Section 5.4.4</a>) in EDHOC message_1.
 The Attester replies to the Relying Party with a Result proposal in EAD_2.
 Then the Relying Party selects a trusted Verifier identity and sends it as a Result request.
 How the Attester negotiates with the selected Verifier to get the attestation result is out of scope of this specification.
-A fourth EDHOC message is required to send the Result from the Attester to the Relying Party.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
-<span id="name-overview-of-network-service"></span><div id="fig-net-pp-fwd">
+A fourth EDHOC message is required to send the Result from the Attester to the Relying Party.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">One use case for (R, PP) is when a network server (EDHOC Responder) needs to attest itself to a client (e.g., an IoT device (EDHOC Initiator)).
+For example, the client needs to send some sensitive data to the network server, which requires the network server to be attested first.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<span id="name-overview-of-edhoc-responder"></span><div id="fig-net-pp-fwd">
 <figure id="figure-2">
           <div class="alignCenter art-text artwork" id="section-6.2-4.1">
 <pre>
-+-----------------+          +-----------------+
-| EDHOC Initiator |          | EDHOC Responder |
-+-----------------+          +-----------------+            +----------+
-|  Relying Party  |          |     Attester    |            | Verifier |
-+--------+--------+          +--------+--------+            +-----+----+
-         |                            |                           |
-         |  EAD_1 = trigger_PP        |                           |
-         +---------------------------&gt;|                           |
-         |                            |                           |
-         |  EAD_2 = Result proposal   |                           |
-         |&lt;---------------------------+                           |
-         |                            |                           |
-         |  EAD_3 = Result request    |                           |
-         +---------------------------&gt;|     Evidence + Nonce      |
-         |                            +---  ---  ---  ---  --- --&gt;|
-         |                            |&lt;---  ---  ---  --- ---  --+
-         |                            |         Result            |
-         |  EAD_4 = Result            |                           |
-         |&lt;---------------------------+                           |
-         |                            |                           |
-         |                            |                           |
-         |                            |                           |
-         | &lt;------------------------&gt; |                           |
-         |       EDHOC session        |                           |
++-----------------------------+        +-----------------+
+| Constrained EDHOC Initiator |        | EDHOC Responder |
++-----------------------------+        +-----------------+          +--------------+
+|        Relying Party        |        |     Attester    |          | Verifier (2) |
++--------------+--------------+        +--------+--------+          +-------+------+
+               |                                |                           |
+               |        EDHOC message_1         |                           |
+               +-------------------------------&gt;|                           |
+               |   EAD_1 = trigger_pp           |                           |
+               |                                |                           |
+               |        EDHOC message_2         |                           |
+               |&lt;-------------------------------+                           |
+               |   EAD_2 = Result_proposal      |                           |
+               |   { Verifier(1,2,3) }          |                           |
+               |                                |                           |
+               |        EDHOC message_3         |                           |
+               +-------------------------------&gt;|                           |
+               |   EAD_3 = Result_request       |                           |
+               |   { Verifier(2), nonce }       |                           |
+               |                                |     Evidence + nonce      |
+               |                                +---  ---  ---  ---  --- --&gt;|
+               |                                |          Result           |
+               |                                |&lt;---  ---  ---  --- ---  --+
+               |        EDHOC message_4         |                           |
+               |&lt;-------------------------------+                           |
+               |   EAD_4 = Result               |                           |
+               |   { EAT }                      |                           |
+               |                                |                           |
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
-<a href="#name-overview-of-network-service" class="selfRef">Overview of network service attestation in passport model and EDHOC forward message flow. EDHOC is used between RP and A. The dashed line illustrates a logical connection that does not need to occur in real time.</a>
+<a href="#name-overview-of-edhoc-responder" class="selfRef">Overview of EDHOC Responder attestation in passport model. EDHOC is used between RP and A. The dashed line illustrates a logical connection that does not need to occur in real time.</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="r_bg">
+<section id="section-6.3">
+        <h3 id="name-r-bg-edhoc-responder-attest">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-r-bg-edhoc-responder-attest" class="section-name selfRef">(R, BG): EDHOC Responder Attestation in the Background-check Model</a>
+        </h3>
+<p id="section-6.3-1">In this instantiation, the constrained EDHOC Responder acts as the RATS Attester and the EDHOC Initiator acts as the RATS Relying Party.
+An overview of the message flow is illustrated in <a href="#fig-r-bg" class="auto internal xref">Figure 3</a>.
+The EAD items specific to the background-check model are defined in <a href="#bg" class="auto internal xref">Section 5.3</a>.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">The Relying Party initiates the procedure by sending trigger_bg in EAD_1 of message_1.
+The Attester responds with an Attestation proposal in EAD_2 of message_2, indicating the evidence types it can provide.
+The Relying Party forwards this proposal to the Verifier, which selects its supported evidence types and provides a nonce.
+The Relying Party then sends an Attestation request in EAD_3 of message_3.
+Upon receipt of the Attestation request, the Attester generates the Evidence with the attestation_binder embedded and returns it in EAD_4 of message_4.
+The Relying Party forwards the Evidence to the Verifier and receives an Attestation result.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">Note that this is a post-handshake attestation since EDHOC completes the authenticated key exchange after message_3.
+Therefore, the attestation_binder in this instantiation is derived using EDHOC_Exporter (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>).<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+<span id="name-overview-of-edhoc-responder-"></span><div id="fig-r-bg">
+<figure id="figure-3">
+          <div class="alignCenter art-text artwork" id="section-6.3-4.1">
+<pre>
+                         +-------------------+               +--------------------------------+
+                         |  EDHOC Initiator  |               |  Constrained EDHOC Responder   |
++----------+             +-------------------+               +--------------------------------+
+| Verifier |             |   Relying Party   |               | Attester | Attestation Service |
++----------+             +---------+---------+               +----+-------------------+-------+
+      |                            |                              |                   |
+      |                            |      EDHOC message_1         |                   |
+      |                            +-----------------------------&gt;|                   |
+      |                            | EAD_1 = trigger_bg           |                   |
+      |                            |                              |                   |
+      |                            |                              |                   |
+      |                            |      EDHOC message_2         |                   |
+      |                            |&lt;-----------------------------+                   |
+      |                            | EAD_2 = Attestation_proposal |                   |
+      |                            | { types(a,b,c) }             |                   |
+      | Body: { types(a,b,c) }     |                              |                   |
+      |&lt;---------------------------+                              |                   |
+      |                            |                              |                   |
+      | Body: { types(a,b), nonce }|                              |                   |
+      +---------------------------&gt;|                              |                   |
+      |                            |      EDHOC message_3         |                   |
+      |                            +-----------------------------&gt;|                   |
+      |                            | EAD_3 = Attestation_request  |                   |
+      |                            | { types(a), nonce }          |                   |
+      |                            |                              | types(a), nonce,  |
+      |                            |                              | attestation_binder|
+      |                            |                              |------------------&gt;+
+      |                            |                              |                   |
+      |                            |                              | Evidence (EAT)    |
+      |                            |                              |&lt;------------------+
+      |                            |      EDHOC message_4         |                   |
+      |                            |&lt;-----------------------------+                   |
+      |                            | EAD_4 = Evidence             |                   |
+      |                            | { EAT }                      |                   |
+      | Body: { EAT,               |                              |                   |
+      |        attestation_binder }|                              |                   |
+      |&lt;---------------------------+                              |                   |
+      |                            |                              |                   |
+      | Body: { att-result: AR{} } |                              |                   |
+      +---------------------------&gt;|                              |                   |
+      |                            +---.                          |                   |
+      |                            |    | verify AR {}            |                   |
+      |                            |&lt;--'                          |                   |
+      |                            |                              |                   |
+      |                            |       application data       |                   |
+      |                            |&lt;============================&gt;|                   |
+      |                            |                              |                   |
+</pre>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-overview-of-edhoc-responder-" class="selfRef">Overview of EDHOC Responder attestation in background-check model. EDHOC is used between A and RP.</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="i_pp">
+<section id="section-6.4">
+        <h3 id="name-i-pp-edhoc-initiator-attest">
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-i-pp-edhoc-initiator-attest" class="section-name selfRef">(I, PP): EDHOC Initiator Attestation in the Passport Model</a>
+        </h3>
+<p id="section-6.4-1">In this instantiation, the constrained EDHOC Initiator acts as the RATS Attester and the EDHOC Responder acts as the RATS Relying Party.
+An overview of the message flow is illustrated in <a href="#fig-i-pp" class="auto internal xref">Figure 4</a>.
+The EAD items specific to the passport model are defined in <a href="#pp" class="auto internal xref">Section 5.4</a>.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">The Attester initiates the procedure by sending a Result proposal in EAD_1 of message_1, indicating the Verifier identities it can communicate.
+The Relying Party selects a Verifier and sends a Result request in EAD_2 of message_2, together with a nonce.
+The Attester interacts with the selected Verifier to obtain an Attestation Result.
+How the Attester negotiates with the selected Verifier to get the attestation result is out of scope of this specification.
+The Attester then returns the Result in EAD_3 of message_3, after which the Relying Party can decide whether to continue with application data exchange.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<span id="name-overview-of-edhoc-initiator-"></span><div id="fig-i-pp">
+<figure id="figure-4">
+          <div class="alignCenter art-text artwork" id="section-6.4-3.1">
+<pre>
+                       +-----------------+         +-----------------------------+
+                       | EDHOC Initiator |         | Constrained EDHOC Responder |
++--------------+       +-----------------+         +-----------------------------+
+| Verifier (2) |       |    Attester     |         |       Relying Party         |
++-------+------+       +--------+--------+         +--------------+--------------+
+        |                       |                                 |
+        |                       |        EDHOC message_1          |
+        |                       +--------------------------------&gt;|
+        |                       |   EAD_1 = Result_proposal       |
+        |                       |   { Verifier(1,2,3) }           |
+        |                       |                                 |
+        |                       |        EDHOC message_2          |
+        |                       |&lt;--------------------------------+
+        |                       |   EAD_2 = Result_request        |
+        |                       |   { Verifier(2), nonce }        |
+        |   Evidence + nonce    |                                 |
+        |&lt;-- --- --- --- --- ---+                                 |
+        |        Result         |                                 |
+        +--- --- --- --- --- --&gt;|        EDHOC message_3          |
+        |                       +--------------------------------&gt;|
+        |                       |   EAD_3 = Result                |
+        |                       |   { EAT }                       |
+        |                       |                                 |
+</pre>
+</div>
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<a href="#name-overview-of-edhoc-initiator-" class="selfRef">Overview of EDHOC Initiator attestation in passport model. EDHOC is used between A and RP.</a>
           </figcaption></figure>
 </div>
 </section>
@@ -1972,7 +2121,7 @@ A fourth EDHOC message is required to send the Result from the Attester to the R
       <h2 id="name-mutual-attestation-in-edhoc">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-mutual-attestation-in-edhoc" class="section-name selfRef">Mutual Attestation in EDHOC</a>
       </h2>
-<p id="section-7-1">Mutual attestation over EDHOC combines the cases where one of the EDHOC parties uses the IoT device attestation and the other uses the Network service attestation.
+<p id="section-7-1">Mutual attestation over EDHOC in this section combines the cases in <a href="#iot-attestation" class="auto internal xref">Section 6.1</a> and <a href="#network-attestation" class="auto internal xref">Section 6.2</a>.
 Performing mutual attestation to a single EDHOC message flow acheives a lightweight use with reduced message overhead.
 Note that the message flow for the two parties in mutual attestation needs to be the same.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">In this specification, we list the most relevant mutual attestation example for constrained IoT environments.<a href="#section-7-2" class="pilcrow">¶</a></p>
@@ -1982,7 +2131,7 @@ Note that the message flow for the two parties in mutual attestation needs to be
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-i-bg-r-pp" class="section-name selfRef">(I, BG) - (R, PP)</a>
         </h3>
 <p id="section-7.1-1">In this example, the mutual attestation is performed in EDHOC forward message flow, by one IoT device attestation in background-check model and another network service attestation in passport model.
-The process is illustrated in <a href="#fig-mutual-attestation-BP" class="auto internal xref">Figure 3</a>.
+The process is illustrated in <a href="#fig-mutual-attestation-BP" class="auto internal xref">Figure 5</a>.
 How the Network service connects with the Verifier_1 and potential Verifier_2 is out of scope in this specification.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">The first remote attestation is initiated by the IoT device (A_1) in background-check model.
 In parallel, the IoT device (A_1) requests the network service (A_2) to perform a remote attestation in passport model.
@@ -1990,57 +2139,48 @@ EAD_2 carries the EAD items Attestation request and Result proposal.
 EAD_3 carries the EAD items Evidence and Result request.
 EAD_4 carries the EAD item Result for the passport model.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <span id="name-overview-of-mutual-attestat"></span><div id="fig-mutual-attestation-BP">
-<figure id="figure-3">
+<figure id="figure-5">
           <div class="alignCenter art-text artwork" id="section-7.1-3.1">
 <pre>
-+-----------------+               +-----------------+
-|   IoT device    |               | Network service |
-+-----------------+               +-----------------+
-| EDHOC Initiator |               | EDHOC Responder |
-+-----------------+               +-----------------+            +------------+              +------------+
-|    A_1/RP_2     |               |    RP_1/A_2     |            | Verifier_1 |              | Verifier_2 |
-+--------+--------+               +--------+--------+            +------+-----+              +------+-----+
-         |                                 |                            |                           |
-         |  EAD_1 = Attestation proposal,  |                            |                           |
-         |          trigger_PP             |                            |                           |
-         +--------------------------------&gt;|                            |                           |
-         |                                 |                            |                           |
-         |                                 |                            |                           |
-         |                                 |   Attestation proposal     |                           |
-         |                                 +---------------------------&gt;|                           |
-         |                                 |&lt;---------------------------+                           |
-         |                                 |   EvidenceType(s), Nonce   |                           |
-         |  EAD_2 = Attestation request,   |                            |                           |
-         |          Result proposal        |                            |                           |
-         |&lt;--------------------------------+                            |                           |
-         |                                 |                            |                           |
-         |                                 |                            |                           |
-         |  EAD_3 = Evidence,              |                            |                           |
-         |          Result request         |                            |                           |
-         +--------------------------------&gt;|                            |                           |
-         |                                 |                            |                           |
-         |                                 |Evidence, attestation_binder|                           |
-         |                                 +---------------------------&gt;|         (Request)         |
-         |                                 +--- --- --- --- --- ---  ---+ ---  ---  --- --- --- ---&gt;|
-         |                                 |                            |                           |
-         |                                 |                            |                           |
-         |                                 |    Attestation result      |                           |
-         |                                 |&lt;---------------------------+                           |
-         |                                 |                            |                           |
-         |                                 |&lt;---  ---  ---  ---  ---  --+ ---  ---  --- ---  --- ---+
-         |                                 |          Result            |                           |
-         |  EAD_4 = Result                 |                            |                           |
-         |&lt;--------------------------------+                            |                           |
-         |                                 |                            |                           |
-         |                                 |                            |                           |
-         |                                 |                            |                           |
-         |                                 |                            |                           |
-         | &lt;-----------------------------&gt; |                            |                           |
-         |          EDHOC session          |                            |                           |
-
++-----------------------------+             +-----------------+
+| Constrained EDHOC Initiator |             | EDHOC Responder |
++-----------------------------+             +-----------------+             +------------+              +------------+
+|         A_1/RP_2            |             |    RP_1/A_2     |             | Verifier_1 |              | Verifier_2 |
++--------------+--------------+             +--------+--------+             +------+-----+              +------+-----+
+               |                                     |                             |                           |
+               |  EAD_1 = Attestation proposal,      |                             |                           |
+               |          trigger_PP                 |                             |                           |
+               +------------------------------------&gt;|                             |                           |
+               |                                     |                             |                           |
+               |                                     |                             |                           |
+               |                                     |   Attestation proposal      |                           |
+               |                                     +----------------------------&gt;|                           |
+               |                                     |&lt;----------------------------+                           |
+               |                                     |   EvidenceType(s), NonceI   |                           |
+               |  EAD_2 = Attestation request,       |                             |                           |
+               |          Result proposal            |                             |                           |
+               |&lt;------------------------------------+                             |                           |
+               |                                     |                             |                           |
+               |                                     |                             |                           |
+               |  EAD_3 = EvidenceI                  |                             |                           |
+               |          Result request             |                             |                           |
+               +------------------------------------&gt;|                             |                           |
+               |                                     |                             |                           |
+               |                                     |EvidenceI, attestation_binder|                           |
+               |                                     +----------------------------&gt;|    EvidenceR + nonceR     |
+               |                                     +--- --- --- --- --- ---  ----+ ---  ---  --- --- --- ---&gt;|
+               |                                     |                             |                           |
+               |                                     |  Attestation result(nonceI) |                           |
+               |                                     |&lt;----------------------------+                           |
+               |                                     |                             |                           |
+               |                                     |&lt;---  ---  ---  ---  ---  ---+ ---  ---  --- ---  --- ---+
+               |                                     |                             |     Result (nonceR)       |
+               |  EAD_4 = Result                     |                             |                           |
+               |&lt;------------------------------------+                             |                           |
+               |                                     |                             |                           |
 </pre>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-overview-of-mutual-attestat" class="selfRef">Overview of mutual attestation of (I, BG) - (R, PP). EDHOC is used between A and RP. The dashed line illustrates a logical connection that does not need to occur in real time.</a>
           </figcaption></figure>
 </div>
@@ -2144,7 +2284,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 </li>
         </ul>
 <span id="name-ead-labels"></span><div id="fig-ead-labels">
-<figure id="figure-4">
+<figure id="figure-6">
           <div class="alignLeft art-text artwork" id="section-10.1-3.1">
 <pre>
 +-----------+-------+------------------------+-------------------+
@@ -2164,7 +2304,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 +-----------+-------+------------------------+-------------------+
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-ead-labels" class="selfRef">EAD labels.</a>
           </figcaption></figure>
 </div>
