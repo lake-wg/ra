@@ -1046,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RA-EDHOC</td>
-<td class="right">March 2026</td>
+<td class="right">April 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 2 October 2026</td>
+<td class="center">Expires 3 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-31" class="published">31 March 2026</time>
+<time datetime="2026-04-01" class="published">1 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-02">2 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-03">3 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1435,10 +1435,10 @@ This specification specifies four new EAD items in background-check model, and f
             <p id="section-4.1-2.2.1">ID_CRED_I is used to identify the Initiator identity in the authentication session.<a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.1-2.3">
-            <p id="section-4.1-2.3.1">EDHOC hash algorithm of the selected cipher suite is used to generate the attestation_binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) when Evidence is sent in EDHOC message_3.<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-2.3.1">EDHOC hash algorithm of the selected cipher suite is used to generate the attestation_binder_m3 (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) when Evidence is sent in EDHOC message_3.<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.1-2.4">
-            <p id="section-4.1-2.4.1">EDHOC_Exporter is used to generate the attestation_binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) when Evidence is sent in EDHOC message_4.<a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-2.4.1">EDHOC_Exporter is used to generate the attestation_binder_m4 (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) when Evidence is sent in EDHOC message_4.<a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1620,16 +1620,16 @@ An example as CoSWID is shown in <a href="#firmware" class="auto internal xref">
           </ul>
 <div id="attestation-binder">
 <section id="section-5.3.3.1">
-            <h5 id="name-attestation_binder">
-<a href="#section-5.3.3.1" class="section-number selfRef">5.3.3.1. </a><a href="#name-attestation_binder" class="section-name selfRef">attestation_binder</a>
+            <h5 id="name-attestation-binder">
+<a href="#section-5.3.3.1" class="section-number selfRef">5.3.3.1. </a><a href="#name-attestation-binder" class="section-name selfRef">Attestation binder</a>
             </h5>
-<p id="section-5.3.3.1-1">The signature over the Evidence <span class="bcp14">MUST</span> include an attestation_binder.
-The inclusion of the attestation_binder is to cryptographically bind the attestation to the authentication, and to ensure that the attester is the authenticated peer.
-The attestation_binder prevents relay attacks whereby an attacker relays Evidence generated in a different session.<a href="#section-5.3.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.3.1-2">When Evidence is sent in EDHOC message_3 in EAD_3, the attestation_binder is computed using HKDF-Expand defined in <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span>.<a href="#section-5.3.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.3.1-1">The signature over the Evidence <span class="bcp14">MUST</span> include an attestation binder.
+The inclusion of the attestation binder is to cryptographically bind the attestation to the authentication, and to ensure that the attester is the authenticated peer.
+The attestation binder prevents relay attacks whereby an attacker relays Evidence generated in a different session.<a href="#section-5.3.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.3.1-2">When Evidence is sent in EDHOC message_3 in EAD_3, the attestation binder is computed using HKDF-Expand defined in <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span>.<a href="#section-5.3.3.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.3.3.1-3">
 <pre>
-attestation_binder = HKDF-Expand(0, attest_info, hash_length)
+attestation_binder_m3 = HKDF-Expand(0, attest_info, hash_length)
 
 attest_info = (H_12, "attestation", ID_CRED_I)
 
@@ -1648,7 +1648,7 @@ H_12 = H(H(message_1), message_2)
 <p id="section-5.3.3.1-6">When Evidence is sent in EDHOC message_4, the attestation binder is derived using EDHOC_Exporter defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-5.3.3.1-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.3.3.1-7">
 <pre>
-attestation_binder = EDHOC_Exporter (exporter_label, context, length)
+attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 </pre><a href="#section-5.3.3.1-7" class="pilcrow">¶</a>
 </div>
 <p id="section-5.3.3.1-8">where<a href="#section-5.3.3.1-8" class="pilcrow">¶</a></p>
@@ -1676,7 +1676,7 @@ The message to be signed is:<a href="#section-5.3.3.1-10" class="pilcrow">¶</a>
                 <p id="section-5.3.3.1-13.1.1">body_protected is the same CBOR byte string as the protected header in COSE_Sign1<a href="#section-5.3.3.1-13.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3.3.1-13.2">
-                <p id="section-5.3.3.1-13.2.1">external_aad = attestation_binder<a href="#section-5.3.3.1-13.2.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3.3.1-13.2.1">external_aad is set to attestation_binder_m3 when Evidence is carried in EDHOC message_3, and to attestation_binder_m4 when Evidence is carried in EDHOC message_4<a href="#section-5.3.3.1-13.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3.3.1-13.3">
                 <p id="section-5.3.3.1-13.3.1">payolad is the same CBOR byte string as the payload in COSE_Sign1<a href="#section-5.3.3.1-13.3.1" class="pilcrow">¶</a></p>
@@ -1863,7 +1863,8 @@ In particular:<a href="#section-6-1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-6-3">For example, (I, BG) represents the Initiator as an Attester performing attestation using the background-check model.
-The four possible instantiations are therefore: (I, BG), (R, PP), (R, BG), and (I, PP).<a href="#section-6-3" class="pilcrow">¶</a></p>
+The four possible instantiations are therefore: (I, BG), (R, PP), (R, BG), and (I, PP).
+In the remainder of this section we provide examples of these instantiations, starting with two instances of constrained Initiator followed by two instances of constrained Responder.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div id="iot-attestation">
 <section id="section-6.1">
         <h3 id="name-i-bg-edhoc-initiator-attest">
@@ -1876,8 +1877,8 @@ An external entity plays the role of the RATS Verifier (V).
 The EAD items specific to the background-check model are defined in <a href="#bg" class="auto internal xref">Section 5.3</a>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">The Attester starts the attestation by sending an Attestation proposal in EDHOC message_1.
 The Relying Party generates EAD_2 with the received evidence type(s) and nonce from the Verifier, and sends an Attestation request to the Attester.
-The Attester generates the Evidence with the attestation_binder embedded and sends the Evidence to the Relying Party in EAD_3.
-The Relying Party verifies the attestation_binder and then sends the Evidence together with the attestation_binder to the Verifier.
+The Attester generates the Evidence with the attestation binder embedded and sends the Evidence to the Relying Party in EAD_3.
+The Relying Party verifies the attestation binder and then sends the Evidence together with the attestation binder to the Verifier.
 The Verifier evaluates the Evidence and sends the Attestation result to the Relying Party.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.1-3">A common use case for (I, BG) is to attest an IoT device (EDHOC Initiator) to a network server (EDHOC Responder).
 For example, a simple illustrative example is performing remote attestation to verify that the latest version of firmware is running on the IoT device before the network server allows it to join the network (see <a href="#firmware" class="auto internal xref">Appendix A</a>).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
@@ -1907,7 +1908,7 @@ For example, a simple illustrative example is performing remote attestation to v
        |                    | { types(a), nonce }          |                             |
        |                    |                              |                             |
        | type(a), nonce,    |                              |                             |
-       | attestation_binder |                              |                             |
+       | attestation binder |                              |                             |
        |&lt;-------------------+                              |                             |
        |                    |                              |                             |
        | Evidence (EAT)     |                              |                             |
@@ -1918,7 +1919,7 @@ For example, a simple illustrative example is performing remote attestation to v
        |                    | { EAT }                      |                             |
        |                    |                              |                             |
        |                    |                              | Body:{ EAT,                 |
-       |                    |                              |        attestation_binder } |
+       |                    |                              |        attestation binder } |
        |                    |                              +----------------------------&gt;|
        |                    |                              | Body:{ att-result: AR{} }   |
        |                    |                              |&lt;----------------------------+
@@ -1941,7 +1942,7 @@ For example, a simple illustrative example is performing remote attestation to v
         <h3 id="name-r-pp-edhoc-responder-attest">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-r-pp-edhoc-responder-attest" class="section-name selfRef">(R, PP): EDHOC Responder Attestation in the Passport Model</a>
         </h3>
-<p id="section-6.2-1">In this instantiation, the constrained EDHOC Responder acts as the RATS Attester and the EDHOC Initiator acts as the RATS Relying Party.
+<p id="section-6.2-1">In this instantiation, the constrained EDHOC Initiator acts as the RATS Relying Party and the EDHOC Responder acts as the RATS Attester.
 An overview of the message flow is illustrated in <a href="#fig-net-pp-fwd" class="auto internal xref">Figure 2</a>.
 The EAD items specific to the passport model are defined in <a href="#pp" class="auto internal xref">Section 5.4</a>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.2-2">The Relying Party asks the Attester to do a remote attestation by sending a trigger_pp (see <a href="#trigger-pp" class="auto internal xref">Section 5.4.4</a>) in EDHOC message_1.
@@ -2003,10 +2004,10 @@ The EAD items specific to the background-check model are defined in <a href="#bg
 The Attester responds with an Attestation proposal in EAD_2 of message_2, indicating the evidence types it can provide.
 The Relying Party forwards this proposal to the Verifier, which selects its supported evidence types and provides a nonce.
 The Relying Party then sends an Attestation request in EAD_3 of message_3.
-Upon receipt of the Attestation request, the Attester generates the Evidence with the attestation_binder embedded and returns it in EAD_4 of message_4.
+Upon receipt of the Attestation request, the Attester generates the Evidence with the attestation binder embedded and returns it in EAD_4 of message_4.
 The Relying Party forwards the Evidence to the Verifier and receives an Attestation result.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 <p id="section-6.3-3">Note that this is a post-handshake attestation since EDHOC completes the authenticated key exchange after message_3.
-Therefore, the attestation_binder in this instantiation is derived using EDHOC_Exporter (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>).<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+Therefore, the attestation binder in this instantiation is derived using EDHOC_Exporter (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>).<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <span id="name-overview-of-edhoc-responder-"></span><div id="fig-r-bg">
 <figure id="figure-3">
           <div class="alignCenter art-text artwork" id="section-6.3-4.1">
@@ -2036,7 +2037,7 @@ Therefore, the attestation_binder in this instantiation is derived using EDHOC_E
       |                            | EAD_3 = Attestation_request  |                   |
       |                            | { types(a), nonce }          |                   |
       |                            |                              | types(a), nonce,  |
-      |                            |                              | attestation_binder|
+      |                            |                              | attestation binder|
       |                            |                              |------------------&gt;+
       |                            |                              |                   |
       |                            |                              | Evidence (EAT)    |
@@ -2046,7 +2047,7 @@ Therefore, the attestation_binder in this instantiation is derived using EDHOC_E
       |                            | EAD_4 = Evidence             |                   |
       |                            | { EAT }                      |                   |
       | Body: { EAT,               |                              |                   |
-      |        attestation_binder }|                              |                   |
+      |        attestation binder }|                              |                   |
       |&lt;---------------------------+                              |                   |
       |                            |                              |                   |
       | Body: { att-result: AR{} } |                              |                   |
@@ -2071,7 +2072,7 @@ Therefore, the attestation_binder in this instantiation is derived using EDHOC_E
         <h3 id="name-i-pp-edhoc-initiator-attest">
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-i-pp-edhoc-initiator-attest" class="section-name selfRef">(I, PP): EDHOC Initiator Attestation in the Passport Model</a>
         </h3>
-<p id="section-6.4-1">In this instantiation, the constrained EDHOC Initiator acts as the RATS Attester and the EDHOC Responder acts as the RATS Relying Party.
+<p id="section-6.4-1">In this instantiation, the EDHOC Initiator acts as the RATS Attester and the constrained EDHOC Responder acts as the RATS Relying Party.
 An overview of the message flow is illustrated in <a href="#fig-i-pp" class="auto internal xref">Figure 4</a>.
 The EAD items specific to the passport model are defined in <a href="#pp" class="auto internal xref">Section 5.4</a>.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <p id="section-6.4-2">The Attester initiates the procedure by sending a Result proposal in EAD_1 of message_1, indicating the Verifier identities it can communicate.
@@ -2105,7 +2106,7 @@ The Attester then returns the Result in EAD_3 of message_3, after which the Rely
         |                       +--------------------------------&gt;|
         |                       |   EAD_3 = Result                |
         |                       |   { EAT }                       |
-        |                       |                                 |
+        |                       |                                 |i
 </pre>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
@@ -2121,10 +2122,8 @@ The Attester then returns the Result in EAD_3 of message_3, after which the Rely
       <h2 id="name-mutual-attestation-in-edhoc">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-mutual-attestation-in-edhoc" class="section-name selfRef">Mutual Attestation in EDHOC</a>
       </h2>
-<p id="section-7-1">Mutual attestation over EDHOC in this section combines the cases in <a href="#iot-attestation" class="auto internal xref">Section 6.1</a> and <a href="#network-attestation" class="auto internal xref">Section 6.2</a>.
-Performing mutual attestation to a single EDHOC message flow acheives a lightweight use with reduced message overhead.
-Note that the message flow for the two parties in mutual attestation needs to be the same.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">In this specification, we list the most relevant mutual attestation example for constrained IoT environments.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-1">In this section we demonstrate mutual attestation over EDHOC combining the cases  (I, BG), see <a href="#iot-attestation" class="auto internal xref">Section 6.1</a>, and (R, PP), see <a href="#network-attestation" class="auto internal xref">Section 6.2</a>, which is potentially the most relevant mutual attestation example for constrained IoT environments.
+This demonstrates combined mutual authentication with mutual attestation at a reduced message overhead and number of round trips.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <div id="i-bg-r-pp">
 <section id="section-7.1">
         <h3 id="name-i-bg-r-pp">
@@ -2166,7 +2165,7 @@ EAD_4 carries the EAD item Result for the passport model.<a href="#section-7.1-2
                |          Result request             |                             |                           |
                +------------------------------------&gt;|                             |                           |
                |                                     |                             |                           |
-               |                                     |EvidenceI, attestation_binder|                           |
+               |                                     |EvidenceI, attestation binder|                           |
                |                                     +----------------------------&gt;|    EvidenceR + nonceR     |
                |                                     +--- --- --- --- --- ---  ----+ ---  ---  --- --- --- ---&gt;|
                |                                     |                             |                           |
@@ -2207,7 +2206,7 @@ The evaluation policy employed by the Verifier varies according to specific use 
 After the Relying Party receives EDHOC message_1 from the Attester, it extracts and transmits the Attestation proposal to the Verifier.
 The Verifier must support at least one evidence type for evaluation, otherwise it returns an empty list.
 Alongside the selected evidence type, the Verifier generates a random nonce and sends both elements to the Relying Party.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1-2">When the Relying Party obtains EDHOC message_3, it forwards the evidence and the attestation_binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-2">When the Relying Party obtains EDHOC message_3, it forwards the evidence and the attestation binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
 <p id="section-8.1-3">The evidence evaluation process <span class="bcp14">SHOULD</span> include the signature verification, nonce validation, and comparison of measurement values against trusted reference values.
 An example evaluation procedure for evidence formatted as an Entity Attestation Token (EAT) within a COSE_Sign1 structure is as follows:<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-8.1-4">
