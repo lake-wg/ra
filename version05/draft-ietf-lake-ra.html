@@ -1050,7 +1050,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 11 October 2026</td>
+<td class="center">Expires 17 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-09" class="published">9 April 2026</time>
+<time datetime="2026-04-15" class="published">15 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-11">11 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-17">17 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1322,8 +1322,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Remote attestation is a security process which verifies and confirms the integrity and trustworthiness of a remote target (e.g., device, system, group of devices) in the network.
-This process helps establish a level of trust in the remote system before allowing the device to e.g. join the network or get access to some sensitive information and resources.
+<p id="section-1-1">Remote attestation is a security process that verifies and confirms the integrity and trustworthiness of a remote target (e.g., device, system, group of devices) in the network.
+This process helps establish a level of trust in the remote system, e.g., before allowing the device to join the network or get access to some sensitive information and resources.
 The use cases that require remote attestation include secure boot and firmware management, cloud computing, network access control, etc.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The IETF working group Remote ATtestation procedureS (RATS) has defined an architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> for remote attestation.
 The three main roles in the RATS architecture are the Attester, the Verifier and the Relying Party.
@@ -1354,7 +1354,7 @@ This specification also defines new EAD items needed to perform remote attesatio
 Root of trust serves as the starting point for establishing and validating the trustworthiness appraisals of other components on the system.
 The measurements signed by the attestation service are referred to as the Evidence.
 The signing is requested through an attestation API.
-How the components are separated between the secure and non-secure worlds on a target is out of scope of this specification.<a href="#section-1-7" class="pilcrow">¶</a></p>
+How the components are separated between the secure and non-secure worlds on a target is out of the scope of this specification.<a href="#section-1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1386,7 +1386,7 @@ In the passport model, the Attester (EDHOC Responder/Network service) exchanges 
 <a href="#attestation-dimensions" class="auto internal xref">Section 5</a> defines two independent dimensions for performing remote attestation over EDHOC:<a href="#section-3-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3-4">
 <li id="section-3-4.1">
-          <p id="section-3-4.1.1">Target (see <a href="#iot" class="auto internal xref">Section 5.1</a>, <a href="#net" class="auto internal xref">Section 5.2</a>) defining the entity that undergoes the attestation process (EDHOC Initiator or EDHOC Responder), which could be constrained device or not.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
+          <p id="section-3-4.1.1">Target (see <a href="#iot" class="auto internal xref">Section 5.1</a>, <a href="#net" class="auto internal xref">Section 5.2</a>) defining the entity that undergoes the attestation process (EDHOC Initiator or EDHOC Responder), which could be a constrained device or not.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-4.2">
           <p id="section-3-4.2.1">Model (see <a href="#bg" class="auto internal xref">Section 5.3</a>, <a href="#pp" class="auto internal xref">Section 5.4</a>) defining the attestation model in use based on the RATS architecture (background-check model or passport model).<a href="#section-3-4.2.1" class="pilcrow">¶</a></p>
@@ -1400,7 +1400,7 @@ See this document <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-
           <p id="section-3-7.1.1">The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.<a href="#section-3-7.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-7.2">
-          <p id="section-3-7.2.1">The attestation protocol is in parallel but does not interfere with the authentication flow.<a href="#section-3-7.2.1" class="pilcrow">¶</a></p>
+          <p id="section-3-7.2.1">The attestation protocol is performed in parallel but does not interfere with the authentication flow.<a href="#section-3-7.2.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-7.3">
           <p id="section-3-7.3.1">The privacy and security properties of EDHOC are not changed.<a href="#section-3-7.3.1" class="pilcrow">¶</a></p>
@@ -1419,7 +1419,7 @@ It is assumed that the Relying Party also has knowledge about the Attester, so i
 <p id="section-4-2">In the passport model, the credential identity of the Verifier is assumed to be stored at the Attester and the Relying Party, which means the Verifier is trusted by the Attester and the Relying Party to obtain the attestation result.
 If timestamps are used to ensure freshness in the passport model, synchronized time between the Attester and Relying Party is assumed.
 For detailed time considerations, refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.
-If nonce is used to ensure freshness, the device who generates the nonce is assumed to be able to generate a random byte string that is not predictable.<a href="#section-4-2" class="pilcrow">¶</a></p>
+If a nonce is used to ensure freshness, the device that generates the nonce is assumed to be able to generate a random byte string that is not predictable.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="reuse-of-edhoc">
 <section id="section-4.1">
         <h3 id="name-reuse-of-edhoc">
@@ -1461,7 +1461,7 @@ This specification supports both the RATS background-check model (see <a href="#
 The corresponding EAD items for background-check model and the passport model are independent of each other.<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
-<p id="section-5-3">The EDHOC protocol defines two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see <span><a href="https://rfc-editor.org/rfc/rfc9528#appendix-A.2.2" class="relref">Appendix A.2.2</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).
+<p id="section-5-3">When transferred over CoAP, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see <span><a href="https://rfc-editor.org/rfc/rfc9528#appendix-A.2.2" class="relref">Appendix A.2.2</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).
 In this specification, the instantiations in <a href="#attestation-combinations" class="auto internal xref">Section 6</a> focus on the EDHOC forward message flow, but both flows are supported to perform remote attestation.<a href="#section-5-3" class="pilcrow">¶</a></p>
 <div id="iot">
 <section id="section-5.1">
@@ -1497,7 +1497,7 @@ If the Relying Party receives more than one evidence type, a single evidence typ
 The Relying Party then sends it back within the Attestation request to the Attester.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.3-4">A nonce, at least 8-bytes long <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>), guarantees the freshness of the attestation session.
 The nonce is generated by the Verifier and sent to the Relying Party.
-The Relying Party puts the nonce and the selected evidence type together in a tuple to generate an Attestation request.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+The Relying Party includes the nonce in the same Attestation request sent to the Attester, together with the selected evidence type.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <p id="section-5.3-5">Once the Attester receives the Attestation request, it can call its attestation service to generate the evidence, with the nonce value as one of the inputs.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
 <p id="section-5.3-6">The ead_label for Attestation_proposal, Attestation_request and Evidence is the same (TBD1) because these EAD items appear in distinct positions within the EDHOC message in sequence.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
 <div id="attestation-proposal">
@@ -1569,7 +1569,7 @@ Selected_EvidenceType = (
 <p id="section-5.3.2-5">where<a href="#section-5.3.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.2-6.1">
-              <p id="section-5.3.2-6.1.1">content-format is the selected evidence type by the Relying Party and supported by the Verifier.<a href="#section-5.3.2-6.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.3.2-6.1.1">content-format is the evidence type selected by the Relying Party and supported by the Verifier.<a href="#section-5.3.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.3.2-6.2">
               <p id="section-5.3.2-6.2.1">nonce is generated by the Verifier and forwarded by the Relying Party.<a href="#section-5.3.2-6.2.1" class="pilcrow">¶</a></p>
@@ -1695,15 +1695,13 @@ The message to be signed is:<a href="#section-5.3.3.1-10" class="pilcrow">¶</a>
 <a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-trigger_bg" class="section-name selfRef">trigger_bg</a>
           </h4>
 <p id="section-5.3.4-1">The EAD item trigger_bg is used when the Relying Party triggers the Attester to start a remote attestation in the background-check model.
+This EAD item can only be carried in EDHOC message_1.
 The Attester <span class="bcp14">MUST</span> reply with an EAD item corresponding to the background-check model, either an attestation_proposal in <a href="#attestation-proposal" class="auto internal xref">Section 5.3.1</a> or an evidence in <a href="#evidence" class="auto internal xref">Section 5.3.3</a>.
 The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label serves as the trigger.<a href="#section-5.3.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.3.4-2">The EAD item is:<a href="#section-5.3.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.4-3.1">
               <p id="section-5.3.4-3.1.1">ead_label = TBD3<a href="#section-5.3.4-3.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.3.4-3.2">
-              <p id="section-5.3.4-3.2.1">ead_value = null<a href="#section-5.3.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -1717,11 +1715,11 @@ The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label s
         </h3>
 <p id="section-5.4-1">In the passport model, the Attester sends the evidence to the Verifier.
 After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.
-The attestation result may carry a boolean value indicating compliance or non-compliance with a Verifier's apprasal policy, or many carry a set of claims to indicate the results in different aspects (<span><a href="https://rfc-editor.org/rfc/rfc9334#section-8.4" class="relref">Section 8.4</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>).<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+The attestation result may carry a boolean value indicating compliance or non-compliance with a Verifier's appraisal policy, or may carry a set of claims to indicate the results in different aspects (<span><a href="https://rfc-editor.org/rfc/rfc9334#section-8.4" class="relref">Section 8.4</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>).<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4-2">An EDHOC session is established between the Attester (EDHOC Responder) and the Relying Party (EDHOC Initiator).
-The Attester and the Relying Party should decide from which Verifier the Attester obtains the attestation result and transfers it to the Relying Party.
-The Attester first sends a list of the Verifier identities that it can get the attestation result.
-The Relying Party selects one trusted Verifier identity and sends it back as a Result request.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+The Attester and the Relying Party should decide from which Verifier the Attester obtains the attestation result before transferring it to the Relying Party.
+The Attester first sends a list of the Verifier identities that it can get the attestation result from.
+The Relying Party selects one trusted Verifier identity and sends it back within a Result request.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
 <p id="section-5.4-3">Regarding the freshness in passport model, the Attester could either establish a real-time connection with the selected Verifier, or use a pre-stored attestation result from the selected Verifier.
 If the attestation result is not obtained via a real-time connection, it <span class="bcp14">MUST</span> include a time stamp and/or expiry time to indicate its validity.
 Time synchronization is out of scope of this specification.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
@@ -1796,7 +1794,7 @@ Relying Party generates a nonce to ensure the freshness of the attestation resul
 Result_request = bstr .cbor Request_structure
 
 Request_structure = {
-  selected_verifier: VerfierIdentity,
+  selected_verifier: VerifierIdentity,
   ? nonce: bstr .size (8..64)
 }
 </pre><a href="#section-5.4.2-4" class="pilcrow">¶</a>
@@ -1808,7 +1806,7 @@ Request_structure = {
           <h4 id="name-result">
 <a href="#section-5.4.3" class="section-number selfRef">5.4.3. </a><a href="#name-result" class="section-name selfRef">Result</a>
           </h4>
-<p id="section-5.4.3-1">The attestation result is generated and signed by the Verifier as a serialized EAT <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>.
+<p id="section-5.4.3-1">The attestation result is generated and signed by the Verifier as a serialized EAT <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>, and <span class="bcp14">MUST</span> be protected using a COSE_Sign1 structure.
 The Relying Party can decide what action to take with regards to the Attester based on the information elements in attetation result.<a href="#section-5.4.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.4.3-2">The EAD item is:<a href="#section-5.4.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1827,15 +1825,13 @@ The Relying Party can decide what action to take with regards to the Attester ba
 <a href="#section-5.4.4" class="section-number selfRef">5.4.4. </a><a href="#name-trigger_pp" class="section-name selfRef">trigger_pp</a>
           </h4>
 <p id="section-5.4.4-1">The EAD item trigger_pp is used when the Relying Party triggers the Attester to start a remote attestation in the passport model.
+This EAD item can only be carried in the EDHOC message_1.
 The Attester <span class="bcp14">MUST</span> reply with an EAD item corresponding to the passport model, either a result proposal in <a href="#result-proposal" class="auto internal xref">Section 5.4.1</a> or a result in <a href="#result" class="auto internal xref">Section 5.4.3</a>.
 The ead_value <span class="bcp14">MUST</span> not be present, as the ead_label serves as the trigger.<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4.4-2">The EAD item is:<a href="#section-5.4.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.4-3.1">
               <p id="section-5.4.4-3.1.1">ead_label = TBD4<a href="#section-5.4.4-3.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.4.4-3.2">
-              <p id="section-5.4.4-3.2.1">ead_value = null<a href="#section-5.4.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -1875,7 +1871,7 @@ In the remainder of this section we provide examples of these instantiations, st
         </h3>
 <p id="section-6.1-1">In this instantiation, the constrained EDHOC Initiator acts as the RATS Attester and the EDHOC Responder acts as the RATS Relying Party.
 An overview of EDHOC Initiator attestation in the background-check model is illustrated in <a href="#fig-iot-bg-fwd" class="auto internal xref">Figure 1</a>.
-The Attester and the Relying Party communicate by transporting messages within EDHOC's External Authorization Data (EAD) fields.
+The Attester and the Relying Party communicate by transporting messages within EDHOC External Authorization Data (EAD) fields.
 An external entity plays the role of the RATS Verifier (V).
 The EAD items specific to the background-check model are defined in <a href="#bg" class="auto internal xref">Section 5.3</a>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">The Attester starts the attestation by sending an Attestation proposal in EDHOC message_1.
@@ -1884,7 +1880,7 @@ The Attester generates the Evidence with the attestation binder embedded and sen
 The Relying Party verifies the attestation binder and then sends the Evidence together with the attestation binder to the Verifier.
 The Verifier evaluates the Evidence and sends the Attestation result to the Relying Party.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.1-3">A common use case for (I, BG) is to attest an IoT device (EDHOC Initiator) to a network server (EDHOC Responder).
-For example, a simple illustrative example is performing remote attestation to verify that the latest version of firmware is running on the IoT device before the network server allows it to join the network (see <a href="#firmware" class="auto internal xref">Appendix A</a>).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+For example, a simple illustrative example is the performance of remote attestation to verify that the latest version of firmware is running on the IoT device before the network server allows it to join the network (see <a href="#firmware" class="auto internal xref">Appendix A</a>).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <span id="name-overview-of-edhoc-initiator"></span><div id="fig-iot-bg-fwd">
 <figure id="figure-1">
           <div id="section-6.1-4.1">
@@ -2284,7 +2280,7 @@ Therefore, the attestation binder in this instantiation is derived using EDHOC_E
 <p id="section-6.4-1">In this instantiation, the EDHOC Initiator acts as the RATS Attester and the constrained EDHOC Responder acts as the RATS Relying Party.
 An overview of the message flow is illustrated in <a href="#fig-i-pp" class="auto internal xref">Figure 4</a>.
 The EAD items specific to the passport model are defined in <a href="#pp" class="auto internal xref">Section 5.4</a>.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
-<p id="section-6.4-2">The Attester initiates the procedure by sending a Result proposal in EAD_1 of message_1, indicating the Verifier identities it can communicate.
+<p id="section-6.4-2">The Attester initiates the procedure by sending a Result proposal in EAD_1 of message_1, indicating the Verifier identities it can communicate with.
 The Relying Party selects a Verifier and sends a Result request in EAD_2 of message_2, together with a nonce.
 The Attester interacts with the selected Verifier to obtain an Attestation Result.
 How the Attester negotiates with the selected Verifier to get the attestation result is out of scope of this specification.
@@ -2503,14 +2499,15 @@ EAD_4 carries the EAD item Result for the passport model.<a href="#section-7.1-2
                   <text x="248" y="356">EvidenceI</text>
                   <text x="236" y="372">Result</text>
                   <text x="296" y="372">request</text>
+                  <text x="364" y="372">(nonceR)</text>
                   <text x="476" y="420">EvidenceI,</text>
                   <text x="568" y="420">attestation</text>
                   <text x="644" y="420">binder</text>
                   <text x="744" y="436">EvidenceR</text>
                   <text x="792" y="436">+</text>
                   <text x="828" y="436">nonceR</text>
-                  <text x="496" y="484">Attestation</text>
-                  <text x="604" y="484">result(nonceI)</text>
+                  <text x="512" y="484">Attestation</text>
+                  <text x="588" y="484">result</text>
                   <text x="740" y="548">Result</text>
                   <text x="804" y="548">(nonceR)</text>
                   <text x="168" y="564">EAD_4</text>
@@ -2545,18 +2542,18 @@ The evaluation policy employed by the Verifier varies according to specific use 
         </h3>
 <p id="section-8.1-1">The Verifier is connected with the Relying Party and is responsible for evaluating evidence forwarded by the Relying Party.
 After the Relying Party receives EDHOC message_1 from the Attester, it extracts and transmits the Attestation proposal to the Verifier.
-The Verifier must support at least one evidence type for evaluation, otherwise it returns an empty list.
-Alongside the selected evidence type, the Verifier generates a random nonce and sends both elements to the Relying Party.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1-2">When the Relying Party obtains EDHOC message_3, it forwards the evidence and the attestation binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.1-3">The evidence evaluation process <span class="bcp14">SHOULD</span> include the signature verification, nonce validation, and comparison of measurement values against trusted reference values.
-An example evaluation procedure for evidence formatted as an Entity Attestation Token (EAT) within a COSE_Sign1 structure is as follows:<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+If the Verifier does not support any evidence type for evaluation, it returns an empty list.
+Otherwise, alongside the selected evidence type, the Verifier generates a random nonce and sends both elements to the Relying Party.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-2">When the Relying Party receives EDHOC message_3, it forwards the evidence and the attestation binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-3">The evidence evaluation process <span class="bcp14">MUST</span> include the signature verification, nonce validation, and comparison of measurement values against trusted reference values.
+An example evaluation procedure for evidence formatted as an Entity Attestation Token (EAT) protected by a COSE_Sign1 structure is as follows:<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-8.1-4">
 <li id="section-8.1-4.1">
             <p id="section-8.1-4.1.1">Decode the COSE_Sign1 structure and extract constituent components: headers, payload, signature.<a href="#section-8.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-8.1-4.2">
             <p id="section-8.1-4.2.1">Verify the signature using the Attester's attestation public key.
-The Verifier reconstructs the Sig_Structure, with the attestation binder carried in the external_add field.<a href="#section-8.1-4.2.1" class="pilcrow">¶</a></p>
+The Verifier reconstructs the Sig_Structure, with the attestation binder as the external_add.<a href="#section-8.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-8.1-4.3">
             <p id="section-8.1-4.3.1">Verify that the nonce exists in the Verifier's local nonce list. If the nonce is found, validation passes and the nonce is removed from the list to prevent replay attacks.<a href="#section-8.1-4.3.1" class="pilcrow">¶</a></p>
@@ -2588,12 +2585,12 @@ The token uses the "Software Measurement Results (measres)" claim as defined in 
 <p id="section-9-1">This specification is performed over EDHOC <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span> by using EDHOC's EAD fields.
 The privacy considerations of EADs in EDHOC apply to this specification.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <p id="section-9-2">EAD_1 is not resistant to either active attackers or passive attackers, because neither the Initiator nor the Responder has been authenticated.<a href="#section-9-2" class="pilcrow">¶</a></p>
-<p id="section-9-3">Although EAD_2 is encrypted, the Initiator has not been authenticated, rendering EAD_2 vulnerable against the active attackers.<a href="#section-9-3" class="pilcrow">¶</a></p>
+<p id="section-9-3">Although EAD_2 is encrypted, the Initiator has not been authenticated, rendering EAD_2 vulnerable against active attackers.<a href="#section-9-3" class="pilcrow">¶</a></p>
 <p id="section-9-4">The ead items in EAD_1 and EAD_2 <span class="bcp14">MAY</span> be very specific and potentially reveal sensitive information about the device.
-The leaking of the data in EAD_1 and/or EAD_2 <span class="bcp14">MAY</span> risk to be used by the attackers for malicious purposes.
+The leaking of the data in EAD_1 and/or EAD_2 <span class="bcp14">MAY</span> risk to be used by attackers for malicious purposes.
 Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.<a href="#section-9-4" class="pilcrow">¶</a></p>
 <p id="section-9-5">Mutual attestation carries a lower risk for EAD items when the Responder is the Attester.
-For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected to active attackers.
+For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.<a href="#section-9-5" class="pilcrow">¶</a></p>
 <p id="section-9-6">The privacy considerations of remote attestation refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-9-6" class="pilcrow">¶</a></p>
 </section>
@@ -2871,7 +2868,7 @@ Once the Verifier sends back the Attestation Result, the Relying Party can be as
       <h2 id="name-re-attestation">
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-re-attestation" class="section-name selfRef">Re-attestation</a>
       </h2>
-<p id="appendix-B-1">The trust relationship established during the initial EDHOC exchange may become outdated over time due to changes in device state.
+<p id="appendix-B-1">The trust relationship established during the initial EDHOC exchange may become outdated over time due to changes in Attester state.
 To maintain a valid trust relationship, a peer may require updated assurance periodically.
 This section presents two re-attestation approaches: re-attestation during EDHOC resumption and re-attestation using OSCORE.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <div id="intra-handshake-re-attestation-using-edhoc-resumption-with-psk">
@@ -2889,7 +2886,7 @@ This enables re-attestation without public key based authentication.<a href="#ap
 <a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-post-handshake-re-attestati" class="section-name selfRef">Post-handshake Re-attestation using OSCORE</a>
         </h3>
 <p id="appendix-B.2-1">Post-handshake attestation can be performed after an EDHOC session using Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.
-EDHOC is then used to establish an OSCORE Security Context, as specified in <span>[<a href="#RFC9668" class="cite xref">RFC9668</a>]</span>.
+In such case, EDHOC is specifically used to establish an OSCORE Security Context (see Appendix A.1 of <span>[<a href="#RFC9668" class="cite xref">RFC9668</a>]</span>).
 OSCORE provides application-layer protection for RESTful message exchanges, for example the Constrained Application Protocol (CoAP), which can be used to carry attestation information.<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
 <p id="appendix-B.2-2">Post-handshake attestation decouples attestation process from the initial handshake, enabling re-attestation throughout the session lifetime and guaranteeing the runtime integrity.<a href="#appendix-B.2-2" class="pilcrow">¶</a></p>
 <div id="flight-1">
@@ -2897,13 +2894,13 @@ OSCORE provides application-layer protection for RESTful message exchanges, for 
           <h4 id="name-flight-1">
 <a href="#appendix-B.2.1" class="section-number selfRef">B.2.1. </a><a href="#name-flight-1" class="section-name selfRef">Flight 1</a>
           </h4>
-<p id="appendix-B.2.1-1">The CoAP client (Attester) initiates attestation with a CoAP request:<a href="#appendix-B.2.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.2.1-1">The CoAP client (Attester) initiates attestation with a CoAP request where:<a href="#appendix-B.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B.2.1-2.1">
               <p id="appendix-B.2.1-2.1.1">The request method is POST.<a href="#appendix-B.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-B.2.1-2.2">
-              <p id="appendix-B.2.1-2.2.1">The Uri-path is set to ".well-known/attest".<a href="#appendix-B.2.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="appendix-B.2.1-2.2.1">The Uri-path is "./well-known/attest".<a href="#appendix-B.2.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-B.2.1-2.3">
               <p id="appendix-B.2.1-2.3.1">The payload is the Attestation_proposal CBOR sequence, where Attestation_proposal is constructed as defined in <a href="#attestation-proposal" class="auto internal xref">Section 5.3.1</a>.<a href="#appendix-B.2.1-2.3.1" class="pilcrow">¶</a></p>
@@ -2916,8 +2913,8 @@ OSCORE provides application-layer protection for RESTful message exchanges, for 
           <h4 id="name-flight-2">
 <a href="#appendix-B.2.2" class="section-number selfRef">B.2.2. </a><a href="#name-flight-2" class="section-name selfRef">Flight 2</a>
           </h4>
-<p id="appendix-B.2.2-1">The CoAP server (Relying Party) receives the request and processes it as described in <a href="#bg" class="auto internal xref">Section 5.3</a> then prepares Attestation_request as defined in <a href="#attestation-request" class="auto internal xref">Section 5.3.2</a>.
-The CoAP server maps the message to a CoAP response:<a href="#appendix-B.2.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.2.2-1">The CoAP server (Relying Party) receives the request, processes it as described in <a href="#bg" class="auto internal xref">Section 5.3</a>, and then prepares Attestation_request as defined in <a href="#attestation-request" class="auto internal xref">Section 5.3.2</a>.
+The CoAP server replies with a CoAP response where:<a href="#appendix-B.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B.2.2-2.1">
               <p id="appendix-B.2.2-2.1.1">The response code is 2.04 Changed.<a href="#appendix-B.2.2-2.1.1" class="pilcrow">¶</a></p>
@@ -2933,14 +2930,14 @@ The CoAP server maps the message to a CoAP response:<a href="#appendix-B.2.2-1" 
           <h4 id="name-flight-3">
 <a href="#appendix-B.2.3" class="section-number selfRef">B.2.3. </a><a href="#name-flight-3" class="section-name selfRef">Flight 3</a>
           </h4>
-<p id="appendix-B.2.3-1">The CoAP client (Attester) receives the response and processes it as described in <a href="#bg" class="auto internal xref">Section 5.3</a> then generates the evidence.
-The CoAP client maps the message to a CoAP request:<a href="#appendix-B.2.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.2.3-1">The CoAP client (Attester) receives the response, processes it as described in <a href="#bg" class="auto internal xref">Section 5.3</a>, and then generates the evidence.
+The CoAP client sends a CoAP request where:<a href="#appendix-B.2.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B.2.3-2.1">
               <p id="appendix-B.2.3-2.1.1">The request method is POST.<a href="#appendix-B.2.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-B.2.3-2.2">
-              <p id="appendix-B.2.3-2.2.1">The Uri-path is set to ".well-known/attest".<a href="#appendix-B.2.3-2.2.1" class="pilcrow">¶</a></p>
+              <p id="appendix-B.2.3-2.2.1">The Uri-path is "./well-known/attest".<a href="#appendix-B.2.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-B.2.3-2.3">
               <p id="appendix-B.2.3-2.3.1">The payload is the Evidence CBOR sequence, as defined in <a href="#evidence" class="auto internal xref">Section 5.3.3</a>.<a href="#appendix-B.2.3-2.3.1" class="pilcrow">¶</a></p>
@@ -2965,7 +2962,7 @@ This section compares the two different types of remote attestation methods in t
           </h4>
 <p id="appendix-B.3.1-1">Intra-handshake attestation provides round-trip efficiency as attestation occurs within the handshake, requiring no additional round trips.
 The intra-handshake attestation defined in this document does not modify the EDHOC protocol itself, though other intra-handshake designs may require changes.
-Post-handshake has higher modularity which the attestation is integrated independently but it requires additional round trips.<a href="#appendix-B.3.1-1" class="pilcrow">¶</a></p>
+Post-handshake has higher modularity which allows the attestation process to be integrated independently, but it requires additional round trips.<a href="#appendix-B.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-properties">
@@ -2974,7 +2971,7 @@ Post-handshake has higher modularity which the attestation is integrated indepen
 <a href="#appendix-B.3.2" class="section-number selfRef">B.3.2. </a><a href="#name-security-properties" class="section-name selfRef">Security properties</a>
           </h4>
 <p id="appendix-B.3.2-1">Remote attestation provides security properties including evidence integrity, freshness guarantees, and replay protection.
-Besides, intra-handshake attestation is cryptographically bound to the authentication process, and the trust is established before the session begins.
+Besides, intra-handshake attestation is cryptographically bound to the authentication process, and trust is established before the session begins.
 Post-handshake attestation gurantees the runtime integrity which can obtain dynamic mesurements during device execution, and can be repeatedly performed throughout the session which has the continuous assurance.<a href="#appendix-B.3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2987,7 +2984,7 @@ Post-handshake attestation gurantees the runtime integrity which can obtain dyna
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-C-1">The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane Fedrecheski and John Mattsson for the provided ideas and feedback.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<p id="appendix-C-1">The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane Fedrecheski, John Mattsson and Marco Tiloca for the provided ideas and feedback.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">Work on this document has in part been supported by the Horizon Europe Framework Programme project OpenSwarm (grant agreement No. 101093046).<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 </section>
 </div>
