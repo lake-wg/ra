@@ -181,7 +181,7 @@ Table of Contents
    transport of external authorization data, through the dedicated EAD
    fields.  This specification delivers EAT through EDHOC.
    Specifically, EAT is transported as an EAD item.  This specification
-   also defines new EAD items needed to perform remote attesation over
+   also defines new EAD items needed to perform remote attestation over
    EDHOC in Section 5.3 and Section 5.4.
 
    For the generation of evidence, the Attester incorporates an internal
@@ -347,7 +347,7 @@ Table of Contents
    based on its knowledge of the Attester.  The Relying Party then sends
    it back within the Attestation request to the Attester.
 
-   A nonce, at least 8-bytes long [RFC9711]), is required to guarantee
+   A nonce, at least 8 bytes long [RFC9711]), is required to guarantee
    the freshness of the attestation procedure.  The nonce is generated
    by the Verifier and sent to the Relying Party.  The Relying Party
    includes the nonce in the same Attestation request sent to the
@@ -446,13 +446,11 @@ Table of Contents
    *  ead_label = TBD1
 
    *  ead_value is the serialization of a COSE_Sign1 structure
-      protecting an EAT.
-
-   For remote attestation over EDHOC, The EAT MUST be formatted as a
-   CBOR Web Token (CWT) [RFC8392] containing attestation-oriented
-   claims.  The complete set of attestation claims for the EAT is
-   specified in [RFC9711].  An example is provided in
-   Section Appendix A.
+      protecting an EAT.  For remote attestation over EDHOC, the EAT
+      MUST be formatted as a CBOR Web Token (CWT) [RFC8392] containing
+      attestation-oriented claims.  The complete set of attestation
+      claims for the EAT is specified in [RFC9711].  An example is
+      provided in Appendix A.
 
    A minimal claims set is defined as the payload of COSE_Sign1 when the
    Attester operates under constrained message size requirements and/or
@@ -604,7 +602,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 5.4.1.  Result_proposal
 
    An attestation result proposal contains the identification of the
-   credentials of the Verifiers to indicate Verifiers' indentities.  The
+   credentials of the Verifiers to indicate Verifiers' identities.  The
    identification of credentials relies on COSE header parameters
    [IANA-COSE-Header-Parameters], with a header label and credential
    value.
@@ -666,8 +664,8 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    The attestation result is generated and signed by the Verifier as a
    serialized EAT [RFC9711], and MUST be protected using a COSE_Sign1
    structure.  The Relying Party can decide what action to take with
-   regards to the Attester based on the information elements in
-   attetation result.
+   regard to the Attester based on the information elements in
+   attestation result.
 
    The EAD item Remote Attestation PP is:
 
@@ -1040,7 +1038,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    as manufacturer provisioning, trusted certification authorities, or
    direct configuration.  Reference values used for comparison against
    received evidence should also be provided to the Verifier before the
-   attesation.  The evaluation policy employed by the Verifier varies
+   attestation.  The evaluation policy employed by the Verifier varies
    according to specific use cases and should be determined prior to the
    attestation; such policy definition is out of scope in this
    specification.
@@ -1077,7 +1075,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 
    2.  Verify the signature using the Attester's attestation public key.
        The Verifier reconstructs the Sig_Structure, with the attestation
-       binder as the external_add.
+       binder as the external_aad.
 
    3.  Verify that the nonce exists in the Verifier's local nonce list.
        If the nonce is found, validation passes and the nonce is removed
@@ -1272,7 +1270,7 @@ Appendix A.  Example: Device Onboarding: Firmware Version Check
 
    The goal in this device onboarding example is to verify that the
    firmware running on the device is the latest version, and is neither
-   tampered or compromised.  The objective of onboarding is both
+   tampered with or compromised.  The objective of onboarding is both
    authentication and integrity verification.  If either one is
    compromised, the objective fails.  In particular, if the attestation
    private key is leaked, the device firmware can no longer be trusted,
@@ -1381,7 +1379,7 @@ Sig_structure = [
    The Relying Party (co-located with the gateway) then treats the
    Evidence as opaque and sends it together with the hash value of the
    first two EDHOC messages to the Verifier.  Once the Verifier sends
-   back the Attestation Result, the Relying Party can be assured on the
+   back the Attestation Result, the Relying Party can be assured of the
    version of the firmware that the device is running.
 
 Appendix B.  Re-attestation
@@ -1404,13 +1402,13 @@ B.2.  Post-handshake Re-attestation using OSCORE
 
    Post-handshake attestation can be performed after an EDHOC session
    using Object Security for Constrained RESTful Environments (OSCORE)
-   [RFC8613].  In such case, EDHOC is specifically used to establish an
-   OSCORE Security Context (see Appendix A.1 of [RFC9668]).  OSCORE
+   [RFC8613].  In such a case, EDHOC is specifically used to establish
+   an OSCORE Security Context (see Appendix A.1 of [RFC9668]).  OSCORE
    provides application-layer protection for RESTful message exchanges,
    for example the Constrained Application Protocol (CoAP), which can be
    used to carry attestation information.
 
-   Post-handshake attestation decouples attestation process from the
+   Post-handshake attestation decouples the attestation process from the
    initial handshake, enabling re-attestation throughout the session
    lifetime and guaranteeing the runtime integrity.
 
@@ -1479,9 +1477,9 @@ B.3.2.  Security properties
    integrity, freshness guarantees, and replay protection.  Besides,
    intra-handshake attestation is cryptographically bound to the
    authentication process, and trust is established before the session
-   begins.  Post-handshake attestation gurantees the runtime integrity
-   which can obtain dynamic mesurements during device execution, and can
-   be repeatedly performed throughout the session which has the
+   begins.  Post-handshake attestation guarantees the runtime integrity
+   which can obtain dynamic measurements during device execution, and
+   can be repeatedly performed throughout the session which has the
    continuous assurance.
 
 Acknowledgments
