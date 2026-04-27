@@ -224,13 +224,11 @@ Table of Contents
 
    The Attester can act as either the EDHOC Initiator or the EDHOC
    Responder, depending on the attesting target.  In the background-
-   check model, the Attester (EDHOC Initiator/IoT device) exchanges
-   evidence with the Relying Party (EDHOC Responder/Network service)
-   during the EDHOC session.  In the passport model, the Attester (EDHOC
-   Responder/Network service) exchanges the attestation result with the
-   Relying Party (EDHOC Initiator/IoT device) during the EDHOC session.
-   Section 5 defines two independent dimensions for performing remote
-   attestation over EDHOC:
+   check model, the Attester exchanges evidence with the Relying Party
+   during the EDHOC session.  In the passport model, the Attester
+   exchanges the attestation result with the Relying Party during the
+   EDHOC session.  Section 5 defines two independent dimensions for
+   performing remote attestation over EDHOC:
 
    1.  Target (see Section 5.1, Section 5.2) defining the entity that
        undergoes the attestation process (EDHOC Initiator or EDHOC
@@ -347,7 +345,7 @@ Table of Contents
    based on its knowledge of the Attester.  The Relying Party then sends
    it back within the Attestation request to the Attester.
 
-   A nonce, at least 8 bytes long [RFC9711]), is required to guarantee
+   A nonce, at least 8 bytes long [RFC9711], is required to guarantee
    the freshness of the attestation procedure.  The nonce is generated
    by the Verifier and sent to the Relying Party.  The Relying Party
    includes the nonce in the same Attestation request sent to the
@@ -567,14 +565,13 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    policy, or may carry a set of claims to indicate the results in
    different aspects (Section 8.4 of [RFC9334]).
 
-   An EDHOC session is established between the Attester (EDHOC
-   Responder) and the Relying Party (EDHOC Initiator).  The Attester and
-   the Relying Party should decide from which Verifier the Attester
-   obtains the attestation result before transferring it to the Relying
-   Party.  The Attester first sends a list of the Verifier identities
-   that it can get the attestation result from.  The Relying Party
-   selects one trusted Verifier identity and sends it back within a
-   Result request.
+   An EDHOC session is established between the Attester and the Relying
+   Party.  The Attester and the Relying Party should decide from which
+   Verifier the Attester obtains the attestation result before
+   transferring it to the Relying Party.  The Attester first sends a
+   list of the Verifier identities that it can get the attestation
+   result from.  The Relying Party selects one trusted Verifier identity
+   and sends it back within a Result request.
 
    Regarding the freshness in passport model, the Attester could either
    establish a real-time connection with the selected Verifier, or use a
