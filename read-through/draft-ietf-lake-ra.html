@@ -8,24 +8,26 @@
 <meta content="Yuxuan Song" name="author">
 <meta content="Göran Selander" name="author">
 <meta content="
-       This document specifies how to perform remote attestation as part of the lightweight authenticated Diffie-Hellman key exchange protocol EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation procedureS (RATS) architecture. 
+       
+ This document specifies methods to perform remote attestation as part of the lightweight authenticated key exchange protocol EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation procedureS (RATS) architecture. 
     " name="description">
-<meta content="xml2rfc 3.33.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-lake-ra-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.33.0
-    Python 3.12.13
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.2
-    platformdirs 4.9.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
     pycountry 24.6.1
     PyYAML 6.0.3
-    requests 2.32.5
-    wcwidth 0.6.0
+    requests 2.33.1
+    wcwidth 0.8.1
 -->
 <link href="draft-ietf-lake-ra.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -292,16 +294,19 @@ h1, h2, h3, h4, h5, h6 {
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-h1#title {
-  font-size: 32px;
-  line-height: 40px;
-  clear: both;
-}
-h1#title, h1#rfcnum {
-  margin: 1.5em 0 0.2em;
-}
-h1#rfcnum + h1#title {
-  margin: 0.2em 0;
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
 }
 
 h1, h2, h3 {
@@ -321,10 +326,10 @@ h4, h5, h6 {
 #abstract+p {
   font-size: 18px;
   line-height: 24px;
-}
-#abstract+p code, #abstract+p samp, #abstract+p tt {
-  font-size: 16px;
-  line-height: 0;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
 }
 
 p {
@@ -335,59 +340,59 @@ p {
 div {
   margin: 0;
 }
-.alignRight.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignRight.art-text pre {
-  padding: 0;
-  width: auto;
-}
 .alignRight {
   margin: 1em 0;
-}
-.alignRight > *:first-child {
-  border: none;
-  margin: 0;
-  float: right;
-  clear: both;
-}
-.alignRight > *:nth-child(2) {
-  clear: both;
-  display: block;
-  border: none;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
 }
 svg {
   display: block;
-}
-/* font-family isn't space-separated, but =~ will have to do */
-svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
-  font-family: var(--font-mono);
-}
-.alignCenter.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignCenter.art-text pre {
-  padding: 0;
-  width: auto;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
 }
 .alignCenter {
   margin: 1em 0;
-}
-.alignCenter > *:first-child {
-  border: none;
-  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
-     support flexbox yet.
-  */
-  display: table;
-  margin: 0 auto;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
 }
 
 /* lists */
@@ -425,26 +430,25 @@ dl {
     --indent: 5ch;
     & > dt {
       min-width: calc(var(--indent) - 2ch);
+      float: none;
     }
-  }
-  &.olPercent > dt {
-    float: none;
   }
 
   dl > dd > & {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
-}
-dl:not(.dlNewline) > dt {
-  float: left;
-  margin-right: 2ch;
-  min-width: 8ch;
-}
-dl > dd {
-  margin-bottom: .8em;
-  margin-left: var(--indent) !important; /* stupid element overrides */
-  min-height: 2ex;
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
 }
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
@@ -460,20 +464,22 @@ dl > dd {
 }
 
 /* links */
-a, a[href].selfRef:hover {
+a {
   text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
 }
-a[href] {
-  color: var(--link-color);
-}
-a[href].selfRef, .iref + a[href].internal {
+.iref + a[href].internal {
   color: var(--text-color);
-}
-a[href]:hover {
-  text-decoration: underline;
-}
-a[href].selfRef:hover {
-  background-color: var(--highlight-color);
 }
 a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
   white-space: nowrap;
@@ -509,9 +515,9 @@ img {
 figure {
   margin: 0.5em 0;
   padding: 0;
-}
-figure blockquote {
-  margin: 0.8em 0.4em 0.4em;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
 }
 figcaption, caption {
   font-style: italic;
@@ -521,17 +527,19 @@ figcaption, caption {
 }
 @media screen {
   /* Auto-collapse boilerplate. */
-  :is(#status-of-memo, #copyright) p {
-    margin: -2px 0;
-    max-height: 0;
-    transition: max-height 2s ease, margin 0.5s ease 0.5s;
-    overflow: hidden;
-  }
-  :is(#status-of-memo, #copyright):hover p,
-  :is(#status-of-memo, #copyright) h2:target ~ p {
-    margin: 0.5em 0;
-    max-height: 500px;
-    overflow: auto;
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
   }
   pre, svg {
     display: inline-block;
@@ -581,25 +589,17 @@ table {
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
-}
-table.right {
-  margin-left: auto;
-}
-table.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-table.left {
-  margin-right: auto;
-}
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
 }
 
 thead, tbody {
@@ -619,13 +619,6 @@ th {
 :is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
 }
-table caption {
-  margin: 0;
-  padding: 3px 0 3px 1em;
-}
-table p {
-  margin: 0;
-}
 
 /* pilcrow */
 a.pilcrow {
@@ -636,18 +629,16 @@ a.pilcrow {
     color: var(--pilcrow-weak);
     &:hover { text-decoration: none; }
   }
-}
-@media not print {
-  :hover > a.pilcrow, a.pilcrow:focus {
-    opacity: 1;
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
   }
-  a.pilcrow[href]:hover {
-    color: var(--pilcrow-strong);
-    background-color: transparent;
-  }
-}
-@media print {
-  a.pilcrow {
+  @media print {
     display: none;
   }
 }
@@ -706,9 +697,9 @@ sub, sup {
   font-size: 0.9em;
   font-style: italic;
   margin-top: 2em;
-}
-.docInfo .prepared {
-  float: right;
+  & .prepared {
+    float: right;
+  }
 }
 
 /* table of contents */
@@ -798,23 +789,27 @@ hr.addr {
   max-width: calc(100% - 16px);
 }
 @media (min-width: 500px) {
-  #authors-addresses > section {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  #authors-addresses > section > h2 {
-    column-span: all;
-  }
-  /* hack for break-inside: avoid-column */
-  #authors-addresses address {
-    display: inline-block;
-    break-inside: avoid-column;
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
   }
 }
 
 /* Comments */
-.rfcEditorRemove p:first-of-type {
-  font-style: italic;
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
 }
 .cref {
   background-color: rgba(249, 232, 105, 0.3);
@@ -825,19 +820,21 @@ hr.addr {
 }
 
 @media screen {
-  #toc nav {
-    font-family: var(--font-title);
-    font-weight: 360;
-    & > ul { margin-bottom: 2em; }
-    & ul {
-      margin: 0 0 0 4px;
-      & :is(p, li) {
-        margin: 2px 0;
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
       }
     }
-  }
-  #toc a.toplink {
-    float: right;
+    & a.toplink {
+      float: right;
+    }
   }
 }
 @media not screen {
@@ -858,54 +855,54 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 2px 0 2px 6px;
-    padding-right: 1em;
-    font-size: 18px;
-    line-height: 24px;
-    min-width: 190px;
-    text-align: right;
-    background-color: #444;
-    color: white;
-    cursor: pointer;
-    &::before { /* css hamburger */
-      float: right;
-      position: relative;
-      width: 1em;
-      height: 1px;
-      left: -164px;
-      margin: 8px 0 0 0;
-      background: white none repeat scroll 0 0;
-      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-      content: "";
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
     }
-  }
-  #toc nav {
-    display: none;
-    background-color: var(--background-color);
-    padding: 0.5em 1em 1em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    height: calc(100vh - 48px);
-    border-left: 1px solid #ddd;
-  }
-  #toc.active {
-    opacity: 1;
-    & nav { display: block; }
-  }
-  /* Make the collapsed ToC header render white on gray also when it's a link */
-  #toc h2 a,
-  #toc h2 a:is(:link, :focus, :hover),
-  #toc a.toplink,
-  #toc a.toplink:hover {
-    color: white;
-    background-color: #444;
-    text-decoration: none;
-  }
-  #toc a.toplink {
-    margin: 2px 0.5em 0;
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
   }
 }
 
@@ -924,26 +921,26 @@ hr.addr {
     margin: 0;
     padding: 0;
     z-index: 1;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 0.25em 1em 1em 0;
-  }
-  #toc nav {
-    display: block;
-    height: calc(90vh - 84px);
-    bottom: 0;
-    padding: 0.5em 0 2em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
   }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
-  }
-  #toc a.toplink {
-    margin: 8px 0.5em 0;
   }
 }
 
@@ -959,12 +956,13 @@ hr.addr {
   #n-copyright-notice {
     border-bottom: none;
   }
-  #toc, #n-introduction {
-    page-break-before: always;
-  }
   #toc {
+    page-break-before: always;
     border-top: none;
     padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
   }
   figure, pre, .vcard {
     page-break-inside: avoid;
@@ -1026,17 +1024,19 @@ hr.addr {
 }
 
 /* SVG Trick: a prefix match works because only black and white are allowed */
-svg :is([stroke="black"], [stroke^="#000"]) {
-  stroke: var(--text-color);
-}
-svg :is([stroke="white"], [stroke^="#fff"]) {
-  stroke: var(--background-color);
-}
-svg :is([fill="black"], [fill^="#000"], :not([fill])) {
-  fill: var(--text-color);
-}
-svg :is([fill="white"], [fill^="#fff"]) {
-  fill: var(--background-color);
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
 }
 </style>
 
@@ -1046,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RA-EDHOC</td>
-<td class="right">April 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 29 October 2026</td>
+<td class="center">Expires 3 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-27" class="published">27 April 2026</time>
+<time datetime="2026-07-02" class="published">2 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-29">29 October 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-03">3 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1085,7 +1085,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Remote attestation over EDHOC</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document specifies how to perform remote attestation as part of the lightweight authenticated Diffie-Hellman key exchange protocol EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation procedureS (RATS) architecture.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document specifies methods to perform remote attestation as part of the lightweight authenticated key exchange protocol EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation procedureS (RATS) architecture.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1122,7 +1122,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1329,32 +1329,29 @@ The use cases that require remote attestation include secure boot and firmware m
 The three main roles in the RATS architecture are the Attester, the Verifier and the Relying Party.
 The Attester generates evidence (a set of claims) concerning its identity and integrity, which must be appraised by the Verifier for its validity.
 Then, the Verifier produces the attestation result, which is consequently used by the Relying Party for the purposes of reliably applying application-specific actions.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">One type of interaction model defined in the RATS architecture is called the background-check model.
-It resembles the procedure of how employers perform background checks to determine the prospective employee's trustworthiness, by contacting the respective organization that issues a report.
-In this case, the employer acts as the Relying Party, the employee acts as the Attester and the organization acts as the Verifier.
-The Attester conveys evidence directly to the Relying Party and the Relying Party forwards the evidence to the Verifier for appraisal.
+<p id="section-1-3">One type of interaction model defined in the RATS architecture is called the Background-Check Model.
+In this case, the Attester conveys evidence to the Relying Party and the Relying Party forwards the evidence to the Verifier for appraisal.
 Once the attestation result is computed by the Verifier, it is sent back to the Relying Party to decide what action to take based on the attestation result.
-Another model is called passport model, where the Attester communicates directly with the Verifier.
+Another model is called the Passport Model, where the Attester communicates directly with the Verifier.
 The Attester presents the evidence to the Verifier and gets an attestation result from the Verifier.
 Then the Attester conveys the attestation result to the Relying Party.
-This specification employs both the RATS background-check model and the passport model.<a href="#section-1-3" class="pilcrow">¶</a></p>
+This specification employs both the RATS Background-Check Model and the Passport Model.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">This document specifies the protocol between the Attester and the Relying Party.
-The details of the protocol between the Relying Party and the Verifier in the background-check model, and the protocol between the Attester and the Verifier in the passport model are out of the scope.
-The establishment of the secure association may be provided by EDHOC, TLS, and the communication may be secured through protocols such as OSCORE, TLS or other security protocols that support secure message exchange with the Verifier.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">One way of conveying attestation evidence or the attestation result is the Entity Attestation Token (EAT) <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>.
+The details of the protocol between the Relying Party and the Verifier in the Background-Check Model, and the protocol between the Attester and the Verifier in the Passport Model are out of scope.
+
+The establishment of a secure association and communication security with the Verifier may be provided by EDHOC/OSCORE, TLS, or other security protocols that support secure message exchange.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">One way of conveying the attestation evidence or the attestation result is by means of an Entity Attestation Token (EAT) <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>.
 It provides an attested claims set which can be used to determine a level of trustworthiness.
 This specification relies on the EAT as the format for attestation evidence and the attestation result.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">Ephemeral Diffie-Hellman over COSE (EDHOC) <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span> is a lightweight authenticated key exchange protocol for highly constrained networks.
 In EDHOC, the two parties involved in the key exchange are referred to as the Initiator (I) and the Responder (R).
-EDHOC supports the transport of external authorization data, through the dedicated EAD fields.
-This specification delivers EAT through EDHOC.
-Specifically, EAT is transported as an EAD item.
-This specification also defines new EAD items needed to perform remote attestation over EDHOC in <a href="#bg" class="auto internal xref">Section 5.3</a> and <a href="#pp" class="auto internal xref">Section 5.4</a>.<a href="#section-1-6" class="pilcrow">¶</a></p>
-<p id="section-1-7">For the generation of evidence, the Attester incorporates an internal attestation service, including a specific trusted element known as the "root of trust".
+EDHOC supports the transport of External Authorization Data (EAD), through dedicated protocol fields containing so-called EAD items, see <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.
+This specification delivers EAT through EAD items in EDHOC. It also defines new EAD items needed to perform remote attestation over EDHOC in the Background Check Model (BG, see <a href="#bg" class="auto internal xref">Section 5.3</a>) and in the Passport Model (PP, see <a href="#pp" class="auto internal xref">Section 5.4</a>).<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">For the generation of evidence, the Attester invokes an internal attestation service, including a specific trusted element known as the "root of trust".
 Root of trust serves as the starting point for establishing and validating the trustworthiness appraisals of other components on the system.
 The measurements signed by the attestation service are referred to as the Evidence.
 The signing is requested through an attestation API.
-How the components are separated between the secure and non-secure worlds on a target is out of the scope of this specification.<a href="#section-1-7" class="pilcrow">¶</a></p>
+How the components are separated between the secure and non-secure worlds on a target is out of scope of this specification.<a href="#section-1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1381,19 +1378,18 @@ More importantly, by integrating remote attestation with EDHOC, attestation can 
 <p id="section-3-2">Remote attestation protocol elements are carried within EDHOC's External Authorization Data (EAD) fields.
 EDHOC <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span> supports one or more EAD items in each EAD field.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">The Attester can act as either the EDHOC Initiator or the EDHOC Responder, depending on the attesting target.
-In the background-check model, the Attester exchanges evidence with the Relying Party during the EDHOC session.
-In the passport model, the Attester exchanges the attestation result with the Relying Party during the EDHOC session.
+In the Background-Check (BG) Model, the Attester provides the evidence to the Relying Party during the EDHOC session.
+In the Passport (PP) Model, the Attester provides the attestation result to the Relying Party during the EDHOC session.
 <a href="#attestation-dimensions" class="auto internal xref">Section 5</a> defines two independent dimensions for performing remote attestation over EDHOC:<a href="#section-3-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3-4">
 <li id="section-3-4.1">
-          <p id="section-3-4.1.1">Target (see <a href="#iot" class="auto internal xref">Section 5.1</a>, <a href="#net" class="auto internal xref">Section 5.2</a>) defining the entity that undergoes the attestation process (EDHOC Initiator or EDHOC Responder), which could be a constrained device or not.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
+          <p id="section-3-4.1.1">Target: Defining the entity that is attested (EDHOC Initiator or EDHOC Responder), which could be a constrained device or not (see <a href="#iot" class="auto internal xref">Section 5.1</a> and <a href="#net" class="auto internal xref">Section 5.2</a>).<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-4.2">
-          <p id="section-3-4.2.1">Model (see <a href="#bg" class="auto internal xref">Section 5.3</a>, <a href="#pp" class="auto internal xref">Section 5.4</a>) defining the attestation model in use based on the RATS architecture (background-check model or passport model).<a href="#section-3-4.2.1" class="pilcrow">¶</a></p>
+          <p id="section-3-4.2.1">Model: Defining the attestation model in use based on the RATS architecture (BG or PP model, see <a href="#bg" class="auto internal xref">Section 5.3</a> and <a href="#pp" class="auto internal xref">Section 5.4</a>).<a href="#section-3-4.2.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
-<p id="section-3-5">This document specifies the cases that are suited for constrained IoT environments.
-See this document <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-D.ietf-iotops-7228bis</a>]</span> as a reference for classification of IoT devices.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-5">This document focus on cases that are suited for constrained IoT environments, see <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-D.ietf-iotops-7228bis</a>]</span> for a characterization of constrained nodes and networks.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">The remote attestation operation defined in this document preserves the properties of EDHOC:<a href="#section-3-6" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3-7">
 <li id="section-3-7.1">
@@ -1413,12 +1409,12 @@ See this document <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-
       <h2 id="name-assumptions">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-assumptions" class="section-name selfRef">Assumptions</a>
       </h2>
-<p id="section-4-1">In the background-check model, the Verifier is assumed to support verification of at least one evidence format provided by the Attester.
+<p id="section-4-1">In the BG model, the Verifier is assumed to support verification of at least one evidence format provided by the Attester.
 The Verifier is assumed to be provisioned with the Attester's attestation public key and the reference values required for evidence validation prior to the attestation procedure.
 It is assumed that the Relying Party also has knowledge about the Attester, so it can narrow down the evidence type selection and send to the Attester only one format of the evidence type.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">In the passport model, the authentication credential of the Verifier is assumed to be stored at the Attester and the Relying Party.
+<p id="section-4-2">In the PP model, the authentication credential of the Verifier is assumed to be stored at the Attester and the Relying Party.
 Also, the Attester and the Relying Party consider the Verifier a trusted source of the issued attestation result that they obtain.
-If timestamps are used to ensure freshness in the passport model, synchronized time between the Attester and Relying Party is assumed.
+If timestamps are used to ensure freshness in the PP model, synchronized time between the Attester and Relying Party is assumed.
 For detailed time considerations, refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.
 If a nonce is used to ensure freshness, the device that generates the nonce is assumed to be able to generate a random byte string that is not predictable.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="reuse-of-edhoc">
@@ -1430,13 +1426,13 @@ If a nonce is used to ensure freshness, the device that generates the nonce is a
 <ul class="normal">
 <li class="normal" id="section-4.1-2.1">
             <p id="section-4.1-2.1.1">EAD is the External Authorization Data message field of EDHOC messages, see <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.
-This specification specifies four new EAD items in background-check model, and four new EAD items in passport model (see <a href="#attestation-dimensions" class="auto internal xref">Section 5</a>).<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
+This specification specifies four new EAD items in BG model, and four new EAD items in PP model (see <a href="#attestation-dimensions" class="auto internal xref">Section 5</a>).<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.1-2.2">
             <p id="section-4.1-2.2.1">ID_CRED_I is used to identify the authentication credential of the Initiator in the authentication session.<a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.1-2.3">
-            <p id="section-4.1-2.3.1">EDHOC hash algorithm of the selected cipher suite is used to generate the attestation_binder_m3 (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) when Evidence is sent in EDHOC message_3.<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-2.3.1">The EDHOC hash algorithm of the selected cipher suite is used to generate the attestation_binder_m3 (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) when Evidence is sent in EDHOC message_3.<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.1-2.4">
             <p id="section-4.1-2.4.1">EDHOC_Exporter is used to generate the attestation_binder_m4 (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) when Evidence is sent in EDHOC message_4.<a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
@@ -1486,7 +1482,7 @@ In this specification, both flows are supported to perform remote attestation.<a
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-model-background-check-mode" class="section-name selfRef">Model: Background-check Model (BG)</a>
         </h3>
 <p id="section-5.3-1">In the background-check model, the Attester sends the evidence to the Relying Party.
-Evidence contains a set of claims about the current status of the Attester, including configurations, health or construction that have security relevance (see <span><a href="https://rfc-editor.org/rfc/rfc9334#section-8.1" class="relref">Section 8.1</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>).
+Evidence contains a set of claims about the current status of the Attester, including configurations, health, or construction that have security relevance (see <span><a href="https://rfc-editor.org/rfc/rfc9334#section-8.1" class="relref">Section 8.1</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>).
 The Relying Party transfers the evidence to the Verifier and gets back the attestation result from the Verifier.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">An EDHOC session is established between the Attester and the Relying Party.
 A negotiation of the evidence type is required before the Attester sends the evidence.
@@ -1509,7 +1505,7 @@ In contrast, if Trigger Remote Attestation BG is included in EDHOC message_1, th
 <a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-attestation_proposal" class="section-name selfRef">Attestation_proposal</a>
           </h4>
 <p id="section-5.3.1-1">The Attester indicates to the Relying Party its proposal to do remote attestation, together with the Proposed_EvidenceType object that specifies which types of attestation claims the Attester supports.
-The Proposed_EvidenceType is encoded in CBOR in the form of a sequence (see<span>[<a href="#RFC8742" class="cite xref">RFC8742</a>]</span>).<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
+The Proposed_EvidenceType is encoded in CBOR in the form of a sequence (see <span>[<a href="#RFC8742" class="cite xref">RFC8742</a>]</span>).<a href="#section-5.3.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.3.1-2">The EAD item Remote Attestation BG for an attestation proposal is:<a href="#section-5.3.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.1-3.1">
@@ -1607,7 +1603,7 @@ An example is provided in <a href="#firmware" class="auto internal xref">Appendi
 <div class="alignLeft art-text artwork" id="section-5.3.3-5">
 <pre>
 minimal-claim-set = {
-10 =&gt; bstr .size 8  ;eat_nonce
+10 =&gt; bstr .size (8..64)  ;eat_nonce
 256 =&gt; bstr .size (7..33)  ;ueid
 273 =&gt; measurements-type  ;measurements
 }
@@ -1652,13 +1648,16 @@ H_12 = H(H(message_1), message_2)
 <p id="section-5.3.3.1-5">where<a href="#section-5.3.3.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.3.1-6.1">
-                <p id="section-5.3.3.1-6.1.1">hash_length is the length in bytes of the output of the EDHOC hash algorithm of the selected cipher suite.<a href="#section-5.3.3.1-6.1.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3.3.1-6.1.1">0 denotes an all-zero byte string of length hash_length used as the PRK input to HKDF-Expand.<a href="#section-5.3.3.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3.3.1-6.2">
-                <p id="section-5.3.3.1-6.2.1">attest_info is a CBOR array containing H_12, the text string "attestation" and ID_CRED_I.<a href="#section-5.3.3.1-6.2.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3.3.1-6.2.1">hash_length is the length in bytes of the output of the EDHOC hash algorithm of the selected cipher suite.<a href="#section-5.3.3.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3.3.1-6.3">
-                <p id="section-5.3.3.1-6.3.1">H() is the EDHOC hash algorithm of the selected cipher suite.<a href="#section-5.3.3.1-6.3.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3.3.1-6.3.1">attest_info is a CBOR array containing H_12, the text string "attestation" and ID_CRED_I.<a href="#section-5.3.3.1-6.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3.3.1-6.4">
+                <p id="section-5.3.3.1-6.4.1">H() is the EDHOC hash algorithm of the selected cipher suite.<a href="#section-5.3.3.1-6.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-5.3.3.1-7">When Evidence is sent in EDHOC message_4, the attestation binder is derived using EDHOC_Exporter defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-5.3.3.1-7" class="pilcrow">¶</a></p>
@@ -1774,6 +1773,9 @@ label = int / tstr
 <li class="normal" id="section-5.4.1-6.1">
               <p id="section-5.4.1-6.1.1">Proposed_VerifierIdentity is defined as a list of one or more VerifierIdentity elements.<a href="#section-5.4.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
+            <li class="normal" id="section-5.4.1-6.2">
+              <p id="section-5.4.1-6.2.1">label corresponds to a COSE header parameter as defined in <span>[<a href="#IANA-COSE-Header-Parameters" class="cite xref">IANA-COSE-Header-Parameters</a>]</span>, such as kid (4) or x5t (34). Profiles using this specification <span class="bcp14">MUST</span> specify which label values are acceptable.<a href="#section-5.4.1-6.2.1" class="pilcrow">¶</a></p>
+</li>
           </ul>
 </section>
 </div>
@@ -1885,7 +1887,7 @@ The EAD items specific to the background-check model are defined in <a href="#bg
 <p id="section-6.1-2">The Attester starts the attestation by sending an Attestation proposal in EDHOC message_1.
 The Relying Party generates EAD_2 with the received evidence type(s) and nonce from the Verifier, and sends an Attestation request to the Attester.
 The Attester generates the Evidence with the nonce embedded and signs the EAT with the attestation binder as an input, then sends the Evidence to the Relying Party in EAD_3.
-The Relying Party verifies the attestation binder and then sends the Evidence together with the attestation binder to the Verifier.
+The Relying Party computes the attestation binder and forwards the Evidence together with the attestation binder to the Verifier.
 The Verifier evaluates the Evidence and sends the Attestation result to the Relying Party.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.1-3">A common use case for (I, BG) is to attest an IoT device (EDHOC Initiator) to a network server (EDHOC Responder).
 For example, a simple illustrative example is the performance of remote attestation to verify that the latest version of firmware is running on the IoT device before the network server allows it to join the network (see <a href="#firmware" class="auto internal xref">Appendix A</a>).<a href="#section-6.1-3" class="pilcrow">¶</a></p>
@@ -2550,10 +2552,10 @@ The evaluation policy employed by the Verifier varies according to specific use 
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-processing-in-the-backgroun" class="section-name selfRef">Processing in the Background-check Model</a>
         </h3>
 <p id="section-8.1-1">The Verifier is connected with the Relying Party and is responsible for evaluating evidence forwarded by the Relying Party.
-After the Relying Party receives EDHOC message_1 from the Attester, it extracts and transmits the Attestation proposal to the Verifier.
+After the Relying Party receives the EDHOC message carrying the Attestation_proposal (message_1 in (I, BG) or message_2 in (R, BG)) from the Attester, it extracts and transmits the Attestation proposal to the Verifier.
 If the Verifier does not support any evidence type for evaluation, it returns an empty list.
 Otherwise, alongside the selected evidence type, the Verifier generates a random nonce and sends both elements to the Relying Party.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1-2">When the Relying Party receives EDHOC message_3, it forwards the evidence and the attestation binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-2">When the Relying Party receives the EDHOC message carrying the Evidence (message_3 in (I, BG) or message_4 in (R, BG)), it forwards the evidence and the attestation binder (see <a href="#attestation-binder" class="auto internal xref">Section 5.3.3.1</a>) to the Verifier for evaluation.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
 <p id="section-8.1-3">The evidence evaluation process <span class="bcp14">MUST</span> include the signature verification, nonce validation, and comparison of measurement values against trusted reference values.
 An example evaluation procedure for evidence formatted as an Entity Attestation Token (EAT) protected by a COSE_Sign1 structure is as follows:<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-8.1-4">
@@ -2596,7 +2598,7 @@ The general security and privacy considerations about EAD fields apply to this s
 <p id="section-9-2">EAD_1 is not resistant to either active attackers or passive attackers, because neither the Initiator nor the Responder has been authenticated.<a href="#section-9-2" class="pilcrow">¶</a></p>
 <p id="section-9-3">Although EAD_2 is encrypted, the Initiator has not been authenticated, rendering EAD_2 vulnerable against active attackers.<a href="#section-9-3" class="pilcrow">¶</a></p>
 <p id="section-9-4">When included in EAD_1 or EAD_2, the EAD items defined in this document could reveal sensitive information about the Attester, due to their very specific purpose and conveyed information.
-The leaking of the data in EAD_1 and/or EAD_2 <span class="bcp14">MAY</span> risk to be used by attackers for malicious purposes.
+The leaking of the data in EAD_1 and/or EAD_2 may be used by attackers for malicious purposes.
 Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.<a href="#section-9-4" class="pilcrow">¶</a></p>
 <p id="section-9-5">The risks discussed above are lower in the case of mutual attestation where the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
@@ -2614,7 +2616,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
         <h3 id="name-edhoc-external-authorizatio">
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-edhoc-external-authorizatio" class="section-name selfRef">EDHOC External Authorization Data Registry</a>
         </h3>
-<p id="section-10.1-1">IANA is requested to register the following entry in the "EDHOC External Authorization Data" registry under the group name "Ephemeral Diffie-Hellman Over Cose (EDHOC)".<a href="#section-10.1-1" class="pilcrow">¶</a></p>
+<p id="section-10.1-1">IANA is requested to register the following entry in the "EDHOC External Authorization Data" registry under the group name "Ephemeral Diffie-Hellman Over COSE (EDHOC)".<a href="#section-10.1-1" class="pilcrow">¶</a></p>
 <span id="name-ead-labels"></span><div id="fig-ead-labels">
 <figure id="figure-6">
           <div id="section-10.1-2.1">
@@ -2757,7 +2759,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 <dl class="references">
 <dt id="I-D.ietf-iotops-7228bis">[I-D.ietf-iotops-7228bis]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, <span class="refAuthor">Keränen, A.</span>, and <span class="refAuthor">C. Gomez</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-iotops-7228bis-07</span>, <time datetime="2026-04-23" class="refDate">23 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-07">https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-07</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, <span class="refAuthor">Keränen, A.</span>, and <span class="refAuthor">C. Gomez</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-iotops-7228bis-09</span>, <time datetime="2026-06-29" class="refDate">29 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-09">https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-09</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lake-authz">[I-D.ietf-lake-authz]</dt>
         <dd>
@@ -2765,7 +2767,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 <dd class="break"></dd>
 <dt id="I-D.ietf-lake-edhoc-psk">[I-D.ietf-lake-edhoc-psk]</dt>
         <dd>
-<span class="refAuthor">Lopez-Perez</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Marin-Lopez, R.</span>, and <span class="refAuthor">F. Lopez-Gomez</span>, <span class="refTitle">"EDHOC Authenticated with Pre-Shared Keys (PSK)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lake-edhoc-psk-07</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07">https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07</a>&gt;</span>. </dd>
+<span class="refAuthor">Lopez-Perez</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Marin-Lopez, R.</span>, and <span class="refAuthor">F. Lopez-Gomez</span>, <span class="refTitle">"EDHOC Authenticated with Pre-Shared Keys (PSK)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lake-edhoc-psk-08</span>, <time datetime="2026-06-16" class="refDate">16 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-08">https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-08</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-corim">[I-D.ietf-rats-corim]</dt>
         <dd>
@@ -2809,7 +2811,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
       <h2 id="name-example-device-onboarding-f">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-example-device-onboarding-f" class="section-name selfRef">Example: Device Onboarding: Firmware Version Check</a>
       </h2>
-<p id="appendix-A-1">The goal in this device onboarding example is to verify that the firmware running on the device is the latest version, and is neither tampered with or compromised.
+<p id="appendix-A-1">The goal in this device onboarding example is to verify that the firmware running on the device is the latest version, and is neither tampered with nor compromised.
 The objective of onboarding is both authentication and integrity verification.
 If either one is compromised, the objective fails.
 In particular, if the attestation private key is leaked, the device firmware can no longer be trusted, so the value of valid authentication is significantly reduced.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
@@ -2832,7 +2834,7 @@ The remote attestation session starts with the Attester sending EAD_1 in EDHOC m
 (258, h'a29f62a4c6cdaae5')
 </pre><a href="#appendix-A-6" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A-7">The Evidence in EAD_3 field is an Entity Attestation Token (EAT) <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>, with the measurements claim formatted in CoSWID<span>[<a href="#RFC9393" class="cite xref">RFC9393</a>]</span>.
+<p id="appendix-A-7">The Evidence in EAD_3 field is an Entity Attestation Token (EAT) <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>, with the measurements claim formatted in CoSWID <span>[<a href="#RFC9393" class="cite xref">RFC9393</a>]</span>.
 The Evidence is protected by a COSE_Sign1 structure, where the payload of COSE_Sign1 contains the following claims:<a href="#appendix-A-7" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A-8">
 <pre>
@@ -2872,7 +2874,7 @@ The Evidence is protected by a COSE_Sign1 structure, where the payload of COSE_S
 Sig_structure = [
     "Signature1",
     h'a10127',      /ED25519 algorithm, same as the protected header in COSE_Sign1/
-    h'7b4c94f32a0e6db86d915a444f76525fc32912b2e07dd481a96f627ee98a110c',      /hash of the first two EDHOC messages/
+    h'7b4c94f32a0e6db86d915a444f76525fc32912b2e07dd481a96f627ee98a110c',      /attestation_binder_m3/
     h'A30A48A29F62A4C6CDAAE519010047616161626263631901118182190102A50045746
     16749440C00016F446F74426F74206669726D7761726502A2181F684174746573746572
     18210103A11181A218187819706172746974696F6E302D6E72663532383430646B2E626
@@ -2916,7 +2918,7 @@ C19133F2F0AC158C1F5EE6EDAFE9D7C3D6EB3D2D197F82E733D375FDDA9FB258B304961
 DFC38558950D
 </pre><a href="#appendix-A-14" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A-15">The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it together with the hash value of the first two EDHOC messages to the Verifier.
+<p id="appendix-A-15">The Relying Party (co-located with the gateway) then treats the Evidence as opaque and sends it together with the attestation_binder_m3 to the Verifier.
 Once the Verifier sends back the Attestation Result, the Relying Party can be assured of the version of the firmware that the device is running.<a href="#appendix-A-15" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2933,7 +2935,7 @@ This section presents two re-attestation approaches: re-attestation during EDHOC
         <h3 id="name-intra-handshake-re-attestat">
 <a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-intra-handshake-re-attestat" class="section-name selfRef">Intra-handshake Re-attestation using EDHOC Resumption with PSK</a>
         </h3>
-<p id="appendix-B.1-1">Remote attestation can be applied during EDHOC session resumption using EDHOC-PSK, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07#section-6" class="relref">Section 6</a> of [<a href="#I-D.ietf-lake-edhoc-psk" class="cite xref">I-D.ietf-lake-edhoc-psk</a>]</span>.
+<p id="appendix-B.1-1">Remote attestation can be applied during EDHOC session resumption using EDHOC-PSK, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-08#section-6" class="relref">Section 6</a> of [<a href="#I-D.ietf-lake-edhoc-psk" class="cite xref">I-D.ietf-lake-edhoc-psk</a>]</span>.
 This enables re-attestation without public key based authentication.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -3041,7 +3043,7 @@ Post-handshake attestation guarantees the runtime integrity which can obtain dyn
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-C-1">The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane Fedrecheski, John Mattsson and Marco Tiloca for the provided ideas and feedback.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<p id="appendix-C-1">The authors would like to thank Thomas Fossati, Malisa Vucinic, Ionut Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane Fedrecheski, John Mattsson and Marco Tiloca for the provided ideas and feedback.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">Work on this document has in part been supported by the Horizon Europe Framework Programme project OpenSwarm (grant agreement No. 101093046).<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 </section>
 </div>

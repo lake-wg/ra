@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 29 October 2026                                     Ericsson AB
-                                                           27 April 2026
+Expires: 3 January 2027                                      Ericsson AB
+                                                             2 July 2026
 
 
                      Remote attestation over EDHOC
@@ -14,10 +14,10 @@ Expires: 29 October 2026                                     Ericsson AB
 
 Abstract
 
-   This document specifies how to perform remote attestation as part of
-   the lightweight authenticated Diffie-Hellman key exchange protocol
-   EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote
-   ATtestation procedureS (RATS) architecture.
+   This document specifies methods to perform remote attestation as part
+   of the lightweight authenticated key exchange protocol EDHOC
+   (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation
+   procedureS (RATS) architecture.
 
 About This Document
 
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 October 2026.
+   This Internet-Draft will expire on 3 January 2027.
 
 Copyright Notice
 
@@ -143,56 +143,53 @@ Table of Contents
    specific actions.
 
    One type of interaction model defined in the RATS architecture is
-   called the background-check model.  It resembles the procedure of how
-   employers perform background checks to determine the prospective
-   employee's trustworthiness, by contacting the respective organization
-   that issues a report.  In this case, the employer acts as the Relying
-   Party, the employee acts as the Attester and the organization acts as
-   the Verifier.  The Attester conveys evidence directly to the Relying
-   Party and the Relying Party forwards the evidence to the Verifier for
-   appraisal.  Once the attestation result is computed by the Verifier,
-   it is sent back to the Relying Party to decide what action to take
-   based on the attestation result.  Another model is called passport
-   model, where the Attester communicates directly with the Verifier.
-   The Attester presents the evidence to the Verifier and gets an
-   attestation result from the Verifier.  Then the Attester conveys the
-   attestation result to the Relying Party.  This specification employs
-   both the RATS background-check model and the passport model.
+   called the Background-Check Model.  In this case, the Attester
+   conveys evidence to the Relying Party and the Relying Party forwards
+   the evidence to the Verifier for appraisal.  Once the attestation
+   result is computed by the Verifier, it is sent back to the Relying
+   Party to decide what action to take based on the attestation result.
+   Another model is called the Passport Model, where the Attester
+   communicates directly with the Verifier.  The Attester presents the
+   evidence to the Verifier and gets an attestation result from the
+   Verifier.  Then the Attester conveys the attestation result to the
+   Relying Party.  This specification employs both the RATS Background-
+   Check Model and the Passport Model.
 
    This document specifies the protocol between the Attester and the
    Relying Party.  The details of the protocol between the Relying Party
-   and the Verifier in the background-check model, and the protocol
-   between the Attester and the Verifier in the passport model are out
-   of the scope.  The establishment of the secure association may be
-   provided by EDHOC, TLS, and the communication may be secured through
-   protocols such as OSCORE, TLS or other security protocols that
-   support secure message exchange with the Verifier.
+   and the Verifier in the Background-Check Model, and the protocol
+   between the Attester and the Verifier in the Passport Model are out
+   of scope.  The establishment of a secure association and
+   communication security with the Verifier may be provided by EDHOC/
+   OSCORE, TLS, or other security protocols that support secure message
+   exchange.
 
-   One way of conveying attestation evidence or the attestation result
-   is the Entity Attestation Token (EAT) [RFC9711].  It provides an
-   attested claims set which can be used to determine a level of
-   trustworthiness.  This specification relies on the EAT as the format
-   for attestation evidence and the attestation result.
+   One way of conveying the attestation evidence or the attestation
+   result is by means of an Entity Attestation Token (EAT) [RFC9711].
+   It provides an attested claims set which can be used to determine a
+   level of trustworthiness.  This specification relies on the EAT as
+   the format for attestation evidence and the attestation result.
 
    Ephemeral Diffie-Hellman over COSE (EDHOC) [RFC9528] is a lightweight
    authenticated key exchange protocol for highly constrained networks.
    In EDHOC, the two parties involved in the key exchange are referred
    to as the Initiator (I) and the Responder (R).  EDHOC supports the
-   transport of external authorization data, through the dedicated EAD
-   fields.  This specification delivers EAT through EDHOC.
-   Specifically, EAT is transported as an EAD item.  This specification
-   also defines new EAD items needed to perform remote attestation over
-   EDHOC in Section 5.3 and Section 5.4.
+   transport of External Authorization Data (EAD), through dedicated
+   protocol fields containing so-called EAD items, see Section 3.8 of
+   [RFC9528].  This specification delivers EAT through EAD items in
+   EDHOC.  It also defines new EAD items needed to perform remote
+   attestation over EDHOC in the Background Check Model (BG, see
+   Section 5.3) and in the Passport Model (PP, see Section 5.4).
 
-   For the generation of evidence, the Attester incorporates an internal
+   For the generation of evidence, the Attester invokes an internal
    attestation service, including a specific trusted element known as
    the "root of trust".  Root of trust serves as the starting point for
    establishing and validating the trustworthiness appraisals of other
    components on the system.  The measurements signed by the attestation
    service are referred to as the Evidence.  The signing is requested
    through an attestation API.  How the components are separated between
-   the secure and non-secure worlds on a target is out of the scope of
-   this specification.
+   the secure and non-secure worlds on a target is out of scope of this
+   specification.
 
 2.  Conventions and Definitions
 
@@ -223,24 +220,23 @@ Table of Contents
    one or more EAD items in each EAD field.
 
    The Attester can act as either the EDHOC Initiator or the EDHOC
-   Responder, depending on the attesting target.  In the background-
-   check model, the Attester exchanges evidence with the Relying Party
-   during the EDHOC session.  In the passport model, the Attester
-   exchanges the attestation result with the Relying Party during the
-   EDHOC session.  Section 5 defines two independent dimensions for
+   Responder, depending on the attesting target.  In the Background-
+   Check (BG) Model, the Attester provides the evidence to the Relying
+   Party during the EDHOC session.  In the Passport (PP) Model, the
+   Attester provides the attestation result to the Relying Party during
+   the EDHOC session.  Section 5 defines two independent dimensions for
    performing remote attestation over EDHOC:
 
-   1.  Target (see Section 5.1, Section 5.2) defining the entity that
-       undergoes the attestation process (EDHOC Initiator or EDHOC
-       Responder), which could be a constrained device or not.
+   1.  Target: Defining the entity that is attested (EDHOC Initiator or
+       EDHOC Responder), which could be a constrained device or not (see
+       Section 5.1 and Section 5.2).
 
-   2.  Model (see Section 5.3, Section 5.4) defining the attestation
-       model in use based on the RATS architecture (background-check
-       model or passport model).
+   2.  Model: Defining the attestation model in use based on the RATS
+       architecture (BG or PP model, see Section 5.3 and Section 5.4).
 
-   This document specifies the cases that are suited for constrained IoT
-   environments.  See this document [I-D.ietf-iotops-7228bis] as a
-   reference for classification of IoT devices.
+   This document focus on cases that are suited for constrained IoT
+   environments, see [I-D.ietf-iotops-7228bis] for a characterization of
+   constrained nodes and networks.
 
    The remote attestation operation defined in this document preserves
    the properties of EDHOC:
@@ -255,25 +251,25 @@ Table of Contents
 
 4.  Assumptions
 
-   In the background-check model, the Verifier is assumed to support
-   verification of at least one evidence format provided by the
-   Attester.  The Verifier is assumed to be provisioned with the
-   Attester's attestation public key and the reference values required
-   for evidence validation prior to the attestation procedure.  It is
-   assumed that the Relying Party also has knowledge about the Attester,
-   so it can narrow down the evidence type selection and send to the
-   Attester only one format of the evidence type.
+   In the BG model, the Verifier is assumed to support verification of
+   at least one evidence format provided by the Attester.  The Verifier
+   is assumed to be provisioned with the Attester's attestation public
+   key and the reference values required for evidence validation prior
+   to the attestation procedure.  It is assumed that the Relying Party
+   also has knowledge about the Attester, so it can narrow down the
+   evidence type selection and send to the Attester only one format of
+   the evidence type.
 
-   In the passport model, the authentication credential of the Verifier
-   is assumed to be stored at the Attester and the Relying Party.  Also,
+   In the PP model, the authentication credential of the Verifier is
+   assumed to be stored at the Attester and the Relying Party.  Also,
    the Attester and the Relying Party consider the Verifier a trusted
    source of the issued attestation result that they obtain.  If
-   timestamps are used to ensure freshness in the passport model,
-   synchronized time between the Attester and Relying Party is assumed.
-   For detailed time considerations, refer to Appendix A of [RFC9334].
-   If a nonce is used to ensure freshness, the device that generates the
-   nonce is assumed to be able to generate a random byte string that is
-   not predictable.
+   timestamps are used to ensure freshness in the PP model, synchronized
+   time between the Attester and Relying Party is assumed.  For detailed
+   time considerations, refer to Appendix A of [RFC9334].  If a nonce is
+   used to ensure freshness, the device that generates the nonce is
+   assumed to be able to generate a random byte string that is not
+   predictable.
 
 4.1.  Reuse of EDHOC
 
@@ -281,13 +277,13 @@ Table of Contents
 
    *  EAD is the External Authorization Data message field of EDHOC
       messages, see Section 3.8 of [RFC9528].  This specification
-      specifies four new EAD items in background-check model, and four
-      new EAD items in passport model (see Section 5).
+      specifies four new EAD items in BG model, and four new EAD items
+      in PP model (see Section 5).
 
    *  ID_CRED_I is used to identify the authentication credential of the
       Initiator in the authentication session.
 
-   *  EDHOC hash algorithm of the selected cipher suite is used to
+   *  The EDHOC hash algorithm of the selected cipher suite is used to
       generate the attestation_binder_m3 (see Section 5.3.3.1) when
       Evidence is sent in EDHOC message_3.
 
@@ -326,7 +322,7 @@ Table of Contents
 
    In the background-check model, the Attester sends the evidence to the
    Relying Party.  Evidence contains a set of claims about the current
-   status of the Attester, including configurations, health or
+   status of the Attester, including configurations, health, or
    construction that have security relevance (see Section 8.1 of
    [RFC9334]).  The Relying Party transfers the evidence to the Verifier
    and gets back the attestation result from the Verifier.
@@ -373,7 +369,7 @@ Table of Contents
    attestation, together with the Proposed_EvidenceType object that
    specifies which types of attestation claims the Attester supports.
    The Proposed_EvidenceType is encoded in CBOR in the form of a
-   sequence (see[RFC8742]).
+   sequence (see [RFC8742]).
 
    The EAD item Remote Attestation BG for an attestation proposal is:
 
@@ -455,7 +451,7 @@ Table of Contents
    limited computational resources:
 
    minimal-claim-set = {
-   10 => bstr .size 8  ;eat_nonce
+   10 => bstr .size (8..64)  ;eat_nonce
    256 => bstr .size (7..33)  ;ueid
    273 => measurements-type  ;measurements
    }
@@ -500,6 +496,9 @@ Table of Contents
    H_12 = H(H(message_1), message_2)
 
    where
+
+   *  0 denotes an all-zero byte string of length hash_length used as
+      the PRK input to HKDF-Expand.
 
    *  hash_length is the length in bytes of the output of the EDHOC hash
       algorithm of the selected cipher suite.
@@ -625,6 +624,11 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    *  Proposed_VerifierIdentity is defined as a list of one or more
       VerifierIdentity elements.
 
+   *  label corresponds to a COSE header parameter as defined in
+      [IANA-COSE-Header-Parameters], such as kid (4) or x5t (34).
+      Profiles using this specification MUST specify which label values
+      are acceptable.
+
 5.4.2.  Result_request
 
    As a response to the attestation result proposal, the Relying Party
@@ -722,10 +726,10 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    an Attestation request to the Attester.  The Attester generates the
    Evidence with the nonce embedded and signs the EAT with the
    attestation binder as an input, then sends the Evidence to the
-   Relying Party in EAD_3.  The Relying Party verifies the attestation
-   binder and then sends the Evidence together with the attestation
-   binder to the Verifier.  The Verifier evaluates the Evidence and
-   sends the Attestation result to the Relying Party.
+   Relying Party in EAD_3.  The Relying Party computes the attestation
+   binder and forwards the Evidence together with the attestation binder
+   to the Verifier.  The Verifier evaluates the Evidence and sends the
+   Attestation result to the Relying Party.
 
    A common use case for (I, BG) is to attest an IoT device (EDHOC
    Initiator) to a network server (EDHOC Responder).  For example, a
@@ -1050,15 +1054,17 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 
    The Verifier is connected with the Relying Party and is responsible
    for evaluating evidence forwarded by the Relying Party.  After the
-   Relying Party receives EDHOC message_1 from the Attester, it extracts
-   and transmits the Attestation proposal to the Verifier.  If the
-   Verifier does not support any evidence type for evaluation, it
-   returns an empty list.  Otherwise, alongside the selected evidence
-   type, the Verifier generates a random nonce and sends both elements
-   to the Relying Party.
+   Relying Party receives the EDHOC message carrying the
+   Attestation_proposal (message_1 in (I, BG) or message_2 in (R, BG))
+   from the Attester, it extracts and transmits the Attestation proposal
+   to the Verifier.  If the Verifier does not support any evidence type
+   for evaluation, it returns an empty list.  Otherwise, alongside the
+   selected evidence type, the Verifier generates a random nonce and
+   sends both elements to the Relying Party.
 
-   When the Relying Party receives EDHOC message_3, it forwards the
-   evidence and the attestation binder (see Section 5.3.3.1) to the
+   When the Relying Party receives the EDHOC message carrying the
+   Evidence (message_3 in (I, BG) or message_4 in (R, BG)), it forwards
+   the evidence and the attestation binder (see Section 5.3.3.1) to the
    Verifier for evaluation.
 
    The evidence evaluation process MUST include the signature
@@ -1111,9 +1117,9 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    When included in EAD_1 or EAD_2, the EAD items defined in this
    document could reveal sensitive information about the Attester, due
    to their very specific purpose and conveyed information.  The leaking
-   of the data in EAD_1 and/or EAD_2 MAY risk to be used by attackers
-   for malicious purposes.  Data in EAD_3 and EAD_4 are protected
-   between the Initiator and the Responder in EDHOC.
+   of the data in EAD_1 and/or EAD_2 may be used by attackers for
+   malicious purposes.  Data in EAD_3 and EAD_4 are protected between
+   the Initiator and the Responder in EDHOC.
 
    The risks discussed above are lower in the case of mutual attestation
    where the Responder is the Attester.  For the mutual attestation at
@@ -1131,7 +1137,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 
    IANA is requested to register the following entry in the "EDHOC
    External Authorization Data" registry under the group name "Ephemeral
-   Diffie-Hellman Over Cose (EDHOC)".
+   Diffie-Hellman Over COSE (EDHOC)".
 
 +-------------------------------+-------+------------------------+-----------------------------+
 | Name                          | Label | Description            | Reference                   |
@@ -1202,9 +1208,9 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    [I-D.ietf-iotops-7228bis]
               Bormann, C., Ersue, M., Keränen, A., and C. Gomez,
               "Terminology for Constrained-Node Networks", Work in
-              Progress, Internet-Draft, draft-ietf-iotops-7228bis-07, 23
-              April 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-iotops-7228bis-07>.
+              Progress, Internet-Draft, draft-ietf-iotops-7228bis-09, 29
+              June 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-iotops-7228bis-09>.
 
    [I-D.ietf-lake-authz]
               Selander, G., Mattsson, J. P., Vučinić, M., Fedrecheski,
@@ -1218,9 +1224,9 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
               Lopez-Perez, Selander, G., Mattsson, J. P., Marin-Lopez,
               R., and F. Lopez-Gomez, "EDHOC Authenticated with Pre-
               Shared Keys (PSK)", Work in Progress, Internet-Draft,
-              draft-ietf-lake-edhoc-psk-07, 2 March 2026,
+              draft-ietf-lake-edhoc-psk-08, 16 June 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lake-
-              edhoc-psk-07>.
+              edhoc-psk-08>.
 
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
@@ -1267,7 +1273,7 @@ Appendix A.  Example: Device Onboarding: Firmware Version Check
 
    The goal in this device onboarding example is to verify that the
    firmware running on the device is the latest version, and is neither
-   tampered with or compromised.  The objective of onboarding is both
+   tampered with nor compromised.  The objective of onboarding is both
    authentication and integrity verification.  If either one is
    compromised, the objective fails.  In particular, if the attestation
    private key is leaked, the device firmware can no longer be trusted,
@@ -1296,7 +1302,7 @@ Appendix A.  Example: Device Onboarding: Firmware Version Check
    (258, h'a29f62a4c6cdaae5')
 
    The Evidence in EAD_3 field is an Entity Attestation Token (EAT)
-   [RFC9711], with the measurements claim formatted in CoSWID[RFC9393].
+   [RFC9711], with the measurements claim formatted in CoSWID [RFC9393].
    The Evidence is protected by a COSE_Sign1 structure, where the
    payload of COSE_Sign1 contains the following claims:
 
@@ -1334,7 +1340,7 @@ Appendix A.  Example: Device Onboarding: Firmware Version Check
 Sig_structure = [
     "Signature1",
     h'a10127',      /ED25519 algorithm, same as the protected header in COSE_Sign1/
-    h'7b4c94f32a0e6db86d915a444f76525fc32912b2e07dd481a96f627ee98a110c',      /hash of the first two EDHOC messages/
+    h'7b4c94f32a0e6db86d915a444f76525fc32912b2e07dd481a96f627ee98a110c',      /attestation_binder_m3/
     h'A30A48A29F62A4C6CDAAE519010047616161626263631901118182190102A50045746
     16749440C00016F446F74426F74206669726D7761726502A2181F684174746573746572
     18210103A11181A218187819706172746974696F6E302D6E72663532383430646B2E626
@@ -1374,9 +1380,9 @@ Sig_structure = [
  DFC38558950D
 
    The Relying Party (co-located with the gateway) then treats the
-   Evidence as opaque and sends it together with the hash value of the
-   first two EDHOC messages to the Verifier.  Once the Verifier sends
-   back the Attestation Result, the Relying Party can be assured of the
+   Evidence as opaque and sends it together with the
+   attestation_binder_m3 to the Verifier.  Once the Verifier sends back
+   the Attestation Result, the Relying Party can be assured of the
    version of the firmware that the device is running.
 
 Appendix B.  Re-attestation
@@ -1481,7 +1487,7 @@ B.3.2.  Security properties
 
 Acknowledgments
 
-   The author would like to thank Thomas Fossati, Malisa Vucinic, Ionut
+   The authors would like to thank Thomas Fossati, Malisa Vucinic, Ionut
    Mihalcea, Muhammad Usama Sardar, Michael Richardson, Geovane
    Fedrecheski, John Mattsson and Marco Tiloca for the provided ideas
    and feedback.
