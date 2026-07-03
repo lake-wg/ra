@@ -139,7 +139,7 @@ In the Passport (PP) Model, the Attester provides the attestation result to the 
   1. Target: Defining the entity that is attested (EDHOC Initiator or EDHOC Responder), which could be a constrained device or not (see {{iot}} and {{net}}).
   2. Model: Defining the attestation model in use based on the RATS architecture (BG or PP model, see {{bg}} and {{pp}}).
 
-This document focus on cases that are suited for constrained IoT environments, see {{I-D.ietf-iotops-7228bis}} for a characterization of constrained nodes and networks.
+This document focuses on cases that are suited for constrained IoT environments, see {{I-D.ietf-iotops-7228bis}} for a characterization of constrained nodes and networks.
 
 The remote attestation operation defined in this document preserves the properties of EDHOC:
 
@@ -164,7 +164,7 @@ If a nonce is used to ensure freshness, the device that generates the nonce is a
 This specification reuses several components of EDHOC.
 
 * EAD is the External Authorization Data message field of EDHOC messages, see {{Section 3.8 of RFC9528}}.
-This specification specifies four new EAD items in BG model, and four new EAD items in PP model (see {{attestation-dimensions}}).
+This specification specifies four new EAD items in BG model, and four new EAD items in PP model. See {{attestation-dimensions}}.
 * ID_CRED_I is used to identify the authentication credential of the Initiator in the authentication session.
 * The EDHOC hash algorithm of the selected cipher suite is used to generate the attestation_binder_m3 (see {{attestation-binder}}) when Evidence is sent in EDHOC message_3.
 * EDHOC_Exporter is used to generate the attestation_binder_m4 (see {{attestation-binder}}) when Evidence is sent in EDHOC message_4.
@@ -176,7 +176,7 @@ This section specifies two independent dimensions that characterize the remote a
   1. Target: Defines the entity that undergoes the attestation process.
   2. Model: Defines the attestation models based on RATS architecture.
 This specification supports both the RATS background-check model (see {{bg}}) and the passport model (see {{pp}}).
-The corresponding EAD items for background-check model and the passport model are independent of each other.
+The corresponding EAD items for the BG and PP models are independent.
 
 When transferred over CoAP {{RFC7252}}, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see {{Appendix A.2.2 of RFC9528}}).
 In this specification, both flows are supported to perform remote attestation.
@@ -189,9 +189,9 @@ The Initiator acts as the Attester.
 
 The Responder acts as the Attester.
 
-## Model: Background-check Model (BG) {#bg}
+## Model: Background-Check Model (BG) {#bg}
 
-In the background-check model, the Attester sends the evidence to the Relying Party.
+In the BG model, the Attester sends the evidence to the Relying Party.
 Evidence contains a set of claims about the current status of the Attester, including configurations, health, or construction that have security relevance (see {{Section 8.1 of RFC9334}}).
 The Relying Party transfers the evidence to the Verifier and gets back the attestation result from the Verifier.
 
