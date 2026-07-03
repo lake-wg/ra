@@ -10,22 +10,23 @@
 <meta content="
        This document specifies how to perform remote attestation as part of the lightweight authenticated Diffie-Hellman key exchange protocol EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation procedureS (RATS) architecture. 
     " name="description">
-<meta content="xml2rfc 3.33.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-lake-ra-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.33.0
-    Python 3.12.13
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.2
-    platformdirs 4.9.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.7.0
+    wcwidth 0.8.2
 -->
 <link href="draft-ietf-lake-ra.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1044,11 +1045,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RA-EDHOC</td>
-<td class="right">June 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 12 December 2026</td>
+<td class="center">Expires 4 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1062,12 @@ svg {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-10" class="published">10 June 2026</time>
+<time datetime="2026-07-03" class="published">3 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-12">12 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-04">4 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1121,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2404,11 +2405,11 @@ This demonstrates combined mutual authentication with mutual attestation at a re
         <h3 id="name-i-bg-r-pp">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-i-bg-r-pp" class="section-name selfRef">(I, BG) - (R, PP)</a>
         </h3>
-<p id="section-7.1-1">In this example, the mutual attestation is performed in EDHOC forward message flow, by one IoT device attestation in background-check model and another network service attestation in passport model.
+<p id="section-7.1-1">In this example, the mutual attestation is performed by one Initiator attestation in background-check model and another Responder attestation in passport model.
 The process is illustrated in <a href="#fig-mutual-attestation-BP" class="auto internal xref">Figure 5</a>.
 How the Network service connects with the Verifier_1 and potential Verifier_2 is out of scope in this specification.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">The first remote attestation is initiated by the IoT device (A_1) in background-check model.
-In parallel, the IoT device (A_1) requests the network service (A_2) to perform a remote attestation in passport model.
+<p id="section-7.1-2">The first remote attestation is initiated by the EDHOC Initiator (A_1) in background-check model.
+In parallel, the Initiator (A_1) requests the Responder (A_2) to perform a remote attestation in passport model.
 EAD_2 carries the EAD items Attestation request and Result proposal.
 EAD_3 carries the EAD items Evidence and Result request.
 EAD_4 carries the EAD item Result for the passport model.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
@@ -2526,6 +2527,7 @@ EAD_4 carries the EAD item Result for the passport model.<a href="#section-7.1-2
                   <text x="168" y="564">EAD_4</text>
                   <text x="200" y="564">=</text>
                   <text x="236" y="564">Result</text>
+                  <text x="300" y="564">(nonceR)</text>
                 </g>
               </svg><a href="#section-7.1-3.1.1" class="pilcrow">¶</a>
 </div>
@@ -2761,7 +2763,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 <dl class="references">
 <dt id="I-D.ietf-iotops-7228bis">[I-D.ietf-iotops-7228bis]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, <span class="refAuthor">Keränen, A.</span>, and <span class="refAuthor">C. Gomez</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-iotops-7228bis-08</span>, <time datetime="2026-05-15" class="refDate">15 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-08">https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-08</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, <span class="refAuthor">Keränen, A.</span>, and <span class="refAuthor">C. Gomez</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-iotops-7228bis-09</span>, <time datetime="2026-06-29" class="refDate">29 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-09">https://datatracker.ietf.org/doc/html/draft-ietf-iotops-7228bis-09</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lake-authz">[I-D.ietf-lake-authz]</dt>
         <dd>
@@ -2769,7 +2771,7 @@ Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in 
 <dd class="break"></dd>
 <dt id="I-D.ietf-lake-edhoc-psk">[I-D.ietf-lake-edhoc-psk]</dt>
         <dd>
-<span class="refAuthor">Lopez-Perez</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Marin-Lopez, R.</span>, and <span class="refAuthor">F. Lopez-Gomez</span>, <span class="refTitle">"EDHOC Authenticated with Pre-Shared Keys (PSK)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lake-edhoc-psk-07</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07">https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07</a>&gt;</span>. </dd>
+<span class="refAuthor">Lopez-Perez</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Marin-Lopez, R.</span>, and <span class="refAuthor">F. Lopez-Gomez</span>, <span class="refTitle">"EDHOC Authenticated with Pre-Shared Keys (PSK)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lake-edhoc-psk-08</span>, <time datetime="2026-06-16" class="refDate">16 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-08">https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-08</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-corim">[I-D.ietf-rats-corim]</dt>
         <dd>
@@ -2937,7 +2939,7 @@ This section presents two re-attestation approaches: re-attestation during EDHOC
         <h3 id="name-intra-handshake-re-attestat">
 <a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-intra-handshake-re-attestat" class="section-name selfRef">Intra-handshake Re-attestation using EDHOC Resumption with PSK</a>
         </h3>
-<p id="appendix-B.1-1">Remote attestation can be applied during EDHOC session resumption using EDHOC-PSK, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-07#section-6" class="relref">Section 6</a> of [<a href="#I-D.ietf-lake-edhoc-psk" class="cite xref">I-D.ietf-lake-edhoc-psk</a>]</span>.
+<p id="appendix-B.1-1">Remote attestation can be applied during EDHOC session resumption using EDHOC-PSK, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-psk-08#section-6" class="relref">Section 6</a> of [<a href="#I-D.ietf-lake-edhoc-psk" class="cite xref">I-D.ietf-lake-edhoc-psk</a>]</span>.
 This enables re-attestation without public key based authentication.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>

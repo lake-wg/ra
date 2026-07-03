@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 12 December 2026                                    Ericsson AB
-                                                            10 June 2026
+Expires: 4 January 2027                                      Ericsson AB
+                                                             3 July 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 December 2026.
+   This Internet-Draft will expire on 4 January 2027.
 
 Copyright Notice
 
@@ -980,19 +980,18 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 
 7.1.  (I, BG) - (R, PP)
 
-   In this example, the mutual attestation is performed in EDHOC forward
-   message flow, by one IoT device attestation in background-check model
-   and another network service attestation in passport model.  The
-   process is illustrated in Figure 5.  How the Network service connects
-   with the Verifier_1 and potential Verifier_2 is out of scope in this
-   specification.
+   In this example, the mutual attestation is performed by one Initiator
+   attestation in background-check model and another Responder
+   attestation in passport model.  The process is illustrated in
+   Figure 5.  How the Network service connects with the Verifier_1 and
+   potential Verifier_2 is out of scope in this specification.
 
-   The first remote attestation is initiated by the IoT device (A_1) in
-   background-check model.  In parallel, the IoT device (A_1) requests
-   the network service (A_2) to perform a remote attestation in passport
-   model.  EAD_2 carries the EAD items Attestation request and Result
-   proposal.  EAD_3 carries the EAD items Evidence and Result request.
-   EAD_4 carries the EAD item Result for the passport model.
+   The first remote attestation is initiated by the EDHOC Initiator
+   (A_1) in background-check model.  In parallel, the Initiator (A_1)
+   requests the Responder (A_2) to perform a remote attestation in
+   passport model.  EAD_2 carries the EAD items Attestation request and
+   Result proposal.  EAD_3 carries the EAD items Evidence and Result
+   request.  EAD_4 carries the EAD item Result for the passport model.
 
 +-----------------------------+             +-----------------+
 | Constrained EDHOC Initiator |             | EDHOC Responder |
@@ -1027,7 +1026,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
                |                                     |                             |                           |
                |                                     |<---  ---  ---  ---  ---  ---+ ---  ---  --- ---  --- ---+
                |                                     |                             |     Result (nonceR)       |
-               |  EAD_4 = Result                     |                             |                           |
+               |  EAD_4 = Result (nonceR)            |                             |                           |
                |<------------------------------------+                             |                           |
                |                                     |                             |                           |
 
@@ -1213,9 +1212,9 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    [I-D.ietf-iotops-7228bis]
               Bormann, C., Ersue, M., Keränen, A., and C. Gomez,
               "Terminology for Constrained-Node Networks", Work in
-              Progress, Internet-Draft, draft-ietf-iotops-7228bis-08, 15
-              May 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-iotops-7228bis-08>.
+              Progress, Internet-Draft, draft-ietf-iotops-7228bis-09, 29
+              June 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-iotops-7228bis-09>.
 
    [I-D.ietf-lake-authz]
               Selander, G., Mattsson, J. P., Vučinić, M., Fedrecheski,
@@ -1229,9 +1228,9 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
               Lopez-Perez, Selander, G., Mattsson, J. P., Marin-Lopez,
               R., and F. Lopez-Gomez, "EDHOC Authenticated with Pre-
               Shared Keys (PSK)", Work in Progress, Internet-Draft,
-              draft-ietf-lake-edhoc-psk-07, 2 March 2026,
+              draft-ietf-lake-edhoc-psk-08, 16 June 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lake-
-              edhoc-psk-07>.
+              edhoc-psk-08>.
 
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
