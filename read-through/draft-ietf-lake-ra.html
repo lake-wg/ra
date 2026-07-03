@@ -27,7 +27,7 @@
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.1
+    wcwidth 0.8.2
 -->
 <link href="draft-ietf-lake-ra.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1050,7 +1050,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Song &amp; Selander</td>
-<td class="center">Expires 3 January 2027</td>
+<td class="center">Expires 4 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg {
 <dd class="internet-draft">draft-ietf-lake-ra-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-02" class="published">2 July 2026</time>
+<time datetime="2026-07-03" class="published">3 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-03">3 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-01-04">4 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1178,7 +1178,7 @@ svg {
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-target-responder-attestatio" class="internal xref">Target: Responder Attestation (R)</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-model-background-check-mode" class="internal xref">Model: Background-check Model (BG)</a></p>
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-model-background-check-mode" class="internal xref">Model: Background-Check Model (BG)</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
                     <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-attestation_proposal" class="internal xref">Attestation_proposal</a></p>
@@ -1389,7 +1389,7 @@ In the Passport (PP) Model, the Attester provides the attestation result to the 
           <p id="section-3-4.2.1">Model: Defining the attestation model in use based on the RATS architecture (BG or PP model, see <a href="#bg" class="auto internal xref">Section 5.3</a> and <a href="#pp" class="auto internal xref">Section 5.4</a>).<a href="#section-3-4.2.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
-<p id="section-3-5">This document focus on cases that are suited for constrained IoT environments, see <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-D.ietf-iotops-7228bis</a>]</span> for a characterization of constrained nodes and networks.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-5">This document focuses on cases that are suited for constrained IoT environments, see <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-D.ietf-iotops-7228bis</a>]</span> for a characterization of constrained nodes and networks.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">The remote attestation operation defined in this document preserves the properties of EDHOC:<a href="#section-3-6" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3-7">
 <li id="section-3-7.1">
@@ -1426,7 +1426,7 @@ If a nonce is used to ensure freshness, the device that generates the nonce is a
 <ul class="normal">
 <li class="normal" id="section-4.1-2.1">
             <p id="section-4.1-2.1.1">EAD is the External Authorization Data message field of EDHOC messages, see <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.
-This specification specifies four new EAD items in BG model, and four new EAD items in PP model (see <a href="#attestation-dimensions" class="auto internal xref">Section 5</a>).<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
+This specification specifies four new EAD items in BG model, and four new EAD items in PP model. See <a href="#attestation-dimensions" class="auto internal xref">Section 5</a>.<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.1-2.2">
             <p id="section-4.1-2.2.1">ID_CRED_I is used to identify the authentication credential of the Initiator in the authentication session.<a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
@@ -1455,7 +1455,7 @@ This specification specifies four new EAD items in BG model, and four new EAD it
         <li id="section-5-2.2">
           <p id="section-5-2.2.1">Model: Defines the attestation models based on RATS architecture.
 This specification supports both the RATS background-check model (see <a href="#bg" class="auto internal xref">Section 5.3</a>) and the passport model (see <a href="#pp" class="auto internal xref">Section 5.4</a>).
-The corresponding EAD items for background-check model and the passport model are independent of each other.<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+The corresponding EAD items for the BG and PP models are independent.<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
 <p id="section-5-3">When transferred over CoAP <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see <span><a href="https://rfc-editor.org/rfc/rfc9528#appendix-A.2.2" class="relref">Appendix A.2.2</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).
@@ -1479,9 +1479,9 @@ In this specification, both flows are supported to perform remote attestation.<a
 <div id="bg">
 <section id="section-5.3">
         <h3 id="name-model-background-check-mode">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-model-background-check-mode" class="section-name selfRef">Model: Background-check Model (BG)</a>
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-model-background-check-mode" class="section-name selfRef">Model: Background-Check Model (BG)</a>
         </h3>
-<p id="section-5.3-1">In the background-check model, the Attester sends the evidence to the Relying Party.
+<p id="section-5.3-1">In the BG model, the Attester sends the evidence to the Relying Party.
 Evidence contains a set of claims about the current status of the Attester, including configurations, health, or construction that have security relevance (see <span><a href="https://rfc-editor.org/rfc/rfc9334#section-8.1" class="relref">Section 8.1</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>).
 The Relying Party transfers the evidence to the Verifier and gets back the attestation result from the Verifier.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">An EDHOC session is established between the Attester and the Relying Party.

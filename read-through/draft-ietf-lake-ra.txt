@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 3 January 2027                                      Ericsson AB
-                                                             2 July 2026
+Expires: 4 January 2027                                      Ericsson AB
+                                                             3 July 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 January 2027.
+   This Internet-Draft will expire on 4 January 2027.
 
 Copyright Notice
 
@@ -78,7 +78,7 @@ Table of Contents
    5.  Remote Attestation in EDHOC
      5.1.  Target: Initiator Attestation (I)
      5.2.  Target: Responder Attestation (R)
-     5.3.  Model: Background-check Model (BG)
+     5.3.  Model: Background-Check Model (BG)
        5.3.1.  Attestation_proposal
        5.3.2.  Attestation_request
        5.3.3.  Evidence
@@ -234,7 +234,7 @@ Table of Contents
    2.  Model: Defining the attestation model in use based on the RATS
        architecture (BG or PP model, see Section 5.3 and Section 5.4).
 
-   This document focus on cases that are suited for constrained IoT
+   This document focuses on cases that are suited for constrained IoT
    environments, see [I-D.ietf-iotops-7228bis] for a characterization of
    constrained nodes and networks.
 
@@ -278,7 +278,7 @@ Table of Contents
    *  EAD is the External Authorization Data message field of EDHOC
       messages, see Section 3.8 of [RFC9528].  This specification
       specifies four new EAD items in BG model, and four new EAD items
-      in PP model (see Section 5).
+      in PP model.  See Section 5.
 
    *  ID_CRED_I is used to identify the authentication credential of the
       Initiator in the authentication session.
@@ -301,8 +301,7 @@ Table of Contents
    2.  Model: Defines the attestation models based on RATS architecture.
        This specification supports both the RATS background-check model
        (see Section 5.3) and the passport model (see Section 5.4).  The
-       corresponding EAD items for background-check model and the
-       passport model are independent of each other.
+       corresponding EAD items for the BG and PP models are independent.
 
    When transferred over CoAP [RFC7252], the EDHOC protocol can be
    performed according to two possible message flows, namely the EDHOC
@@ -318,14 +317,14 @@ Table of Contents
 
    The Responder acts as the Attester.
 
-5.3.  Model: Background-check Model (BG)
+5.3.  Model: Background-Check Model (BG)
 
-   In the background-check model, the Attester sends the evidence to the
-   Relying Party.  Evidence contains a set of claims about the current
-   status of the Attester, including configurations, health, or
-   construction that have security relevance (see Section 8.1 of
-   [RFC9334]).  The Relying Party transfers the evidence to the Verifier
-   and gets back the attestation result from the Verifier.
+   In the BG model, the Attester sends the evidence to the Relying
+   Party.  Evidence contains a set of claims about the current status of
+   the Attester, including configurations, health, or construction that
+   have security relevance (see Section 8.1 of [RFC9334]).  The Relying
+   Party transfers the evidence to the Verifier and gets back the
+   attestation result from the Verifier.
 
    An EDHOC session is established between the Attester and the Relying
    Party.  A negotiation of the evidence type is required before the
