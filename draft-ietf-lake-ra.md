@@ -64,6 +64,8 @@ This document specifies methods to perform remote attestation as part of the lig
 --- middle
 
 # Introduction
+<!--GS: High level intro.-->
+The combination of remote attestation and authenticated key exchange is a topic within the ongoing standardization efforts at the IETF. 
 
 <!--Discuss remote attestation and mention some use cases.-->
 Remote attestation is a security process that verifies and confirms the integrity and trustworthiness of a remote target (e.g., device, system, group of devices) in the network.
@@ -101,8 +103,9 @@ This specification relies on the EAT as the format for attestation evidence and 
 <!--GS: Some proposed updates. -->
 Ephemeral Diffie-Hellman over COSE (EDHOC) {{RFC9528}} is a lightweight authenticated key exchange protocol for highly constrained networks.
 In EDHOC, the two parties involved in the key exchange are referred to as the Initiator (I) and the Responder (R).
+EDHOC provides mutual authentication between I and R, forward secrecy, identity protection and similar expected security properties.
 EDHOC supports the transport of External Authorization Data (EAD), through dedicated protocol fields containing so-called EAD items, see {{Section 3.8 of RFC9528}}.
-This specification delivers EAT through EAD items in EDHOC. It also defines new EAD items needed to perform remote attestation over EDHOC in the Background Check Model (BG, see {{bg}}) and in the Passport Model (PP, see {{pp}}).
+This specification defines new EAD items including EATs for performing remote attestation over EDHOC in the Background Check Model (BG, see {{bg}}) and in the Passport Model (PP, see {{pp}}).
 
 <!--Discuss implementation aspects such as the internal attestation service running on the Attester.
 Root of trust. Separation between secure and non-secure worlds.-->
