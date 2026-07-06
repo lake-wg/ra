@@ -65,7 +65,7 @@ This document specifies methods to perform remote attestation as part of the lig
 
 # Introduction
 <!--GS: High level intro.-->
-The combination of remote attestation and authenticated key exchange is a topic within the ongoing standardization efforts at the IETF. 
+The combination of remote attestation and authenticated key exchange is a topic within the ongoing standardization efforts at the IETF.
 
 <!--Discuss remote attestation and mention some use cases.-->
 Remote attestation is a security process that verifies and confirms the integrity and trustworthiness of a remote target (e.g., device, system, group of devices) in the network.
