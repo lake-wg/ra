@@ -66,7 +66,7 @@ This document specifies methods to perform remote attestation as part of the lig
 # Introduction
 <!--GS: High level intro.-->
 
-The combination of an authenticated key exchange with remote attestation can provide desirable complementing security features to collaborating endpoints. The former enables validation of identity and establishment of shared secret keys, whereas the latter enables validation of endpoint security. 
+The combination of an authenticated key exchange with remote attestation can provide desirable complementing security features to collaborating endpoints. The former enables validation of identity and establishment of shared secret keys, whereas the latter enables validation of endpoint security.
 
 The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman over COSE (EDHOC) {{RFC9528}}, developed for highly constrained networks, has formally proven security properties for protecting against network adversaries, but, like other authenticated key exchange protocols, lacks inherent mechanisms for validating endpoint security.
 
