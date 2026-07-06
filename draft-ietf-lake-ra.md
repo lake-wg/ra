@@ -65,7 +65,10 @@ This document specifies methods to perform remote attestation as part of the lig
 
 # Introduction
 <!--GS: High level intro.-->
-The combination of remote attestation and authenticated key exchange is a topic within the ongoing standardization efforts at the IETF.
+
+The combination of an authenticated key exchange with remote attestation can provide desirable complementing security features to collaborating endpoints. The former enables validation of identity and establishment of shared secret keys, whereas the latter enables validation of endpoint security. 
+
+The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman over COSE (EDHOC) {{RFC9528}}, developed for highly constrained networks, has formally proven security properties for protecting against network adversaries, but, like other authenticated key exchange protocols, lacks inherent mechanisms for validating endpoint security.
 
 <!--Discuss remote attestation and mention some use cases.-->
 Remote attestation is a security process that verifies and confirms the integrity and trustworthiness of a remote target (e.g., device, system, group of devices) in the network.
@@ -73,8 +76,7 @@ This process helps establish a level of trust in the remote system, e.g., before
 The use cases that require remote attestation include secure boot and firmware management, cloud computing, network access control, etc.
 
 <!--Summarize RATS architecture {{RFC9334}} and main roles.-->
-The IETF working group Remote ATtestation procedureS (RATS) has defined an architecture {{RFC9334}} for remote attestation.
-The three main roles in the RATS architecture are the Attester, the Verifier and the Relying Party.
+The Remote ATtestation procedureS (RATS) architecture {{RFC9334}} defines three main roles: the Attester, the Verifier and the Relying Party.
 The Attester generates evidence (a set of claims) concerning its identity and integrity, which must be appraised by the Verifier for its validity.
 Then, the Verifier produces the attestation result, which is consequently used by the Relying Party for the purposes of reliably applying application-specific actions.
 
@@ -88,7 +90,7 @@ The Attester presents the evidence to the Verifier and gets an attestation resul
 Then the Attester conveys the attestation result to the Relying Party.
 This specification employs both the RATS Background-Check Model and the Passport Model.
 
-This document specifies the protocol between the Attester and the Relying Party.
+This document embeds the protocol between the Attester and the Relying Party within the EDHOC protocol.
 The details of the protocol between the Relying Party and the Verifier in the Background-Check Model, and the protocol between the Attester and the Verifier in the Passport Model are out of scope.
 <!--GS: Proposed update. -->
 The establishment of a secure association and communication security with the Verifier may be provided by EDHOC/OSCORE, TLS, or other security protocols that support secure message exchange.
@@ -101,7 +103,6 @@ This specification relies on the EAT as the format for attestation evidence and 
 
 <!--Summarize EDHOC {{RFC9528}}. Mention EAD fields of EDHOC.-->
 <!--GS: Some proposed updates. -->
-Ephemeral Diffie-Hellman over COSE (EDHOC) {{RFC9528}} is a lightweight authenticated key exchange protocol for highly constrained networks.
 In EDHOC, the two parties involved in the key exchange are referred to as the Initiator (I) and the Responder (R).
 EDHOC provides mutual authentication between I and R, forward secrecy, identity protection and similar expected security properties.
 EDHOC supports the transport of External Authorization Data (EAD), through dedicated protocol fields containing so-called EAD items, see {{Section 3.8 of RFC9528}}.
