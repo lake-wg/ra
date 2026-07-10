@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 7 January 2027                                      Ericsson AB
-                                                             6 July 2026
+Expires: 11 January 2027                                     Ericsson AB
+                                                            10 July 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 11 January 2027.
 
 Copyright Notice
 
@@ -1218,17 +1218,17 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    [I-D.ietf-iotops-7228bis]
               Bormann, C., Ersue, M., Keränen, A., and C. Gomez,
               "Terminology for Constrained-Node Networks", Work in
-              Progress, Internet-Draft, draft-ietf-iotops-7228bis-09, 29
-              June 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-iotops-7228bis-09>.
+              Progress, Internet-Draft, draft-ietf-iotops-7228bis-10, 6
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-iotops-7228bis-10>.
 
    [I-D.ietf-lake-authz]
               Selander, G., Mattsson, J. P., Vučinić, M., Fedrecheski,
               G., and M. Richardson, "Lightweight Authorization using
               Ephemeral Diffie-Hellman Over COSE (ELA)", Work in
-              Progress, Internet-Draft, draft-ietf-lake-authz-07, 2
-              March 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-lake-authz-07>.
+              Progress, Internet-Draft, draft-ietf-lake-authz-08, 6 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              lake-authz-08>.
 
    [I-D.ietf-lake-edhoc-psk]
               Lopez-Perez, Selander, G., Mattsson, J. P., Marin-Lopez,
@@ -1241,9 +1241,9 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
               W. Pan, "Concise Reference Integrity Manifest", Work in
-              Progress, Internet-Draft, draft-ietf-rats-corim-10, 2
-              March 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-corim-10>.
+              Progress, Internet-Draft, draft-ietf-rats-corim-11, 6 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              rats-corim-11>.
 
    [IANA-CoAP-Content-Formats]
               "CoAP Content-Formats", n.d.,
