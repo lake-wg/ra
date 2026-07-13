@@ -150,7 +150,7 @@ The remote attestation operation defined in this document preserves the properti
   1. The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.
   2. The attestation protocol is performed in parallel but does not interfere with the authentication flow.
   3. The privacy and security properties of EDHOC are not changed.
-  
+
   When transferred over CoAP {{RFC7252}}, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see {{Appendix A.2.2 of RFC9528}}).
 In this specification, both flows are supported to perform remote attestation.
 
