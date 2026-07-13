@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 11 January 2027                                     Ericsson AB
-                                                            10 July 2026
+Expires: 14 January 2027                                     Ericsson AB
+                                                            13 July 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 January 2027.
+   This Internet-Draft will expire on 14 January 2027.
 
 Copyright Notice
 
@@ -123,12 +123,6 @@ Table of Contents
 
 1.  Introduction
 
-   The combination of an authenticated key exchange with remote
-   attestation can provide desirable complementing security features to
-   collaborating endpoints.  The former enables validation of identity
-   and establishment of shared secret keys, whereas the latter enables
-   validation of endpoint security.
-
    The lightweight authenticated key exchange protocol Ephemeral Diffie-
    Hellman over COSE (EDHOC) [RFC9528], developed for highly constrained
    networks, has formally proven security properties for protecting
@@ -149,9 +143,9 @@ Table of Contents
    defines three main roles: the Attester, the Verifier and the Relying
    Party.  The Attester generates evidence (a set of claims) concerning
    its identity and integrity, which must be appraised by the Verifier
-   for its validity.  Then, the Verifier produces the attestation
-   result, which is consequently used by the Relying Party for the
-   purposes of reliably applying application-specific actions.
+   for its validity.  The Verifier produces the attestation result,
+   which is consequently used by the Relying Party for the purposes of
+   reliably applying application-specific actions.
 
    One type of interaction model defined in the RATS architecture is
    called the Background-Check Model.  In this case, the Attester
@@ -183,14 +177,17 @@ Table of Contents
 
    In EDHOC, the two parties involved in the key exchange are referred
    to as the Initiator (I) and the Responder (R).  EDHOC provides mutual
-   authentication between I and R, forward secrecy, identity protection
-   and similar expected security properties.  EDHOC supports the
+   authentication between I and R, forward secrecy, identity protection,
+   message integrity, and other security properties.  EDHOC supports the
    transport of External Authorization Data (EAD), through dedicated
    protocol fields containing so-called EAD items, see Section 3.8 of
    [RFC9528].  This specification defines new EAD items including EATs
    for performing remote attestation over EDHOC in the Background Check
    Model (BG, see Section 5.3) and in the Passport Model (PP, see
-   Section 5.4).
+   Section 5.4).  The EAD items are included in the EDHOC message
+   integrity verification and key derivation, and thus attestation data
+   becomes part of the security data verified and used in an EDHOC
+   session.
 
    For the generation of evidence, the Attester invokes an internal
    attestation service, including a specific trusted element known as
