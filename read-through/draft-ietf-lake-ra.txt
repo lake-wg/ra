@@ -144,7 +144,7 @@ Table of Contents
    Party.  The Attester generates evidence (a set of claims) concerning
    its identity and integrity, which must be appraised by the Verifier
    for its validity.  The Verifier produces the attestation result,
-   which is consequently used by the Relying Party for the purposes of
+   which is subsequently used by the Relying Party for the purposes of
    reliably applying application-specific actions.
 
    One type of interaction model defined in the RATS architecture is
@@ -186,15 +186,17 @@ Table of Contents
    Model (BG, see Section 5.3) and in the Passport Model (PP, see
    Section 5.4).  The EAD items are included in the EDHOC message
    integrity verification and key derivation, and thus attestation data
-   becomes part of the security data verified and used in an EDHOC
-   session.
+   becomes part of the security protocol data verified and used in an
+   EDHOC session.
 
    For the generation of evidence, the Attester invokes an internal
    attestation service, including a specific trusted element known as
    the "root of trust".  Root of trust serves as the starting point for
    establishing and validating the trustworthiness appraisals of other
    components on the system.  The measurements signed by the attestation
-   service are referred to as the Evidence.  The signing is requested
+   service are referred to as the Evidence.  This document defines
+   attestation binders including EDHOC data in evidence, thus binding
+   the measurements to the EDHOC session.  The signing is requested
    through an attestation API.  How the components are separated between
    the secure and non-secure worlds on a target is out of scope of this
    specification.

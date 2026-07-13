@@ -1328,7 +1328,7 @@ This process helps establish a level of trust in the remote system, e.g., before
 The use cases that require remote attestation include secure boot and firmware management, cloud computing, network access control, etc.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">The Remote ATtestation procedureS (RATS) architecture <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> defines three main roles: the Attester, the Verifier and the Relying Party.
 The Attester generates evidence (a set of claims) concerning its identity and integrity, which must be appraised by the Verifier for its validity.
-The Verifier produces the attestation result, which is consequently used by the Relying Party for the purposes of reliably applying application-specific actions.<a href="#section-1-3" class="pilcrow">¶</a></p>
+The Verifier produces the attestation result, which is subsequently used by the Relying Party for the purposes of reliably applying application-specific actions.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">One type of interaction model defined in the RATS architecture is called the Background-Check Model.
 In this case, the Attester conveys evidence to the Relying Party and the Relying Party forwards the evidence to the Verifier for appraisal.
 Once the attestation result is computed by the Verifier, it is sent back to the Relying Party to decide what action to take based on the attestation result.
@@ -1347,10 +1347,11 @@ This specification relies on the EAT as the format for attestation evidence and 
 EDHOC provides mutual authentication between I and R, forward secrecy, identity protection, message integrity, and other security properties.
 EDHOC supports the transport of External Authorization Data (EAD), through dedicated protocol fields containing so-called EAD items, see <span><a href="https://rfc-editor.org/rfc/rfc9528#section-3.8" class="relref">Section 3.8</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.
 This specification defines new EAD items including EATs for performing remote attestation over EDHOC in the Background Check Model (BG, see <a href="#bg" class="auto internal xref">Section 5.3</a>) and in the Passport Model (PP, see <a href="#pp" class="auto internal xref">Section 5.4</a>).
-The EAD items are included in the EDHOC message integrity verification and key derivation, and thus attestation data becomes part of the security data verified and used in an EDHOC session.<a href="#section-1-7" class="pilcrow">¶</a></p>
+The EAD items are included in the EDHOC message integrity verification and key derivation, and thus attestation data becomes part of the security protocol data verified and used in an EDHOC session.<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">For the generation of evidence, the Attester invokes an internal attestation service, including a specific trusted element known as the "root of trust".
 Root of trust serves as the starting point for establishing and validating the trustworthiness appraisals of other components on the system.
 The measurements signed by the attestation service are referred to as the Evidence.
+This document defines attestation binders including EDHOC data in evidence, thus binding the measurements to the EDHOC session.
 The signing is requested through an attestation API.
 How the components are separated between the secure and non-secure worlds on a target is out of scope of this specification.<a href="#section-1-8" class="pilcrow">¶</a></p>
 </section>
