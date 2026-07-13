@@ -140,7 +140,7 @@ In the Passport (PP) Model, the Attester provides the attestation result to the 
 {{attestation-dimensions}} defines two independent dimensions for performing remote attestation over EDHOC:
 
 <!--GS: Proposed update. -->
-  1. Target: Defining the entity that is attested (EDHOC Initiator or EDHOC Responder), which could be a constrained device or not (see {{iot}} and {{net}}).
+  1. Target: Defining the entity that is attested (EDHOC Initiator or EDHOC Responder), which could be a constrained device or not.
   2. Model: Defining the attestation model in use based on the RATS architecture (BG or PP model, see {{bg}} and {{pp}}).
 
 This document focuses on cases that are suited for constrained IoT environments, see {{I-D.ietf-iotops-7228bis}} for a characterization of constrained nodes and networks.
@@ -150,6 +150,9 @@ The remote attestation operation defined in this document preserves the properti
   1. The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.
   2. The attestation protocol is performed in parallel but does not interfere with the authentication flow.
   3. The privacy and security properties of EDHOC are not changed.
+  
+  When transferred over CoAP {{RFC7252}}, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see {{Appendix A.2.2 of RFC9528}}).
+In this specification, both flows are supported to perform remote attestation.
 
 # Assumptions
 
@@ -175,25 +178,11 @@ This specification specifies four new EAD items in BG model, and four new EAD it
 
 # Remote Attestation in EDHOC {#attestation-dimensions}
 
-This section specifies two independent dimensions that characterize the remote attestation process over EDHOC.
-
-  1. Target: Defines the entity that undergoes the attestation process.
-  2. Model: Defines the attestation models based on RATS architecture.
-This specification supports both the RATS background-check model (see {{bg}}) and the passport model (see {{pp}}).
+This section specifies the remote attestation process over EDHOC in the BG model (see {{bg}}) and the PP model (see {{pp}}).
 The corresponding EAD items for the BG and PP models are independent.
 
-When transferred over CoAP {{RFC7252}}, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see {{Appendix A.2.2 of RFC9528}}).
-In this specification, both flows are supported to perform remote attestation.
 
-## Target: Initiator Attestation (I) {#iot}
-
-The Initiator acts as the Attester.
-
-## Target: Responder Attestation (R) {#net}
-
-The Responder acts as the Attester.
-
-## Model: Background-Check Model (BG) {#bg}
+## Background-Check Model (BG) {#bg}
 
 In the BG model, the Attester sends the evidence to the Relying Party.
 Evidence contains a set of claims about the current status of the Attester, including configurations, health, or construction that have security relevance (see {{Section 8.1 of RFC9334}}).
@@ -371,7 +360,7 @@ The EAD item Trigger Remote Attestation BG is:
 
 * ead_label = TBD3
 
-## Model: Passport Model (PP) {#pp}
+## Passport Model (PP) {#pp}
 
 In the passport model, the Attester sends the evidence to the Verifier.
 After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.
