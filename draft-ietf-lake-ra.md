@@ -66,8 +66,6 @@ This document specifies methods to perform remote attestation as part of the lig
 # Introduction
 <!--GS: High level intro.-->
 
-The combination of an authenticated key exchange with remote attestation can provide desirable complementing security features to collaborating endpoints. The former enables validation of identity and establishment of shared secret keys, whereas the latter enables validation of endpoint security.
-
 The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman over COSE (EDHOC) {{RFC9528}}, developed for highly constrained networks, has formally proven security properties for protecting against network adversaries, but, like other authenticated key exchange protocols, lacks inherent mechanisms for validating endpoint security.
 
 <!--Discuss remote attestation and mention some use cases.-->
@@ -78,7 +76,7 @@ The use cases that require remote attestation include secure boot and firmware m
 <!--Summarize RATS architecture {{RFC9334}} and main roles.-->
 The Remote ATtestation procedureS (RATS) architecture {{RFC9334}} defines three main roles: the Attester, the Verifier and the Relying Party.
 The Attester generates evidence (a set of claims) concerning its identity and integrity, which must be appraised by the Verifier for its validity.
-Then, the Verifier produces the attestation result, which is consequently used by the Relying Party for the purposes of reliably applying application-specific actions.
+The Verifier produces the attestation result, which is consequently used by the Relying Party for the purposes of reliably applying application-specific actions.
 
 <!--Discuss the two RATS models and say that this specification supports both models.-->
 <!--GS: Proposed update. Shortening the text on Background Check analogously to the text on Passport.-->
@@ -104,9 +102,10 @@ This specification relies on the EAT as the format for attestation evidence and 
 <!--Summarize EDHOC {{RFC9528}}. Mention EAD fields of EDHOC.-->
 <!--GS: Some proposed updates. -->
 In EDHOC, the two parties involved in the key exchange are referred to as the Initiator (I) and the Responder (R).
-EDHOC provides mutual authentication between I and R, forward secrecy, identity protection and similar expected security properties.
+EDHOC provides mutual authentication between I and R, forward secrecy, identity protection, message integrity, and other security properties.
 EDHOC supports the transport of External Authorization Data (EAD), through dedicated protocol fields containing so-called EAD items, see {{Section 3.8 of RFC9528}}.
 This specification defines new EAD items including EATs for performing remote attestation over EDHOC in the Background Check Model (BG, see {{bg}}) and in the Passport Model (PP, see {{pp}}).
+The EAD items are included in the EDHOC message integrity verification and key derivation, and thus attestation data becomes part of the security data verified and used in an EDHOC session.
 
 <!--Discuss implementation aspects such as the internal attestation service running on the Attester.
 Root of trust. Separation between secure and non-secure worlds.-->
