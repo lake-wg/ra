@@ -452,15 +452,19 @@ The EAD item Trigger Remote Attestation PP is:
 
 * ead_label = TBD4
 
-# Instantiation of Remote Attestation Protocol {#attestation-combinations}
+# Instantiation of Remote Attestation over EDHOC {#attestation-combinations}
 
-We use the format (Target, Model) to denote instantiations.
+In this section we show four different instantiations of remote attestation carried over EDHOC between Attester and Relying Party.
+In each instatiation, one of the EDHOC peers are assumed to be constrained and/or access over a constrained network, and only have one network interface over which the EDHOC protocol is executed.
+The four examples illustrate the constrained node being EDHOC Initiator/Responder and RATS Attester/Relying Party.
+
+We use the format (Target, Model) to denote the instantiation.
 In particular:
 
 * I means that the EDHOC Initiator is the Attester.
 * R means that the EDHOC Responder is the Attester.
-* BG denotes the background-check model.
-* PP denotes the passport model.
+* BG denotes the Background-Check Model.
+* PP denotes the Passport Model.
 
 For example, (I, BG) represents the Initiator as an Attester performing attestation using the background-check model.
 The four possible instantiations are therefore: (I, BG), (R, PP), (R, BG), and (I, PP).
