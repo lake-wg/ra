@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 14 January 2027                                     Ericsson AB
-                                                            13 July 2026
+Expires: 15 January 2027                                     Ericsson AB
+                                                            14 July 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 January 2027.
+   This Internet-Draft will expire on 15 January 2027.
 
 Copyright Notice
 
@@ -86,7 +86,7 @@ Table of Contents
        5.2.2.  Result_request
        5.2.3.  Result
        5.2.4.  Trigger Remote Attestation PP
-   6.  Instantiation of Remote Attestation Protocol
+   6.  Instantiation of Remote Attestation over EDHOC
      6.1.  (I, BG): EDHOC Initiator Attestation in the
            Background-check Model
      6.2.  (R, PP): EDHOC Responder Attestation in the Passport Model
@@ -680,18 +680,26 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 
    *  ead_label = TBD4
 
-6.  Instantiation of Remote Attestation Protocol
+6.  Instantiation of Remote Attestation over EDHOC
 
-   We use the format (Target, Model) to denote instantiations.  In
+   In this section we show four different instantiations of remote
+   attestation carried over EDHOC between Attester and Relying Party.
+   In each instatiation, one of the EDHOC peers are assumed to be
+   constrained and/or access over a constrained network, and only have
+   one network interface over which the EDHOC protocol is executed.  The
+   four examples illustrate the constrained node being EDHOC Initiator/
+   Responder and RATS Attester/Relying Party.
+
+   We use the format (Target, Model) to denote the instantiation.  In
    particular:
 
    *  I means that the EDHOC Initiator is the Attester.
 
    *  R means that the EDHOC Responder is the Attester.
 
-   *  BG denotes the background-check model.
+   *  BG denotes the Background-Check Model.
 
-   *  PP denotes the passport model.
+   *  PP denotes the Passport Model.
 
    For example, (I, BG) represents the Initiator as an Attester
    performing attestation using the background-check model.  The four
