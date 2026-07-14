@@ -455,7 +455,7 @@ The EAD item Trigger Remote Attestation PP is:
 # Instantiation of Remote Attestation over EDHOC {#attestation-combinations}
 
 In this section we show four different instantiations of remote attestation carried over EDHOC between Attester and Relying Party.
-In each instatiation, one of the EDHOC peers are assumed to be constrained and/or access over a constrained network, and only have one network interface over which the EDHOC protocol is executed.
+In each instatiation, one of the EDHOC peers are assumed to be constrained and/or access over a constrained network, and only have one network interface, over which the EDHOC protocol is executed.
 The four examples illustrate the constrained node being EDHOC Initiator/Responder and RATS Attester/Relying Party.
 
 We use the format (Target, Model) to denote the instantiation.
