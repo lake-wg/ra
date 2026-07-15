@@ -204,9 +204,22 @@ The Relying Party includes the nonce in the same Attestation request sent to the
 
 Once the Attester receives the Attestation request, it can call its attestation service to generate the evidence, with the nonce value as one of the inputs.
 
-The EAD item Remote Attestation BG with ead_label TBD1 conveys a different ead_value, namely Attestation_proposal, Attestation_request, or Evidence, depending on the EDHOC message where the EAD item is included.
-Specifically, if the EAD item Trigger Remote Attestation BG (see {{trigger-bg}}) is not included in EDHOC message_1, these three values are carried in EDHOC message_1, message_2, and message_3, respectively (see {{iot-attestation}}).
-In contrast, if Trigger Remote Attestation BG is included in EDHOC message_1, the exchange is shifted by one message: Attestation_proposal is carried in message_2, Attestation_request in message_3, and Evidence in message_4 (see {{r_bg}}).
+The EAD item Remote Attestation BG with ead_label TBD1 conveys a different ead_value depending on the EDHOC message where the EAD item is included, and depending on who takes the initative: the Attester or the Relying Party.
+The four different ead_values are: Attestation_proposal ({{attestation-proposal}}), Attestation_request ({{attestation-request}}), Evidence ({{evidence}}), and trigger_bg ({{trigger-bg}}).
+
+The Background-Check Model can be started by the Attester by including the Attestation_proposal in message_1, followed by the Attestation_request in message_2, and the Evidence in message_3 (see {{iot-attestation}}).
+Alternatively, the Relying Party can trigger the Attester by including the trigger_bg in message_1, followed by the Attestation_proposal in message_2, the Attestation_request in message_3, and the Evidence in message_4 (see {{r_bg}}).
+
+### trigger_bg {#trigger-bg}
+
+The Relying Party can trigger the Attester to start a remote attestation in the Background-Check Model.
+The EAD item Remote Attestation BG for the trigger is:
+
+* ead_label = TBD1
+* ead_value = trigger_bg, which is the CBOR simple value ´true´ (trigger_bg = 0xF5).
+
+The EAD value trigger_bg can only be carried in EDHOC message_1.
+The Attester MUST respond with an EAD item Remote Attestation BG with ead_value Attestation_proposal in EDHOC message_2.
 
 ### Attestation_proposal {#attestation-proposal}
 
@@ -349,20 +362,10 @@ where
 * external_aad is set to attestation_binder_m3 when Evidence is carried in EDHOC message_3, and to attestation_binder_m4 when Evidence is carried in EDHOC message_4
 * payload is the same CBOR byte string as the payload in COSE_Sign1
 
-### Trigger Remote Attestation BG {#trigger-bg}
-
-The EAD item Trigger Remote Attestation BG is used when the Relying Party triggers the Attester to start a remote attestation in the background-check model.
-This EAD item can only be carried in EDHOC message_1.
-The Attester MUST reply with an EAD item Remote Attestation BG, with the ead_value Attestation_proposal in {{attestation-proposal}}.
-The ead_value MUST not be present, as the ead_label serves as the trigger.
-
-The EAD item Trigger Remote Attestation BG is:
-
-* ead_label = TBD3
 
 ## Passport Model (PP) {#pp}
 
-In the passport model, the Attester sends the evidence to the Verifier.
+In the Passport Model, the Attester sends the evidence to the Verifier.
 After the Attester receives the attestation result from the Verifier, the Attester sends the attestation result to the Relying Party.
 The attestation result may carry a boolean value indicating compliance or non-compliance with a Verifier's appraisal policy, or may carry a set of claims to indicate the results in different aspects ({{Section 8.4 of RFC9334}}).
 
@@ -371,16 +374,28 @@ The Attester and the Relying Party should decide from which Verifier the Atteste
 The Attester first sends a list of the Verifier identities that it can get the attestation result from.
 The Relying Party selects one trusted Verifier identity and sends it back within a Result request.
 
-Regarding the freshness in passport model, the Attester could either establish a real-time connection with the selected Verifier, or use a pre-stored attestation result from the selected Verifier.
+Regarding the freshness in Passport Model, the Attester could either establish a real-time connection with the selected Verifier, or use a pre-stored attestation result from the selected Verifier.
 If the attestation result is not obtained via a real-time connection, it MUST include a time stamp and/or expiry time to indicate its validity.
 Time synchronization is out of scope of this specification.
 
 Once the Attester obtains the attestation result from the selected Verifier, it sends the attestation result to the Relying Party.
 
-The EAD item Remote Attestation PP with ead_label TBD2 conveys a different ead_value, namely Result_proposal, Result_request, or Result, depending on the EDHOC message where the EAD item is included.
-Specifically, if the EAD item Trigger Remote Attestation PP (see {{trigger-pp}}) is not included in EDHOC message_1, these three values are carried in EDHOC message_1, message_2, and message_3, respectively (see {{i_pp}}).
-In contrast, if Trigger Remote Attestation PP is included in EDHOC message_1, the exchange is shifted by one message: Result_proposal is carried in message_2, Result_request in message_3, and Result in message_4 (see {{network-attestation}}).
+The EAD item Remote Attestation PP with ead_label TBD2 conveys a different ead_value depending on the EDHOC message where the EAD item is included, and depending on who takes the initative: the Attester or the Relying Party.
+The four different ead_values are: Result_proposal ({{result-proposal}}), Result_request ({{result-request}}), Result ({{result}}), and trigger_pp ({{trigger-pp}}).
 
+The Passport Model can be started by the Attester by including the Result_proposal in message_1, followed by the Result_request in message_2, and the Result in message_3 (see {{i_pp}}).
+Alternatively, the Relying Party can trigger the Attester by including the trigger_pp in message_1, followed by the Result_proposal in message_2, the Result_request in message_3, and the Result in message_4 (see {{network-attestation}}).
+
+### trigger_pp {#trigger-pp}
+
+The Relying Party can trigger the Attester to start a remote attestation in the Passport Model.
+The EAD item Remote Attestation PP for the trigger is:
+
+* ead_label = TBD2
+* ead_value = trigger_pp, which is the CBOR simple value ´true´ (trigger_pp = 0xF5).
+
+The EAD value trigger_pp can only be carried in EDHOC message_1.
+The Attester MUST respond with an EAD item Remote Attestation PP with ead_value Result_proposal in EDHOC message_2.
 
 ### Result_proposal {#result-proposal}
 
@@ -441,16 +456,6 @@ The EAD item Remote Attestation PP is:
 * ead_label = TBD2
 * ead_value is the serialization of a COSE_Sign1 structure protecting an EAT.
 
-### Trigger Remote Attestation PP {#trigger-pp}
-
-The EAD item Trigger Remote Attestation PP is used when the Relying Party triggers the Attester to start a remote attestation in the passport model.
-This EAD item can only be carried in the EDHOC message_1.
-The Attester MUST reply with an EAD item Remote Attestation PP, with the ead_value Result_proposal in {{result-proposal}}.
-The ead_value MUST not be present, as the ead_label serves as the trigger.
-
-The EAD item Trigger Remote Attestation PP is:
-
-* ead_label = TBD4
 
 # Instantiation of Remote Attestation over EDHOC {#attestation-combinations}
 
@@ -466,17 +471,17 @@ In particular:
 * BG denotes the Background-Check Model.
 * PP denotes the Passport Model.
 
-For example, (I, BG) represents the Initiator as an Attester performing attestation using the background-check model.
+For example, (I, BG) represents the Initiator as an Attester performing attestation using the Background-Check Model.
 The four possible instantiations are therefore: (I, BG), (R, PP), (R, BG), and (I, PP).
 In the remainder of this section we provide examples of these instantiations, starting with two instances of constrained Initiator followed by two instances of constrained Responder.
 
 ## (I, BG): EDHOC Initiator Attestation in the Background-check Model {#iot-attestation}
 
 In this instantiation, the constrained EDHOC Initiator acts as the RATS Attester and the EDHOC Responder acts as the RATS Relying Party.
-An overview of EDHOC Initiator attestation in the background-check model is illustrated in {{fig-iot-bg-fwd}}.
+An overview of EDHOC Initiator attestation in the Background-Check Model is illustrated in {{fig-iot-bg-fwd}}.
 The Attester and the Relying Party communicate by transporting messages within EDHOC External Authorization Data (EAD) fields.
 An external entity plays the role of the RATS Verifier (V).
-The EAD items specific to the background-check model are defined in {{bg}}.
+The EAD items specific to the Background-Check Model are defined in {{bg}}.
 
 The Attester starts the attestation by sending an Attestation proposal in EDHOC message_1.
 The Relying Party generates EAD_2 with the received evidence type(s) and nonce from the Verifier, and sends an Attestation request to the Attester.
@@ -533,13 +538,13 @@ For example, a simple illustrative example is the performance of remote attestat
        |                    |<============================>|                             |
        |                    |                              |                             |
 ~~~~
-{: #fig-iot-bg-fwd title="Overview of EDHOC Initiator attestation in background-check model. EDHOC is used between A and RP." artwork-align="center"}
+{: #fig-iot-bg-fwd title="Overview of EDHOC Initiator attestation in the Background-Check Model. EDHOC is used between A and RP." artwork-align="center"}
 
 ## (R, PP): EDHOC Responder Attestation in the Passport Model {#network-attestation}
 
 In this instantiation, the constrained EDHOC Initiator acts as the RATS Relying Party and the EDHOC Responder acts as the RATS Attester.
 An overview of the message flow is illustrated in {{fig-net-pp-fwd}}.
-The EAD items specific to the passport model are defined in {{pp}}.
+The EAD items specific to the Passport Model are defined in {{pp}}.
 
 The Relying Party asks the Attester to do a remote attestation by sending a trigger_pp (see {{trigger-pp}}) in EDHOC message_1.
 The Attester replies to the Relying Party with a Result proposal in EAD_2.
@@ -580,13 +585,13 @@ For example, the client needs to send some sensitive data to the network server,
                |   { EAT }                      |                           |
                |                                |                           |
 ~~~~~~~~~~~
-{: #fig-net-pp-fwd title="Overview of EDHOC Responder attestation in passport model. EDHOC is used between RP and A. The dashed line illustrates a logical connection that does not need to occur in real time." artwork-align="center"}
+{: #fig-net-pp-fwd title="Overview of EDHOC Responder attestation in the Passport Model. EDHOC is used between RP and A. The dashed line illustrates a logical connection that does not need to occur in real time." artwork-align="center"}
 
 ## (R, BG): EDHOC Responder Attestation in the Background-check Model {#r_bg}
 
 In this instantiation, the constrained EDHOC Responder acts as the RATS Attester and the EDHOC Initiator acts as the RATS Relying Party.
 An overview of the message flow is illustrated in {{fig-r-bg}}.
-The EAD items specific to the background-check model are defined in {{bg}}.
+The EAD items specific to the Background-Check Model are defined in {{bg}}.
 
 The Relying Party initiates the procedure by sending trigger_bg in EAD_1 of message_1.
 The Attester responds with an Attestation proposal in EAD_2 of message_2, indicating the evidence types it can provide.
@@ -648,14 +653,14 @@ Therefore, the attestation binder in this instantiation is derived using EDHOC_E
       |                            |<============================>|                   |
       |                            |                              |                   |
 ~~~~~~~~~~~
-{: #fig-r-bg title="Overview of EDHOC Responder attestation in background-check model. EDHOC is used between A and RP." artwork-align="center"}
+{: #fig-r-bg title="Overview of EDHOC Responder attestation in the Background-Check Model. EDHOC is used between A and RP." artwork-align="center"}
 
 
 ## (I, PP): EDHOC Initiator Attestation in the Passport Model {#i_pp}
 
 In this instantiation, the EDHOC Initiator acts as the RATS Attester and the constrained EDHOC Responder acts as the RATS Relying Party.
 An overview of the message flow is illustrated in {{fig-i-pp}}.
-The EAD items specific to the passport model are defined in {{pp}}.
+The EAD items specific to the Passport Model are defined in {{pp}}.
 
 The Attester initiates the procedure by sending a Result proposal in EAD_1 of message_1, indicating the Verifier identities it can communicate with.
 The Relying Party selects a Verifier and sends a Result request in EAD_2 of message_2, together with a nonce.
@@ -688,7 +693,7 @@ The Attester then returns the Result in EAD_3 of message_3, after which the Rely
         |                       |   { EAT }                       |
         |                       |                                 |
 ~~~~~~~~~~~
-{: #fig-i-pp title="Overview of EDHOC Initiator attestation in passport model. EDHOC is used between A and RP." artwork-align="center"}
+{: #fig-i-pp title="Overview of EDHOC Initiator attestation in the Passport Model. EDHOC is used between A and RP." artwork-align="center"}
 
 
 # Mutual Attestation in EDHOC {#mutual-attestation}
@@ -698,15 +703,15 @@ This demonstrates combined mutual authentication with mutual attestation at a re
 
 ## (I, BG) - (R, PP)
 
-In this example, the mutual attestation is performed in EDHOC forward message flow, by one IoT device attestation in background-check model and another network service attestation in passport model.
+In this example, the mutual attestation is performed in EDHOC forward message flow, by one IoT device attestation in the Background-Check Model and another network service attestation in the Passport Model.
 The process is illustrated in {{fig-mutual-attestation-BP}}.
 How the Network service connects with the Verifier_1 and potential Verifier_2 is out of scope in this specification.
 
-The first remote attestation is initiated by the IoT device (A_1) in background-check model.
-In parallel, the IoT device (A_1) requests the network service (A_2) to perform a remote attestation in passport model.
+The first remote attestation is initiated by the IoT device (A_1) in Background-Check Model.
+In parallel, the IoT device (A_1) requests the network service (A_2) to perform a remote attestation in the Passport Model.
 EAD_2 carries the EAD items Attestation request and Result proposal.
 EAD_3 carries the EAD items Evidence and Result request.
-EAD_4 carries the EAD item Result for the passport model.
+EAD_4 carries the EAD item Result for the Passport Model.
 
 ~~~~~~~~~~~ aasvg
 +-----------------------------+             +-----------------+
@@ -757,7 +762,7 @@ The evaluation policy employed by the Verifier varies according to specific use 
 
 The Verifier maintains an implicit trust relationship with the Relying Party, established through mechanisms such as web PKI with trusted Certificate Authority (CA) certificates, enabling the Relying Party to trust the attestation result that is generated by the Verifier.
 
-## Processing in the Background-check Model
+## Processing in the Background-Check Model
 
 The Verifier is connected with the Relying Party and is responsible for evaluating evidence forwarded by the Relying Party.
 After the Relying Party receives the EDHOC message carrying the Attestation_proposal (message_1 in (I, BG) or message_2 in (R, BG)) from the Attester, it extracts and transmits the Attestation proposal to the Verifier.
@@ -809,21 +814,15 @@ The privacy considerations of remote attestation refer to {{Section 11 of RFC933
 IANA is requested to register the following entry in the "EDHOC External Authorization Data" registry under the group name "Ephemeral Diffie-Hellman Over COSE (EDHOC)".
 
 ~~~~~~~~~~~ aasvg
-+-------------------------------+-------+------------------------+-----------------------------+
-| Name                          | Label | Description            | Reference                   |
-+===============================+=======+========================+=============================+
-| Remote Attestation BG         | TBD1  | BG model               |                             |
-|                               |       | related information    | Section 5.3.1, 5.3.2, 5.3.3 |
-+-------------------------------+-------+------------------------+-----------------------------+
-| Remote Attestation PP         | TBD2  | PP model               |                             |
-|                               |       | related information    | Section 5.4.1, 5.4.2, 5.4.3 |
-+-------------------------------+-------+------------------------+-----------------------------+
-| Trigger Remote Attestation BG | TBD3  | trigger to start       |                             |
-|                               |       | attestation in BG      | Section 5.3.4               |
-+-------------------------------+-------+------------------------+-----------------------------+
-| Trigger Remote Attestation PP | TBD4  | trigger to start       |                             |
-|                               |       | attestation in PP      | Section 5.4.4               |
-+-------------------------------+-------+------------------------+-----------------------------+
++-------------------------------+-------+------------------------+-------------------+
+| Name                          | Label | Description            | Reference         |
++===============================+=======+========================+===================+
+| Remote Attestation BG         | TBD1  | Background Check Model | [[This document]] |
+|                               |       | related information    |                   |
++-------------------------------+-------+------------------------+-------------------+
+| Remote Attestation PP         | TBD2  | Passport Model         | [[This document]] |
+|                               |       | related information    |                   |
++-------------------------------+-------+------------------------+-------------------+
 ~~~~~~~~~~~
 {: #fig-ead-labels title="EAD labels."}
 
