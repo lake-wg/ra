@@ -1609,11 +1609,8 @@ An example as CoSWID is shown in <a href="#firmware" class="auto internal xref">
             <h5 id="name-attestation-binder">
 <a href="#section-5.1.4.1" class="section-number selfRef">5.1.4.1. </a><a href="#name-attestation-binder" class="section-name selfRef">Attestation binder</a>
             </h5>
-<p id="section-5.1.4.1-1">The signing of the Evidence <span class="bcp14">MUST</span> also take as input an attestation binder.
-By doing so, the attestation binder cryptographically binds the attestation to the authentication and ensures that the attester is the authenticated peer.
-The attestation binder prevents relay attacks whereby an attacker relays Evidence generated in a different session.<a href="#section-5.1.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1.4.1-2">The Relying Party has to provide the Verifier with the Evidence together with the attestation binder.
-Otherwise, the Verifier would lack the information for verifying the EAT signature.<a href="#section-5.1.4.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1.4.1-1">The signing of the Evidence <span class="bcp14">MUST</span> also take as input an attestation binder, see <a href="#security-considerations" class="auto internal xref">Section 9</a>.<a href="#section-5.1.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.4.1-2">The Relying Party has to provide the Verifier with the Evidence together with the attestation binder, which is needed for verifying the EAT signature.<a href="#section-5.1.4.1-2" class="pilcrow">¶</a></p>
 <p id="section-5.1.4.1-3">When Evidence is sent in EDHOC message_3 in EAD_3, the attestation binder is computed using HKDF-Expand defined in <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span>.<a href="#section-5.1.4.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.1.4.1-4">
 <pre>
@@ -2580,10 +2577,19 @@ The remote attestation operation defined in this document preserves the properti
 <p id="section-9-6">When included in EAD_1 or EAD_2, the EAD items defined in this document could reveal sensitive information about the Attester, due to their very specific purpose and conveyed information.
 The leaking of the data in EAD_1 and/or EAD_2 may be used by attackers for malicious purposes.
 Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.<a href="#section-9-6" class="pilcrow">¶</a></p>
-<p id="section-9-7">The risks discussed above are lower in the case of mutual attestation where the Responder is the Attester.
+<p id="section-9-7">The risks discussed above are reduced in the case of mutual attestation where the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.<a href="#section-9-7" class="pilcrow">¶</a></p>
 <p id="section-9-8">For privacy considerations of remote attestation, refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-9-8" class="pilcrow">¶</a></p>
+<p id="section-9-9">The combination of authenticated key exchange with remote attestation is an area in development in the IETF.
+Two distinct approaches have emerged:
+(1) intra-handshake attestation, where attestation is performed during the authenticated key exchange.
+(2) post-handshake attestation, where attestation occurs after authentication is complete.
+Here are some examples of differences between the two approaches:
+Intra-handshake attestation enables early endpoint verification prior to the authentication session being established, which allows early abort and prevents sessions with unattested peers.
+Post-handshake attestation enables the use of an exported authenticator available after authentication completion, which is a more clean interface between authentication and attestation.<a href="#section-9-9" class="pilcrow">¶</a></p>
+<p id="section-9-10">This specification allows both approaches. The EDHOC Exporter is available after message_3 has been constructed, after which post-handshake attestation is possible.
+The attestation binder is intended to cryptographically bind the attestation to the authentication, to ensure that the attester is the authenticated peer, and, in particular, to prevent relay attacks whereby an attacker relays Evidence generated in a different session.<a href="#section-9-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
