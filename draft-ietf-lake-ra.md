@@ -306,12 +306,9 @@ An example as CoSWID is shown in {{firmware}}.
 
 #### Attestation binder {#attestation-binder}
 
-The signing of the Evidence MUST also take as input an attestation binder.
-By doing so, the attestation binder cryptographically binds the attestation to the authentication and ensures that the attester is the authenticated peer.
-The attestation binder prevents relay attacks whereby an attacker relays Evidence generated in a different session.
+The signing of the Evidence MUST also take as input an attestation binder, see {{security-considerations}}.
 
-The Relying Party has to provide the Verifier with the Evidence together with the attestation binder.
-Otherwise, the Verifier would lack the information for verifying the EAT signature.
+The Relying Party has to provide the Verifier with the Evidence together with the attestation binder, which is needed for verifying the EAT signature.
 
 When Evidence is sent in EDHOC message_3 in EAD_3, the attestation binder is computed using HKDF-Expand defined in {{RFC5869}}.
 
@@ -801,11 +798,24 @@ When included in EAD_1 or EAD_2, the EAD items defined in this document could re
 The leaking of the data in EAD_1 and/or EAD_2 may be used by attackers for malicious purposes.
 Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.
 
-The risks discussed above are lower in the case of mutual attestation where the Responder is the Attester.
+<!--GS: can we delete "in the case of mutual attestation" -->
+The risks discussed above are reduced in the case of mutual attestation where the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.
 
 For privacy considerations of remote attestation, refer to {{Section 11 of RFC9334}}.
+
+The combination of authenticated key exchange with remote attestation is an area in development in the IETF.
+Two distinct approaches have emerged:
+(1) intra-handshake attestation, where attestation is performed during the authenticated key exchange.
+(2) post-handshake attestation, where attestation occurs after authentication is complete.
+Here are some examples of differences between the two approaches: 
+Intra-handshake attestation enables early endpoint verification prior to the authentication session being established, which allows early abort and prevents sessions with unattested peers.
+Post-handshake attestation enables the use of an exported authenticator available after authentication completion, which is a more clean interface between authentication and attestation.
+
+This specification allows both approaches. The EDHOC Exporter is available after message_3 has been constructed, after which post-handshake attestation is possible. 
+The attestation binder is intended to cryptographically bind the attestation to the authentication, to ensure that the attester is the authenticated peer, and, in particular, to prevent relay attacks whereby an attacker relays Evidence generated in a different session.
+
 
 # IANA Considerations
 
