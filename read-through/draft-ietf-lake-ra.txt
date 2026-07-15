@@ -451,7 +451,7 @@ Table of Contents
    *  ead_label = TBD1
 
    *  ead_value is the serialization of a COSE_Sign1 structure
-      protecting an EAT.  For remote attestation over EDHOC, the EAT
+      protecting the EAT.  For remote attestation over EDHOC, the EAT
       MUST be formatted as a CBOR Web Token (CWT) [RFC8392] containing
       attestation-oriented claims.  The complete set of attestation
       claims for the EAT is specified in [RFC9711].  An example is
@@ -495,7 +495,7 @@ Table of Contents
 
    The Relying Party has to provide the Verifier with the Evidence
    together with the attestation binder.  Otherwise, the Verifier would
-   lack the information for verifying the signed EAT.
+   lack the information for verifying the EAT signature.
 
    When Evidence is sent in EDHOC message_3 in EAD_3, the attestation
    binder is computed using HKDF-Expand defined in [RFC5869].
@@ -688,7 +688,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    *  ead_label = TBD2
 
    *  ead_value is the serialization of a COSE_Sign1 structure
-      protecting an EAT.
+      protecting the EAT.
 
 6.  Instantiation of Remote Attestation over EDHOC
 
@@ -733,8 +733,8 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    proposal in EDHOC message_1.  The Relying Party generates EAD_2 with
    the received evidence type(s) and nonce from the Verifier, and sends
    an Attestation request to the Attester.  The Attester generates the
-   Evidence with the nonce embedded and signs the EAT with the
-   attestation binder as an input, then sends the Evidence to the
+   Evidence with the nonce embedded and generates the EAT signature with
+   the attestation binder as an input, then sends the Evidence to the
    Relying Party in EAD_3.  The Relying Party computes the attestation
    binder and forwards the Evidence together with the attestation binder
    to the Verifier.  The Verifier evaluates the Evidence and sends the
@@ -866,8 +866,8 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    Relying Party then sends an Attestation request in EAD_3 of
    message_3, which contains the nonce generated from the Verifier.
    Upon receipt of the Attestation request, the Attester generates the
-   Evidence with the nonce embedded and signs the EAT with the
-   attestation binder as an input.  Evidence is carried in EAD_4 of
+   Evidence with the nonce embedded and generates the EAT signature with
+   the attestation binder as an input.  Evidence is carried in EAD_4 of
    message_4.  The Relying Party forwards the Evidence to the Verifier
    together with the attestation binder and receives an Attestation
    result.
