@@ -145,12 +145,6 @@ In the Passport (PP) Model, the Attester provides the attestation result to the 
 
 This document focuses on cases that are suited for constrained IoT environments, see {{I-D.ietf-iotops-7228bis}} for a characterization of constrained nodes and networks.
 
-The remote attestation operation defined in this document preserves the properties of EDHOC:
-
-  1. The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.
-  2. The attestation protocol is performed in parallel but does not interfere with the authentication flow.
-  3. The privacy and security properties of EDHOC are not changed.
-
   When transferred over CoAP {{RFC7252}}, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see {{Appendix A.2.2 of RFC9528}}).
 In this specification, both flows are supported to perform remote attestation.
 
@@ -791,7 +785,13 @@ The token uses the "Software Measurement Results (measres)" claim as defined in 
 # Security Considerations {#security-considerations}
 
 This specification builds on EDHOC {{RFC9528}} and uses EDHOC EAD fields.
-The general security and privacy considerations about EAD fields apply to this specification too.
+The remote attestation operation defined in this document preserves the properties of EDHOC:
+
+  1. The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.
+  2. The attestation protocol is performed in parallel but does not interfere with the authentication flow.
+  3. The privacy and security properties of EDHOC are not changed.
+
+The general security and privacy considerations about EAD fields apply to this specification.
 
 EAD_1 is not resistant to either active attackers or passive attackers, because neither the Initiator nor the Responder has been authenticated.
 
@@ -805,7 +805,7 @@ The risks discussed above are lower in the case of mutual attestation where the 
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.
 
-The privacy considerations of remote attestation refer to {{Section 11 of RFC9334}}.
+For privacy considerations of remote attestation, refer to {{Section 11 of RFC9334}}.
 
 # IANA Considerations
 
