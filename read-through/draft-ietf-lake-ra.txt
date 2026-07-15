@@ -245,17 +245,6 @@ Table of Contents
    environments, see [I-D.ietf-iotops-7228bis] for a characterization of
    constrained nodes and networks.
 
-   The remote attestation operation defined in this document preserves
-   the properties of EDHOC:
-
-   1.  The EDHOC protocol is not modified, the remote attestation
-       elements are carried within EDHOC EAD fields.
-
-   2.  The attestation protocol is performed in parallel but does not
-       interfere with the authentication flow.
-
-   3.  The privacy and security properties of EDHOC are not changed.
-
    When transferred over CoAP [RFC7252], the EDHOC protocol can be
    performed according to two possible message flows, namely the EDHOC
    forward message flow and the EDHOC reverse message flow (see
@@ -1113,8 +1102,19 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 9.  Security Considerations
 
    This specification builds on EDHOC [RFC9528] and uses EDHOC EAD
-   fields.  The general security and privacy considerations about EAD
-   fields apply to this specification too.
+   fields.  The remote attestation operation defined in this document
+   preserves the properties of EDHOC:
+
+   1.  The EDHOC protocol is not modified, the remote attestation
+       elements are carried within EDHOC EAD fields.
+
+   2.  The attestation protocol is performed in parallel but does not
+       interfere with the authentication flow.
+
+   3.  The privacy and security properties of EDHOC are not changed.
+
+   The general security and privacy considerations about EAD fields
+   apply to this specification.
 
    EAD_1 is not resistant to either active attackers or passive
    attackers, because neither the Initiator nor the Responder has been
@@ -1137,7 +1137,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    Attestation_request/Result_request in EAD_3 and the Evidence/Result
    in EAD_4 are protected.
 
-   The privacy considerations of remote attestation refer to Section 11
+   For privacy considerations of remote attestation, refer to Section 11
    of [RFC9334].
 
 10.  IANA Considerations

@@ -1386,20 +1386,8 @@ In the Passport (PP) Model, the Attester provides the attestation result to the 
 </li>
       </ol>
 <p id="section-3-5">This document focuses on cases that are suited for constrained IoT environments, see <span>[<a href="#I-D.ietf-iotops-7228bis" class="cite xref">I-D.ietf-iotops-7228bis</a>]</span> for a characterization of constrained nodes and networks.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">The remote attestation operation defined in this document preserves the properties of EDHOC:<a href="#section-3-6" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-3-7">
-<li id="section-3-7.1">
-          <p id="section-3-7.1.1">The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.<a href="#section-3-7.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-3-7.2">
-          <p id="section-3-7.2.1">The attestation protocol is performed in parallel but does not interfere with the authentication flow.<a href="#section-3-7.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-3-7.3">
-          <p id="section-3-7.3.1">The privacy and security properties of EDHOC are not changed.<a href="#section-3-7.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ol>
-<p id="section-3-8">When transferred over CoAP <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see <span><a href="https://rfc-editor.org/rfc/rfc9528#appendix-A.2.2" class="relref">Appendix A.2.2</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).
-In this specification, both flows are supported to perform remote attestation.<a href="#section-3-8" class="pilcrow">¶</a></p>
+<p id="section-3-6">When transferred over CoAP <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, the EDHOC protocol can be performed according to two possible message flows, namely the EDHOC forward message flow and the EDHOC reverse message flow (see <span><a href="https://rfc-editor.org/rfc/rfc9528#appendix-A.2.2" class="relref">Appendix A.2.2</a> of [<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>).
+In this specification, both flows are supported to perform remote attestation.<a href="#section-3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="assumptions">
@@ -2574,16 +2562,28 @@ The token uses the "Software Measurement Results (measres)" claim as defined in 
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-9-1">This specification builds on EDHOC <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span> and uses EDHOC EAD fields.
-The general security and privacy considerations about EAD fields apply to this specification too.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">EAD_1 is not resistant to either active attackers or passive attackers, because neither the Initiator nor the Responder has been authenticated.<a href="#section-9-2" class="pilcrow">¶</a></p>
-<p id="section-9-3">Although EAD_2 is encrypted, the Initiator has not been authenticated, rendering EAD_2 vulnerable against active attackers.<a href="#section-9-3" class="pilcrow">¶</a></p>
-<p id="section-9-4">When included in EAD_1 or EAD_2, the EAD items defined in this document could reveal sensitive information about the Attester, due to their very specific purpose and conveyed information.
+The remote attestation operation defined in this document preserves the properties of EDHOC:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-9-2">
+<li id="section-9-2.1">
+          <p id="section-9-2.1.1">The EDHOC protocol is not modified, the remote attestation elements are carried within EDHOC EAD fields.<a href="#section-9-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-9-2.2">
+          <p id="section-9-2.2.1">The attestation protocol is performed in parallel but does not interfere with the authentication flow.<a href="#section-9-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-9-2.3">
+          <p id="section-9-2.3.1">The privacy and security properties of EDHOC are not changed.<a href="#section-9-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-9-3">The general security and privacy considerations about EAD fields apply to this specification.<a href="#section-9-3" class="pilcrow">¶</a></p>
+<p id="section-9-4">EAD_1 is not resistant to either active attackers or passive attackers, because neither the Initiator nor the Responder has been authenticated.<a href="#section-9-4" class="pilcrow">¶</a></p>
+<p id="section-9-5">Although EAD_2 is encrypted, the Initiator has not been authenticated, rendering EAD_2 vulnerable against active attackers.<a href="#section-9-5" class="pilcrow">¶</a></p>
+<p id="section-9-6">When included in EAD_1 or EAD_2, the EAD items defined in this document could reveal sensitive information about the Attester, due to their very specific purpose and conveyed information.
 The leaking of the data in EAD_1 and/or EAD_2 may be used by attackers for malicious purposes.
-Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.<a href="#section-9-4" class="pilcrow">¶</a></p>
-<p id="section-9-5">The risks discussed above are lower in the case of mutual attestation where the Responder is the Attester.
+Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.<a href="#section-9-6" class="pilcrow">¶</a></p>
+<p id="section-9-7">The risks discussed above are lower in the case of mutual attestation where the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
-Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.<a href="#section-9-5" class="pilcrow">¶</a></p>
-<p id="section-9-6">The privacy considerations of remote attestation refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-9-6" class="pilcrow">¶</a></p>
+Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.<a href="#section-9-7" class="pilcrow">¶</a></p>
+<p id="section-9-8">For privacy considerations of remote attestation, refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-9-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
