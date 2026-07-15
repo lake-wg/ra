@@ -809,11 +809,11 @@ The combination of authenticated key exchange with remote attestation is an area
 Two distinct approaches have emerged:
 (1) intra-handshake attestation, where attestation is performed during the authenticated key exchange.
 (2) post-handshake attestation, where attestation occurs after authentication is complete.
-Here are some examples of differences between the two approaches: 
+Here are some examples of differences between the two approaches:
 Intra-handshake attestation enables early endpoint verification prior to the authentication session being established, which allows early abort and prevents sessions with unattested peers.
 Post-handshake attestation enables the use of an exported authenticator available after authentication completion, which is a more clean interface between authentication and attestation.
 
-This specification allows both approaches. The EDHOC Exporter is available after message_3 has been constructed, after which post-handshake attestation is possible. 
+This specification allows both approaches. The EDHOC Exporter is available after message_3 has been constructed, after which post-handshake attestation is possible.
 The attestation binder is intended to cryptographically bind the attestation to the authentication, to ensure that the attester is the authenticated peer, and, in particular, to prevent relay attacks whereby an attacker relays Evidence generated in a different session.
 
 
