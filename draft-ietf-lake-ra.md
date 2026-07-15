@@ -176,9 +176,9 @@ This specification specifies four new EAD items in BG model, and four new EAD it
 * The EDHOC hash algorithm of the selected cipher suite is used to generate the attestation_binder_m3 (see {{attestation-binder}}) when Evidence is sent in EDHOC message_3.
 * EDHOC_Exporter is used to generate the attestation_binder_m4 (see {{attestation-binder}}) when Evidence is sent in EDHOC message_4.
 
-# Remote Attestation in EDHOC {#attestation-dimensions}
+# EAD Items for Remote Attestation over EDHOC {#attestation-dimensions}
 
-This section specifies the remote attestation process over EDHOC in the BG model (see {{bg}}) and the PP model (see {{pp}}).
+This section specifies the EAD items and related processing for remote attestation over EDHOC in the BG model (see {{bg}}) and the PP model (see {{pp}}).
 The corresponding EAD items for the BG and PP models are independent.
 
 
