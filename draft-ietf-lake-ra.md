@@ -58,13 +58,11 @@ informative:
       target: https://www.iana.org/cose/header-parameters
 
 --- abstract
-<!--GS: Some proposed updates. Tuning down Diffie-Hellman, since that is not quantum resistant. Also indicating that these are some methods, not necessarily all.-->
 This document specifies methods to perform remote attestation as part of the lightweight authenticated key exchange protocol EDHOC (Ephemeral Diffie-Hellman Over COSE), based on the Remote ATtestation procedureS (RATS) architecture.
 
 --- middle
 
 # Introduction
-<!--GS: High level intro.-->
 
 The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman over COSE (EDHOC) {{RFC9528}}, developed for highly constrained networks, has formally proven security properties for protecting against network adversaries, but, like other authenticated key exchange protocols, lacks inherent mechanisms for validating endpoint security.
 
