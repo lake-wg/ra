@@ -1328,7 +1328,6 @@ Then the Attester conveys the attestation result to the Relying Party.
 This specification employs both the RATS Background-Check Model and the Passport Model.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">This document embeds the protocol between the Attester and the Relying Party within the EDHOC protocol.
 The details of the protocol between the Relying Party and the Verifier in the Background-Check Model, and the protocol between the Attester and the Verifier in the Passport Model are out of scope.
-
 The establishment of a secure association and communication security with the Verifier may be provided by EDHOC/OSCORE, TLS, or other security protocols that support secure message exchange.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">One way of conveying the attestation evidence or the attestation result is by means of an Entity Attestation Token (EAT) <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>]</span>.
 It provides an attested claims set which can be used to determine a level of trustworthiness.
@@ -1814,7 +1813,7 @@ The Relying Party can decide what action to take with regard to the Attester bas
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-instantiation-of-remote-att" class="section-name selfRef">Instantiation of Remote Attestation over EDHOC</a>
       </h2>
 <p id="section-6-1">In this section we show four different instantiations of remote attestation carried over EDHOC between Attester and Relying Party.
-In each instatiation, one of the EDHOC peers are assumed to be constrained and/or access over a constrained network, and only have one network interface, over which the EDHOC protocol is executed.
+In each instantiation, one of the EDHOC peers are assumed to be constrained and/or access over a constrained network, and only have one network interface, over which the EDHOC protocol is executed.
 The four examples illustrate the constrained node being EDHOC Initiator/Responder and RATS Attester/Relying Party.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">We use the format (Target, Model) to denote the instantiation.
 In particular:<a href="#section-6-2" class="pilcrow">¶</a></p>
@@ -2573,7 +2572,7 @@ The remote attestation operation defined in this document preserves the properti
 <p id="section-9-6">When included in EAD_1 or EAD_2, the EAD items defined in this document could reveal sensitive information about the Attester, due to their very specific purpose and conveyed information.
 The leaking of the data in EAD_1 and/or EAD_2 may be used by attackers for malicious purposes.
 Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.<a href="#section-9-6" class="pilcrow">¶</a></p>
-<p id="section-9-7">The risks discussed above are reduced in the case of mutual attestation where the Responder is the Attester.
+<p id="section-9-7">The risks discussed above are reduced where the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.<a href="#section-9-7" class="pilcrow">¶</a></p>
 <p id="section-9-8">For privacy considerations of remote attestation, refer to <span><a href="https://rfc-editor.org/rfc/rfc9334#section-11" class="relref">Section 11</a> of [<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>.<a href="#section-9-8" class="pilcrow">¶</a></p>

@@ -679,7 +679,7 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 
    In this section we show four different instantiations of remote
    attestation carried over EDHOC between Attester and Relying Party.
-   In each instatiation, one of the EDHOC peers are assumed to be
+   In each instantiation, one of the EDHOC peers are assumed to be
    constrained and/or access over a constrained network, and only have
    one network interface, over which the EDHOC protocol is executed.
    The four examples illustrate the constrained node being EDHOC
@@ -1126,12 +1126,12 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
    malicious purposes.  Data in EAD_3 and EAD_4 are protected between
    the Initiator and the Responder in EDHOC.
 
-   The risks discussed above are reduced in the case of mutual
-   attestation where the Responder is the Attester.  For the mutual
-   attestation at the EDHOC Responder, only the Attestation_proposal/
-   Result_proposal in EAD_2 is not protected against active attackers.
-   Both the Attestation_request/Result_request in EAD_3 and the
-   Evidence/Result in EAD_4 are protected.
+   The risks discussed above are reduced where the Responder is the
+   Attester.  For the mutual attestation at the EDHOC Responder, only
+   the Attestation_proposal/Result_proposal in EAD_2 is not protected
+   against active attackers.  Both the Attestation_request/
+   Result_request in EAD_3 and the Evidence/Result in EAD_4 are
+   protected.
 
    For privacy considerations of remote attestation, refer to Section 11
    of [RFC9334].
