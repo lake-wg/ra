@@ -77,7 +77,6 @@ The Attester generates evidence (a set of claims) concerning its identity and in
 The Verifier produces the attestation result, which is subsequently used by the Relying Party for the purposes of reliably applying application-specific actions.
 
 <!--Discuss the two RATS models and say that this specification supports both models.-->
-<!--GS: Proposed update. Shortening the text on Background Check analogously to the text on Passport.-->
 One type of interaction model defined in the RATS architecture is called the Background-Check Model.
 In this case, the Attester conveys evidence to the Relying Party and the Relying Party forwards the evidence to the Verifier for appraisal.
 Once the attestation result is computed by the Verifier, it is sent back to the Relying Party to decide what action to take based on the attestation result.
@@ -88,17 +87,14 @@ This specification employs both the RATS Background-Check Model and the Passport
 
 This document embeds the protocol between the Attester and the Relying Party within the EDHOC protocol.
 The details of the protocol between the Relying Party and the Verifier in the Background-Check Model, and the protocol between the Attester and the Verifier in the Passport Model are out of scope.
-<!--GS: Proposed update. -->
 The establishment of a secure association and communication security with the Verifier may be provided by EDHOC/OSCORE, TLS, or other security protocols that support secure message exchange.
 
 <!--Discuss EAT-->
-<!--GS: Proposed update. -->
 One way of conveying the attestation evidence or the attestation result is by means of an Entity Attestation Token (EAT) {{RFC9711}}.
 It provides an attested claims set which can be used to determine a level of trustworthiness.
 This specification relies on the EAT as the format for attestation evidence and the attestation result.
 
 <!--Summarize EDHOC {{RFC9528}}. Mention EAD fields of EDHOC.-->
-<!--GS: Some proposed updates. -->
 In EDHOC, the two parties involved in the key exchange are referred to as the Initiator (I) and the Responder (R).
 EDHOC provides mutual authentication between I and R, forward secrecy, identity protection, message integrity, and other security properties.
 EDHOC supports the transport of External Authorization Data (EAD), through dedicated protocol fields containing so-called EAD items, see {{Section 3.8 of RFC9528}}.
@@ -107,8 +103,7 @@ The EAD items are included in the EDHOC message integrity verification and key d
 
 <!--Discuss implementation aspects such as the internal attestation service running on the Attester.
 Root of trust. Separation between secure and non-secure worlds.-->
-<!--GS: Replaced "incorporates" with "invokes", is that correct? -->
-<!--GS: This paragraph could be moved to the security considerations. -->
+<!--high-level intro of RoT -->
 For the generation of evidence, the Attester invokes an internal attestation service, including a specific trusted element known as the "root of trust".
 Root of trust serves as the starting point for establishing and validating the trustworthiness appraisals of other components on the system.
 The measurements signed by the attestation service are referred to as the Evidence.
@@ -131,13 +126,11 @@ More importantly, by integrating remote attestation with EDHOC, attestation can 
 Remote attestation protocol elements are carried within EDHOC's External Authorization Data (EAD) fields.
 EDHOC {{RFC9528}} supports one or more EAD items in each EAD field.
 
-<!--GS: Proposed update. -->
 The Attester can act as either the EDHOC Initiator or the EDHOC Responder, depending on the attesting target.
 In the Background-Check (BG) Model, the Attester provides the evidence to the Relying Party during the EDHOC session.
 In the Passport (PP) Model, the Attester provides the attestation result to the Relying Party during the EDHOC session.
 {{attestation-dimensions}} defines two independent dimensions for performing remote attestation over EDHOC:
 
-<!--GS: Proposed update. -->
   1. Target: Defining the entity that is attested (EDHOC Initiator or EDHOC Responder), which could be a constrained device or not.
   2. Model: Defining the attestation model in use based on the RATS architecture (BG or PP model, see {{bg}} and {{pp}}).
 
@@ -449,7 +442,7 @@ The EAD item Remote Attestation PP is:
 # Instantiation of Remote Attestation over EDHOC {#attestation-combinations}
 
 In this section we show four different instantiations of remote attestation carried over EDHOC between Attester and Relying Party.
-In each instatiation, one of the EDHOC peers are assumed to be constrained and/or access over a constrained network, and only have one network interface, over which the EDHOC protocol is executed.
+In each instantiation, one of the EDHOC peers are assumed to be constrained and/or access over a constrained network, and only have one network interface, over which the EDHOC protocol is executed.
 The four examples illustrate the constrained node being EDHOC Initiator/Responder and RATS Attester/Relying Party.
 
 We use the format (Target, Model) to denote the instantiation.
@@ -796,8 +789,7 @@ When included in EAD_1 or EAD_2, the EAD items defined in this document could re
 The leaking of the data in EAD_1 and/or EAD_2 may be used by attackers for malicious purposes.
 Data in EAD_3 and EAD_4 are protected between the Initiator and the Responder in EDHOC.
 
-<!--GS: can we delete "in the case of mutual attestation" -->
-The risks discussed above are reduced in the case of mutual attestation where the Responder is the Attester.
+The risks discussed above are reduced where the Responder is the Attester.
 For the mutual attestation at the EDHOC Responder, only the Attestation_proposal/Result_proposal in EAD_2 is not protected against active attackers.
 Both the Attestation_request/Result_request in EAD_3 and the Evidence/Result in EAD_4 are protected.
 
