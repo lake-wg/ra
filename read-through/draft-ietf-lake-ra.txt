@@ -5,8 +5,8 @@
 Lightweight Authenticated Key Exchange                           Y. Song
 Internet-Draft                                                     Inria
 Intended status: Standards Track                             G. Selander
-Expires: 16 January 2027                                     Ericsson AB
-                                                            15 July 2026
+Expires: 24 April 2027                                       Ericsson AB
+                                                         21 October 2026
 
 
                      Remote attestation over EDHOC
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 January 2027.
+   This Internet-Draft will expire on 24 April 2027.
 
 Copyright Notice
 
@@ -1242,11 +1242,11 @@ attestation_binder_m4 = EDHOC_Exporter (exporter_label, context, length)
 
    [I-D.ietf-lake-edhoc-psk]
               Lopez-Perez, Selander, G., Mattsson, J. P., Marin-Lopez,
-              R., and F. Lopez-Gomez, "EDHOC Authenticated with Pre-
-              Shared Keys (PSK)", Work in Progress, Internet-Draft,
-              draft-ietf-lake-edhoc-psk-08, 16 June 2026,
+              R., and F. Lopez-Gomez, "LAKE Authenticated with Pre-
+              Shared Keys (PSKs)", Work in Progress, Internet-Draft,
+              draft-ietf-lake-edhoc-psk-10, 5 October 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lake-
-              edhoc-psk-08>.
+              edhoc-psk-10>.
 
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
